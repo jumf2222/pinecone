@@ -5,16 +5,15 @@ import { ACADEMIC_SESSIONS, Course, Section } from './definitions';
   providedIn: 'root'
 })
 export class CourseService {
+  year = "2020";
+  academicSession = ACADEMIC_SESSIONS.PREV;
+  yos = 1;
+  courses: Array<Course> = [];
   loaded: boolean = false;
 
   constructor() {
 
   }
-
-  year = "2020";
-  academicSession = ACADEMIC_SESSIONS.PREV;
-  yos = 3;
-  courses: Array<Course> = [];
 
   parseSect(sectElement) {
     let sect: Section = { sessions: [], syllabus: "", section: "", instructor: "", curEnroll: null, maxEnroll: null, waitlistEnroll: null, notes: "" };
@@ -66,6 +65,8 @@ export class CourseService {
 
       let course: Course = {
         name: "",
+        distReq: "",
+        code: "",
         fillPercent: null,
         description: "",
         lecs: [],
@@ -78,7 +79,13 @@ export class CourseService {
       };
 
       let span = e.getElementsByTagName("span")[0];
-      course.name = span.getAttribute("id");
+      course.code = span.getAttribute("id");
+      course.name = span.children[0].childNodes[0].textContent.split("-")[1].trim();
+
+      if (span.children[0].childNodes[1]) {
+        let distReq = span.children[0].childNodes[1].textContent.trim();
+        course.distReq = distReq.substring(1, distReq.length - 1);
+      }
 
       let info = e.getElementsByClassName("infoCourseDetails")[0];
       course.description = info.childNodes[0].textContent.trim();
@@ -112,20 +119,41 @@ export class CourseService {
       let maxEnrollTotal = 0;
 
       for (let i = 0; i < lecElements.length; i++) {
-        let sect = this.parseSect(lecElements[i]);
-        curEnrollTotal += sect.curEnroll;
-        maxEnrollTotal += sect.maxEnroll;
-        course.lecs.push(sect);
+        if (lecElements[i].getAttribute("id").startsWith("tr")) {
+          let sect = this.parseSect(lecElements[i]);
+          curEnrollTotal += sect.curEnroll;
+          maxEnrollTotal += sect.maxEnroll;
+          course.lecs.push(sect);
+        }
       }
 
-      for (let i = 0; i < tutElements.length; i++)
-        course.tuts.push(this.parseSect(tutElements[i]));
+      for (let i = 0; i < praElements.length; i++) {
+        if (praElements[i].getAttribute("id").startsWith("tr")) {
+          let sect = this.parseSect(praElements[i]);
+          course.pras.push(sect);
 
-      for (let i = 0; i < praElements.length; i++)
-        course.pras.push(this.parseSect(praElements[i]));
+          if (maxEnrollTotal == 0) {
+            curEnrollTotal += sect.curEnroll;
+            maxEnrollTotal += sect.maxEnroll;
+          }
+        }
+      }
+
+      for (let i = 0; i < tutElements.length; i++) {
+        if (tutElements[i].getAttribute("id").startsWith("tr")) {
+          let sect = this.parseSect(tutElements[i]);
+          course.tuts.push(sect);
+
+          if (maxEnrollTotal == 0) {
+            curEnrollTotal += sect.curEnroll;
+            maxEnrollTotal += sect.maxEnroll;
+          }
+        }
+      }
 
       if (maxEnrollTotal > 0)
         course.fillPercent = curEnrollTotal / maxEnrollTotal;
+
       courses.push(course);
     }
     return courses;
@@ -135,9 +163,10 @@ export class CourseService {
     if (!this.loaded) {
       this.courses = await this.getCourseData(this.year, this.academicSession, this.yos);
       // await sleep(3000);
+      console.log(this.courses);
       this.loaded = true;
     }
-    return this.courses.filter(item => { return item.name.includes(search) });
+    return this.courses.filter(item => { return item.code.includes(search) });
   }
 
   isLoaded() {

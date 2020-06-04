@@ -1,2 +1,26 @@
-<app-course-list></app-course-list>
+<div style="display: flex;">
+  <div class="column1">
+    <app-course-list></app-course-list>
+  </div>
+  <div class="column2">
+    <mat-tab-group>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          Courses
+        </ng-template>
+        <app-courses></app-courses>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          Schedule Options
+        </ng-template>
+        <app-schedule-options></app-schedule-options>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label> Schedule </ng-template>
+        <app-schedule></app-schedule>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
 <router-outlet></router-outlet>

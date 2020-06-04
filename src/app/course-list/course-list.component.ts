@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CourseService } from '../course.service';
 import { Course } from '../definitions';
-
+import { TimetableService } from '../timetable.service';
 
 @Component({
   selector: 'app-course-list',
@@ -11,16 +11,13 @@ import { Course } from '../definitions';
 export class CourseListComponent implements OnInit {
 
   courses: Array<Course>;
-  constructor(public courseService: CourseService) { }
+  constructor(public timetableService: TimetableService) { }
 
   ngOnInit(): void {
-    this.courseService.search("").then(data => this.courses = data);
+    // this.courseService.search("").then(data => this.courses = data);
   }
 
-  search(value) {
-    this.courseService.search(value.toUpperCase()).then(data => {
-      this.courses = data
-      console.log(this.courses)
-    });
+  formatCode(code: string) {
+    return code.substring(0, 3) + " " + code.substring(3, code.length - 1) + " " + code.substring(code.length - 1);
   }
 }

@@ -18,10 +18,20 @@ import { HttpClientModule } from '@angular/common/http';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ScheduleComponent } from './schedule/schedule.component';
+import { SettingsComponent } from './settings/settings.component';
+import { CoursesComponent } from './courses/courses.component';
+import { ScheduleOptionsComponent } from './schedule-options/schedule-options.component';
+import { MatTabsModule } from '@angular/material/tabs';
+
 @NgModule({
   declarations: [
     AppComponent,
     CourseListComponent,
+    ScheduleComponent,
+    SettingsComponent,
+    CoursesComponent,
+    ScheduleOptionsComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +49,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatMenuModule,
     ScrollingModule,
     MatProgressBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTabsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

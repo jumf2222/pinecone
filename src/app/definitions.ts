@@ -1,5 +1,7 @@
 export interface Course {
     name: string;
+    code: string;
+    distReq: string;
     description: string;
     prerequisites: string;
     exclusions: string;

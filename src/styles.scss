@@ -6,7 +6,7 @@
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core();
+// @include mat-core();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
@@ -14,11 +14,12 @@
 
 $mat-blue: (
   50: #e3f2fd,
-  100: #bbdefb,
-  200: #90caf9,
+  100: #ffffff,
+  //bbdefb
+    200: #90caf9,
   300: #64b5f6,
   400: #42a5f5,
-  500: #2196f3,
+  500: #0071ff,
   600: #1e88e5,
   700: #1976d2,
   800: #1565c0,
@@ -45,7 +46,7 @@ $mat-blue: (
   ),
 );
 
-$Pinecone-primary: mat-palette($mat-blue, 300);
+$Pinecone-primary: mat-palette($mat-blue);
 $Pinecone-accent: mat-palette($mat-pink, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
@@ -58,6 +59,24 @@ $Pinecone-theme: mat-light-theme(
   $Pinecone-warn
 );
 
+$custom-typography: mat-typography-config(
+  $font-family: '"Open Sans", monospace',
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(16px, 24px, 500),
+);
+
+// Override typography CSS classes (e.g., mat-h1, mat-display-1, mat-typography, etc.).
+@include mat-base-typography($custom-typography);
+
+// Override typography for a specific Angular Material components.
+@include mat-checkbox-typography($custom-typography);
+
+// Override typography for all Angular Material, including mat-base-typography and all components.
+@include angular-material-typography($custom-typography);
+
+// Override the typography in the core CSS.
+@include mat-core($custom-typography);
+
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
@@ -68,8 +87,10 @@ $Pinecone-theme: mat-light-theme(
 html,
 body {
   height: 100%;
+  width: 100%;
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: "Open Sans", "Helvetica Neue", sans-serif;
+  color: #222222;
 }

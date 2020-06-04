@@ -1,19 +1,31 @@
 <div class="main">
-  <mat-spinner
-    *ngIf="!courseService.isLoaded()"
-    class="center-spinner"
-    diameter="100"
-    strokeWidth="5"
-  ></mat-spinner>
+  <p>
+    Pinecone helps you plan, but does not guarantee your enrolment in courses,
+    nor does it enforce rules of your degree or program(s). Course times are
+    tentative and are subject to change. Refer to ACORN for official times and
+    locations.
+  </p>
+  <h2><strong>Selected Courses:</strong></h2>
   <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-    <div *cdkVirtualFor="let item of courses" class="example-item">
-      {{ item.name || "Loading..." }}
-      <mat-progress-bar
-        mode="determinate"
-        [value]="item.fillPercent * 100"
-      ></mat-progress-bar>
+    <div *cdkVirtualFor="let item of timetableService.coursesSubject">
+      <div class="example-item">
+        <div class="item-content">
+          <div>{{ formatCode(item.code) }}</div>
+          <div>{{ item.name }}</div>
+        </div>
+        <button
+          mat-icon-button
+          class="close-but"
+          (click)="timetableService.removeCourse(item)"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-progress-bar
+          mode="determinate"
+          [value]="item.fillPercent * 100"
+          class="progress-bar"
+        ></mat-progress-bar>
+      </div>
     </div>
   </cdk-virtual-scroll-viewport>
-
-  <input (input)="search($event.target.value)" />
 </div>
