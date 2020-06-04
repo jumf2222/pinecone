@@ -1,0 +1,19 @@
+<div class="main">
+  <mat-spinner
+    *ngIf="!courseService.isLoaded()"
+    class="center-spinner"
+    diameter="100"
+    strokeWidth="5"
+  ></mat-spinner>
+  <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+    <div *cdkVirtualFor="let item of courses" class="example-item">
+      {{ item.name || "Loading..." }}
+      <mat-progress-bar
+        mode="determinate"
+        [value]="item.fillPercent * 100"
+      ></mat-progress-bar>
+    </div>
+  </cdk-virtual-scroll-viewport>
+
+  <input (input)="search($event.target.value)" />
+</div>

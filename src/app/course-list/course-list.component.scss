@@ -1,0 +1,19 @@
+.example-viewport {
+  height: 90vh;
+  width: 25vw;
+  //   border: 1px solid black;
+}
+
+.example-item {
+  height: 50px;
+}
+
+.main {
+  padding: 10px;
+}
+
+.center-spinner {
+  position: absolute;
+  top: calc(50% - 50px);
+  left: calc(50% - 50px);
+}
