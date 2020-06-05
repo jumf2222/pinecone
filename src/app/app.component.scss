@@ -1,9 +1,21 @@
 .column1 {
   width: 25%;
   height: 100%;
+  margin: 30px;
 }
 
 .column2 {
   width: 75%;
   height: 100%;
+  margin: 30px;
+}
+
+.main {
+  padding: 10px;
+}
+
+.center-spinner {
+  position: absolute;
+  top: calc(50% - 50px);
+  left: calc(50% - 50px);
 }

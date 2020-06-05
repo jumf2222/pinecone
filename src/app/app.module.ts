@@ -23,6 +23,8 @@ import { SettingsComponent } from './settings/settings.component';
 import { CoursesComponent } from './courses/courses.component';
 import { ScheduleOptionsComponent } from './schedule-options/schedule-options.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
+import { UiScrollModule } from 'ngx-ui-scroll';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatTabsModule,
+    ExperimentalScrollingModule,
+    UiScrollModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CourseService } from '../course.service';
 import { Course } from '../definitions';
 import { TimetableService } from '../timetable.service';
+import { Datasource } from 'ngx-ui-scroll';
 
 @Component({
   selector: 'app-course-list',
@@ -14,7 +15,6 @@ export class CourseListComponent implements OnInit {
   constructor(public timetableService: TimetableService) { }
 
   ngOnInit(): void {
-    // this.courseService.search("").then(data => this.courses = data);
   }
 
   formatCode(code: string) {

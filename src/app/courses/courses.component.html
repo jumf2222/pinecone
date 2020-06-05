@@ -1,44 +1,43 @@
 <div class="main">
-  <mat-spinner
-    *ngIf="!courseService.isLoaded()"
-    class="center-spinner"
-    diameter="100"
-    strokeWidth="5"
-  ></mat-spinner>
   <h2><strong>Search for Courses:</strong></h2>
   <input (input)="search($event.target.value)" class="searchbar" />
-  <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-    <div *cdkVirtualFor="let item of courses">
-      <div class="example-item">
-        <div class="item-content">
-          <h1>
-            <span style="color: #0071ff; font-weight: bold;">{{
-              getCourseCategory(item.code) + " "
-            }}</span>
-            <span style="font-weight: normal;">{{
-              getCourseNumber(item.code) + " "
-            }}</span>
-            <span style="font-weight: bold;">{{
-              getCourseAcademicSession(item.code) + " "
-            }}</span>
-            <span style="font-weight: normal;">({{ item.distReq }})</span>
-          </h1>
-          <div class="couse-details">COURSE DETAILS</div>
-          <p>{{ item.description }}</p>
-        </div>
-        <button
-          mat-icon-button
-          class="close-but"
-          (click)="timetableService.selectCourse(item)"
-        >
-          <mat-icon>add</mat-icon>
+  <!-- <cdk-virtual-scroll-viewport itemSize="400" class="example-viewport">
+     -->
+  <div class="viewport">
+    <div *uiScroll="let item of datasource" class="example-item">
+      <!-- *cdkVirtualFor="let item of courses" -->
+      <div class="item-content">
+        <h1>
+          <span style="color: #0071ff; font-weight: bold;">{{
+            getCourseCategory(item.code) + " "
+          }}</span>
+          <span style="font-weight: normal;">{{
+            getCourseNumber(item.code) + " "
+          }}</span>
+          <span style="font-weight: bold;">{{
+            getCourseAcademicSession(item.code) + " "
+          }}</span>
+          <span style="font-weight: normal;">({{ item.distReq }})</span>
+        </h1>
+        <button class="couse-details" (click)="toggleOpened(item)">
+          COURSE DETAILS
         </button>
-        <mat-progress-bar
-          mode="determinate"
-          [value]="item.fillPercent * 100"
-          class="progress-bar"
-        ></mat-progress-bar>
+        <p>{{ item.description }}</p>
       </div>
+      <button
+        mat-icon-button
+        class="close-but"
+        (click)="timetableService.selectCourse(item)"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+      <div *ngIf="item.opened" style="height: 100px;">Test</div>
+      <mat-progress-bar
+        mode="determinate"
+        [value]="item.fillPercent * 100"
+        class="progress-bar"
+      ></mat-progress-bar>
     </div>
-  </cdk-virtual-scroll-viewport>
+    <!-- </cdk-virtual-scroll-viewport> -->
+  </div>
 </div>
