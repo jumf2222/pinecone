@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CourseService } from './course.service';
+import { TimetableService } from './timetable.service';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +10,5 @@ import { CourseService } from './course.service';
 export class AppComponent {
   title = 'Pinecone';
 
-  constructor(public courseService: CourseService) { }
+  constructor(public courseService: CourseService, public timetableService: TimetableService) { }
 }

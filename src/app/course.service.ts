@@ -8,17 +8,26 @@ import { saveAs } from 'file-saver';
 export class CourseService {
   year = "2020";
   academicSession = ACADEMIC_SESSIONS.PREV;
-  yos = 1;
+  yos = 2;
   courses: Array<Course> = [];
   loaded: boolean = false;
 
   constructor() {
-    this.getCourseData(this.year, this.academicSession, this.yos).then(data => {
-      this.courses = data;
+
+    let requests = [];
+    for (let i = 0; i < 4; i++) requests.push(this.getCourseData(this.year, this.academicSession, i + 1));
+
+    Promise.all(requests).then(data => {
+      this.courses = this.courses.concat(data[0], data[1], data[2]);;
       // await sleep(3000);
       console.log(this.courses);
       this.loaded = true;
     });
+  }
+
+  convertTimeString(time: string): number {
+    let tokens = time.split(":");
+    return parseInt(tokens[0]) * 2 + parseInt(tokens[1]) / 30;
   }
 
   parseSect(sectElement) {
@@ -43,8 +52,8 @@ export class CourseService {
     for (let i = 0; i < sectElement.children[7].children.length; i += 2) {
       sect.sessions.push({
         day: sectElement.children[7].children[i].textContent.trim(),
-        start: sectElement.children[8].childNodes[i].textContent.trim(),
-        end: sectElement.children[9].childNodes[i].textContent.trim(),
+        start: this.convertTimeString(sectElement.children[8].childNodes[i].textContent.trim()),
+        end: this.convertTimeString(sectElement.children[9].childNodes[i].textContent.trim()),
         room: sectElement.children[10].childNodes[i].textContent.trim(),
       });
     }
@@ -58,7 +67,7 @@ export class CourseService {
     let res = await (
       await fetch(
         "https://cors-anywhere.herokuapp.com/" +
-        `https://student.utm.utoronto.ca/timetable/timetable?yos=${this.yos}&session=${this.year}${this.academicSession}`,
+        `https://student.utm.utoronto.ca/timetable/timetable?yos=${yos}&session=${year}${academicSession}`,
         { cache: "force-cache" }
       )
     ).text();

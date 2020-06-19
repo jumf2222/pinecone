@@ -14,11 +14,6 @@ export class CoursesComponent implements OnInit {
   courses: Array<Course> = this.courseService.search("");
   datasource = new Datasource({
     get: (index, count, success) => {
-      // const data = [];
-      // for (let i = index; i <= index + count - 1; i++) {
-      //   data.push(courses[i]);
-      // }
-      console.log(this.courses.slice(index, index + count));
       success(this.courses.slice(index, index + count));
     },
     settings: {

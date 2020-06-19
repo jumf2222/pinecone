@@ -27,9 +27,15 @@ export interface Section {
 
 export interface Session {
     day: string;
-    start: string;
-    end: string;
+    start: number;
+    end: number;
     room: string;
+}
+
+export interface Schedule {
+    sections: Array<Section>;
+    times: Map<string, Array<boolean>>;
+    score: number;
 }
 
 export const ACADEMIC_SESSIONS = { PREV: "1", SPRING: "5", FALL_WINTER: "9" };
