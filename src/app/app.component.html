@@ -19,27 +19,31 @@
     <button mat-icon-button (click)="timetableService.createSchedule()">
       <mat-icon>add</mat-icon>
     </button>
-    <app-course-list></app-course-list>
-  </div>
-  <div class="column2">
-    <mat-tab-group>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          Courses
-        </ng-template>
-        <app-courses></app-courses>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          Schedule Options
-        </ng-template>
-        <app-schedule-options></app-schedule-options>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label> Schedule </ng-template>
-        <app-schedule></app-schedule>
-      </mat-tab>
-    </mat-tab-group>
+    <div class="row m-0 app-main">
+      <div class="column1 col-lg-3 col-md-12 col-sm-12">
+        <app-course-list></app-course-list>
+      </div>
+      <div class="column2 col-lg-9 col-md-12 col-sm-12">
+        <mat-tab-group>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              Courses
+            </ng-template>
+            <app-courses></app-courses>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              Schedule Options
+            </ng-template>
+            <app-schedule-options></app-schedule-options>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label> Schedule </ng-template>
+            <app-schedule></app-schedule>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+    <router-outlet></router-outlet>
   </div>
 </div>
-<router-outlet></router-outlet>

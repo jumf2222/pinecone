@@ -38,4 +38,11 @@ export interface Schedule {
     score: number;
 }
 
+export interface SchedulerDataSource {
+    Id: Number,
+    Subject: string,
+    StartTime: Date,
+    EndTime: Date,
+    FREQ: string
+}
 export const ACADEMIC_SESSIONS = { PREV: "1", SPRING: "5", FALL_WINTER: "9" };
