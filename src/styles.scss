@@ -1,3 +1,14 @@
+@import "../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-buttons/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-calendars/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-dropdowns/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-inputs/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-lists/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-popups/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-navigations/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-angular-schedule/styles/material.css";
+@import "variables.scss";
+
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @import "~@angular/material/theming";
@@ -53,16 +64,14 @@ $Pinecone-accent: mat-palette($mat-pink, A200, A100, A400);
 $Pinecone-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$Pinecone-theme: mat-light-theme(
-  $Pinecone-primary,
-  $Pinecone-accent,
-  $Pinecone-warn
-);
+$Pinecone-theme: mat-light-theme($Pinecone-primary, $Pinecone-accent, $Pinecone-warn);
 
 $custom-typography: mat-typography-config(
   $font-family: '"Open Sans", monospace',
-  $headline: mat-typography-level(32px, 48px, 700),
-  $body-1: mat-typography-level(16px, 24px, 500),
+  $headline: mat-typography-level(14px, 16px, 700),
+  $body-1: mat-typography-level(14px, 18px, 500),
+  $button: mat-typography-level(14px, 18px, 500),
+  $input: mat-typography-level(inherit, 1.125, 400),
 );
 
 // Override typography CSS classes (e.g., mat-h1, mat-display-1, mat-typography, etc.).
@@ -93,4 +102,42 @@ body {
   margin: 0;
   font-family: "Open Sans", "Helvetica Neue", sans-serif;
   color: #222222;
+  font-size: 12px;
+}
+
+.mat-tab-labels .mat-tab-label {
+  border: 1px solid #eeeeee !important;
+  height: 34px;
+}
+
+$config: (
+  button: $custom-typography,
+  input: $custom-typography,
+);
+button {
+  height: 24px;
+  line-height: 1 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.mat-icon {
+  font-size: 14px;
+  height: 15px !important;
+}
+.mat-mini-fab .mat-button-wrapper {
+  padding: 0 !important;
+}
+.mat-mini-fab {
+  height: 24px !important;
+  width: 24px !important;
+}
+
+.mat-chip {
+  font-size: 12px;
+  padding: 5px 9px;
+}
+
+button:focus {
+  outline: none;
 }

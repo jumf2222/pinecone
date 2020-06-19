@@ -1,20 +1,21 @@
+@import "../../variables.scss";
+
 .example-viewport {
-  height: 50vh;
+  height: 70vh;
   width: 100%;
   // width: calc(100vw - 10px);
   //   border: 1px solid black;
 }
-
 .progress-bar {
   position: absolute;
   bottom: 0px;
 }
-
 .example-item {
   border: 1px solid #222222;
   //   padding: 10px;
   margin: 5px;
   position: relative;
+  cursor: pointer;
 }
 
 .close-but {
@@ -25,6 +26,13 @@
 
 .item-content {
   padding: 5px;
+}
+
+.main {
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  padding-top: 0px;
 }
 
 .center-spinner {
@@ -51,4 +59,34 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #ababab;
+}
+
+.highlight-code {
+  color: #0071ff;
+  font-weight: bold;
+}
+
+#notices {
+  background-color: $black;
+  color: white;
+
+  margin: 2vh 0 2vh 0;
+}
+
+.course-content {
+  font-size: 11px;
+}
+
+.info {
+  color: $primary-blue;
+  position: absolute;
+  top: 15%;
+  right: 9px;
+}
+
+.mat-chip-list {
+  margin: 2vh;
+}
+.mat-chip {
+  border-radius: 0 !important;
 }
