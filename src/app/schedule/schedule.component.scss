@@ -1,0 +1,14 @@
+.schedule-main .close-but {
+    margin-right: 2vh;
+}
+
+.calendar-main {
+    width: 100vw;
+    overflow-x: auto;
+}
+
+.schedule-controls {
+    @media screen and (max-width: 500px) {
+        text-align: center;
+    }
+}
