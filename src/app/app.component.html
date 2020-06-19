@@ -5,23 +5,11 @@
   strokeWidth="5"
 ></mat-spinner>
 
-<div style="display: flex;" *ngIf="courseService.isLoaded()">
-  <div class="column1 main">
-    <p>
-      Pinecone helps you plan, but does not guarantee your enrolment in courses,
-      nor does it enforce rules of your degree or program(s). Course times are
-      tentative and are subject to change. Refer to ACORN for official times and
-      locations.
-    </p>
-    <button mat-icon-button (click)="courseService.downloadCourses()">
-      <mat-icon>get_app</mat-icon>
-    </button>
-    <button mat-icon-button (click)="timetableService.createSchedule()">
-      <mat-icon>add</mat-icon>
-    </button>
+<div class="row m-0 app-main" *ngIf="courseService.isLoaded()">
+  <div class="column1 col-lg-3 col-md-12 col-sm-12">
     <app-course-list></app-course-list>
   </div>
-  <div class="column2">
+  <div class="column2 col-lg-9 col-md-12 col-sm-12">
     <mat-tab-group>
       <mat-tab>
         <ng-template mat-tab-label>

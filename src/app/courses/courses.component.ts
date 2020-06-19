@@ -17,7 +17,7 @@ export class CoursesComponent implements OnInit {
       success(this.courses.slice(index, index + count));
     },
     settings: {
-      itemSize: 200,
+      itemSize: 50,
       minIndex: 0,
       maxIndex: this.courses.length,
       startIndex: 0,
@@ -26,14 +26,13 @@ export class CoursesComponent implements OnInit {
 
   constructor(public courseService: CourseService, public timetableService: TimetableService) { }
 
-  ngOnInit(): void {
-  }
-
   toggleOpened(item) {
     item.opened = !item.opened;
     this.datasource.adapter.check();
   }
 
+  ngOnInit(): void {
+  }
 
   search(value) {
     this.courses = this.courseService.search(value.toUpperCase());
@@ -52,4 +51,12 @@ export class CoursesComponent implements OnInit {
   getCourseAcademicSession(code: string) {
     return code.substring(code.length - 1);
   }
+
+  /*
+  * Check if the course is added in the array;
+  */
+  isAdded(code: string) {
+    return this.timetableService.courses.filter(val => val.code === code).length == 1;
+  }
+
 }

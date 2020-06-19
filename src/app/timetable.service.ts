@@ -20,7 +20,9 @@ export class TimetableService {
         return;
       }
     }
+
     this.courses.push(course);
+
     this.coursesSubject.next(this.courses);
   }
 

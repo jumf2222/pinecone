@@ -1,21 +1,19 @@
 .column1 {
-  width: 25%;
-  height: 100%;
-  margin: 30px;
+  // max-width: 25%;
+  height: 80%;
+  padding: 30px;
+  padding-bottom: 0px;
 }
 
 .column2 {
-  width: 75%;
+  // max-width: 75%;
   height: 100%;
-  margin: 30px;
+  padding: 30px;
+  padding-bottom: 0px;
 }
-
-.main {
-  padding: 10px;
-}
-
-.center-spinner {
-  position: absolute;
-  top: calc(50% - 50px);
-  left: calc(50% - 50px);
+.app-main {
+  @media screen and (max-width: 500px) {
+    width: 100%;
+    overflow-x: auto;
+  }
 }
