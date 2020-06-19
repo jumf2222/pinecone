@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ACADEMIC_SESSIONS, Course, Section } from './definitions';
+import { saveAs } from 'file-saver';
 
 @Injectable({
   providedIn: 'root'
@@ -173,20 +174,19 @@ export class CourseService {
     return courses;
   }
 
-  async search(search: string) {
-    if (!this.loaded) {
-      this.courses = await this.getCourseData(this.year, this.academicSession, this.yos);
-      // await sleep(3000);
-      console.log(this.courses);
-      this.loaded = true;
-    }
+  search(search: string) {
     return this.courses.filter(item => { return item.code.includes(search) });
   }
 
   isLoaded() {
     return this.loaded;
   }
+
+  downloadCourses() {
+    saveAs(new Blob([JSON.stringify(this.courses)], { type: "application/json" }), `${this.year}${this.academicSession}${this.yos}.json`);
+  }
 }
+
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));

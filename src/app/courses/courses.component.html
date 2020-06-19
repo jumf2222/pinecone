@@ -1,94 +1,43 @@
 <div class="main">
-  <mat-spinner *ngIf="!courseService.isLoaded()" class="center-spinner" diameter="100" strokeWidth="5"></mat-spinner>
   <h2><strong>Search for Courses:</strong></h2>
-  <input (input)="search($event.target.value)" class="searchbar" placeholder="Course Code or Title" />
-  <!-- <mat-form-field class="example-full-width">
-    <mat-label>Course code or title`</mat-label>
-    <span matPrefix>
-      <mat-icon>search</mat-icon>
-    </span>
-    <input type="tel" (input)="search($event.target.value)" class="searchbar"> -->
-
-  <!-- </mat-form-field> -->
-  <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-    <div *cdkVirtualFor="let item of courses">
-      <div class="example-item" [id]="item.code">
-        <div class="item-content">
-          <div class="item-header row m-0">
-            <div class="col-lg-9 col-md-9 col-sm-12 p-0">
-              <h1>
-                <span style="color: #0071ff; font-weight: bold;">
-                  {{ getCourseCategory(item.code) + " " }}</span>
-                <span style="font-weight: normal;">
-                  {{ getCourseNumber(item.code) + " " }}</span>
-                <span style="font-weight: bold;">
-                  {{ getCourseAcademicSession(item.code) + " " }}</span>
-                <span style="font-weight: normal;">({{ item.distReq }})</span>
-
-              </h1>
-            </div>
-
-            <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-              <button mat-raised-button color="primary" style="width: 180px ;"
-                (click)="timetableService.selectCourse(item)" *ngIf="!isAdded(item.code)">
-                Add to plan <mat-icon>add</mat-icon>
-              </button>
-              <button mat-raised-button color="warn" style="width: 180px;" (click)="timetableService.removeCourse(item)"
-                *ngIf="isAdded(item.code)">
-                Remove from plan <mat-icon>clear</mat-icon>
-              </button>
-            </div>
-          </div>
-          <div class="couse-details" (click)="item.expand_course = item.expand_course ? !item.expand_course : true">
-            COURSE DETAILS</div>
-          <div class="course-details-description" *ngIf="item.expand_course">
-            <p>{{ item.description }}</p>
-            <h1>
-              <strong>Exclusion </strong> : <span> {{item.exclusions}} </span>
-            </h1>
-            <h1>
-              <strong>Prerequisites </strong> : <span> {{item.prerequisites}} </span>
-            </h1>
-            <div class=" col-lg-row">
-              <table class="table">
-                <thead>
-                  <th class="th">Section</th>
-                  <th class="th">Instructor</th>
-                  <th class="th">Enrolled</th>
-                  <th class="th">Day</th>
-                  <th class="th">Time</th>
-                  <th class="th">Room</th>
-                  <th class="th">Notes</th>
-                </thead>
-                <tbody>
-                  <ng-container *ngFor="let obj of  item.lecs ">
-                    <tr class="tr">
-                      <td [attr.rowspan]="obj.sessions.length +1">{{obj.section}}</td>
-                      <td [attr.rowspan]="obj.sessions.length +1">{{obj.instructor}}</td>
-                      <td [attr.rowspan]="obj.sessions.length +1">{{obj.curEnroll}}/{{obj.maxEnroll}}</td>
-
-                    </tr>
-                    <tr class="tr" *ngFor="let sess of  obj.sessions let i=index">
-                      <td>{{sess.day}}</td>
-                      <td>{{sess.start}} {{sess.end}}</td>
-                      <td>{{sess.room}}</td>
-                      <td *ngIf="i==0" [attr.rowspan]="obj.sessions.length +1">{{obj.notes}}</td>
-                    </tr>
-                  </ng-container>
-
-
-
-                </tbody>
-              </table>
-
-
-            </div>
-          </div>
-        </div>
-
-        <mat-progress-bar mode=" determinate" [value]="item.fillPercent * 100" class="progress-bar">
-        </mat-progress-bar>
+  <input (input)="search($event.target.value)" class="searchbar" />
+  <!-- <cdk-virtual-scroll-viewport itemSize="400" class="example-viewport">
+     -->
+  <div class="viewport">
+    <div *uiScroll="let item of datasource" class="example-item">
+      <!-- *cdkVirtualFor="let item of courses" -->
+      <div class="item-content">
+        <h1>
+          <span style="color: #0071ff; font-weight: bold;">{{
+            getCourseCategory(item.code) + " "
+          }}</span>
+          <span style="font-weight: normal;">{{
+            getCourseNumber(item.code) + " "
+          }}</span>
+          <span style="font-weight: bold;">{{
+            getCourseAcademicSession(item.code) + " "
+          }}</span>
+          <span style="font-weight: normal;">({{ item.distReq }})</span>
+        </h1>
+        <button class="couse-details" (click)="toggleOpened(item)">
+          COURSE DETAILS
+        </button>
+        <p>{{ item.description }}</p>
       </div>
+      <button
+        mat-icon-button
+        class="close-but"
+        (click)="timetableService.selectCourse(item)"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+      <div *ngIf="item.opened" style="height: 100px;">Test</div>
+      <mat-progress-bar
+        mode="determinate"
+        [value]="item.fillPercent * 100"
+        class="progress-bar"
+      ></mat-progress-bar>
     </div>
-  </cdk-virtual-scroll-viewport>
+    <!-- </cdk-virtual-scroll-viewport> -->
+  </div>
 </div>
