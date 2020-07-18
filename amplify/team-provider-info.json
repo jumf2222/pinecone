@@ -1,0 +1,22 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-pinecone-dev-173204-authRole",
+      "UnauthRoleArn": "arn:aws:iam::100387904587:role/amplify-pinecone-dev-173204-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::100387904587:role/amplify-pinecone-dev-173204-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-pinecone-dev-173204-deployment",
+      "UnauthRoleName": "amplify-pinecone-dev-173204-unauthRole",
+      "StackName": "amplify-pinecone-dev-173204",
+      "StackId": "arn:aws:cloudformation:us-east-2:100387904587:stack/amplify-pinecone-dev-173204/511d4190-b72b-11ea-9dbb-066dd16eed5a",
+      "AmplifyAppId": "d26rtylig84mib"
+    },
+    "categories": {
+      "auth": {
+        "pineconee519da81": {
+          "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"1068918347990-3mg2dr021ip3ff1v48lvnhvsnktkp1um.apps.googleusercontent.com\",\"client_secret\":\"3gNHszt9jag71PBxEZ_7FI4f\"}]"
+        }
+      }
+    }
+  }
+}

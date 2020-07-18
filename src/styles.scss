@@ -1,13 +1,35 @@
-@import "../node_modules/@syncfusion/ej2-base/styles/material.css";
-@import "../node_modules/@syncfusion/ej2-buttons/styles/material.css";
-@import "../node_modules/@syncfusion/ej2-calendars/styles/material.css";
-@import "../node_modules/@syncfusion/ej2-dropdowns/styles/material.css";
-@import "../node_modules/@syncfusion/ej2-inputs/styles/material.css";
-@import "../node_modules/@syncfusion/ej2-lists/styles/material.css";
-@import "../node_modules/@syncfusion/ej2-popups/styles/material.css";
-@import "../node_modules/@syncfusion/ej2-navigations/styles/material.css";
-@import "../node_modules/@syncfusion/ej2-angular-schedule/styles/material.css";
 @import "variables.scss";
+
+@font-face {
+  font-family: "Pinecone";
+  src: url("assets/fonts/tiempos-headline-test-medium.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+//----------------------------------*\
+// Fonts
+//----------------------------------*/
+// primary font
+$primary_font: "Pinecone";
+// font-weight
+$thin: 100;
+$light: 300;
+$regular: 400;
+$bold: 700;
+$black: 900;
+// Font size
+$font-xs: 12px;
+$font-sm: 14px;
+$primary-fs: 16px;
+$font-md: 18px;
+$font-lg: 20px;
+body {
+  font-family: $primary_font;
+  font-size: $primary-fs;
+  font-weight: $regular;
+}
 
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
@@ -22,6 +44,9 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
+
+$white: #ffffff;
+$black: #222222;
 
 $mat-blue: (
   50: #e3f2fd,
@@ -64,7 +89,11 @@ $Pinecone-accent: mat-palette($mat-pink, A200, A100, A400);
 $Pinecone-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$Pinecone-theme: mat-light-theme($Pinecone-primary, $Pinecone-accent, $Pinecone-warn);
+$Pinecone-theme: mat-light-theme(
+  $Pinecone-primary,
+  $Pinecone-accent,
+  $Pinecone-warn
+);
 
 $custom-typography: mat-typography-config(
   $font-family: '"Open Sans", monospace',
@@ -114,24 +143,25 @@ $config: (
   button: $custom-typography,
   input: $custom-typography,
 );
-button {
-  height: 24px;
-  line-height: 1 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
+// button {
+//   height: 24px;
+//   line-height: 1 !important;
+//   border-radius: 0 !important;
+//   box-shadow: none !important;
+// }
 
-.mat-icon {
-  font-size: 14px;
-  height: 15px !important;
-}
-.mat-mini-fab .mat-button-wrapper {
-  padding: 0 !important;
-}
-.mat-mini-fab {
-  height: 24px !important;
-  width: 24px !important;
-}
+// .mat-icon {
+//   font-size: 14px;
+//   height: 15px !important;
+// }
+
+// .mat-mini-fab .mat-button-wrapper {
+//   padding: 0 !important;
+// }
+// .mat-mini-fab {
+//   height: 24px !important;
+//   width: 24px !important;
+// }
 
 .mat-chip {
   font-size: 12px;

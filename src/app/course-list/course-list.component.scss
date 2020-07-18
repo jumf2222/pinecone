@@ -1,21 +1,74 @@
 @import "../../variables.scss";
 
 .example-viewport {
-  height: 70vh;
+  max-height: calc(100vh - 360px);
   width: 100%;
+  overflow-y: auto;
   // width: calc(100vw - 10px);
   //   border: 1px solid black;
+  transition: max-height 0.2s ease;
 }
+
+.course-content {
+  margin: 5px;
+}
+
+.collapsed {
+  margin-left: 5px;
+  margin-right: 5px;
+  max-height: 0px;
+  transition: max-height 0.5s ease;
+  position: relative;
+}
+
+.viewport-small {
+  max-height: calc(100vh - 350px);
+}
+
 .progress-bar {
   position: absolute;
   bottom: 0px;
 }
+
 .example-item {
   border: 1px solid #222222;
-  //   padding: 10px;
+  // padding: 10px;
   margin: 5px;
   position: relative;
   cursor: pointer;
+  animation-name: example;
+  animation-duration: 0.3s;
+  overflow: hidden;
+}
+
+.relative {
+  // position: relative;
+  display: flex;
+  align-items: center;
+  // flex-direction: column;
+}
+
+@keyframes example {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.section-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.section-but {
+  padding: 0 16px;
+  margin: 5px;
+  background: #f2f2f2;
+  width: 100px;
 }
 
 .close-but {
@@ -29,10 +82,13 @@
 }
 
 .main {
-  padding: 10px;
   width: 100%;
-  height: 100%;
-  padding-top: 0px;
+}
+
+.scroll {
+  height: calc(100vh - 185px);
+  overflow-y: auto;
+  padding: 5px;
 }
 
 .center-spinner {
@@ -66,23 +122,16 @@
   font-weight: bold;
 }
 
-#notices {
-  background-color: $black;
-  color: white;
-
-  margin: 2vh 0 2vh 0;
-}
-
 .course-content {
-  font-size: 11px;
+  font-size: 14px;
 }
 
-.info {
-  color: $primary-blue;
-  position: absolute;
-  top: 15%;
-  right: 9px;
-}
+// .info {
+// color: $primary-blue;
+// position: absolute;
+// top: 10px;
+// right: 10px;
+// }
 
 .mat-chip-list {
   margin: 2vh;

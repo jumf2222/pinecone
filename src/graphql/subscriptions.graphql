@@ -1,0 +1,166 @@
+# this is an auto generated file. This will be overwritten
+subscription OnCreateCourse {
+  onCreateCourse {
+    id
+    name
+    code
+    year
+    term
+    campus
+    distributionRequirement
+    description
+    prerequisites
+    exclusions
+    enrollControlsType
+    enrollControls
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateCourse {
+  onUpdateCourse {
+    id
+    name
+    code
+    year
+    term
+    campus
+    distributionRequirement
+    description
+    prerequisites
+    exclusions
+    enrollControlsType
+    enrollControls
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteCourse {
+  onDeleteCourse {
+    id
+    name
+    code
+    year
+    term
+    campus
+    distributionRequirement
+    description
+    prerequisites
+    exclusions
+    enrollControlsType
+    enrollControls
+    createdAt
+    updatedAt
+  }
+}
+subscription OnCreateSection {
+  onCreateSection {
+    id
+    courseID
+    sessions {
+      day
+      start
+      end
+      room
+    }
+    syllabus
+    code
+    instructor
+    curEnroll
+    maxEnroll
+    notes
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateSection {
+  onUpdateSection {
+    id
+    courseID
+    sessions {
+      day
+      start
+      end
+      room
+    }
+    syllabus
+    code
+    instructor
+    curEnroll
+    maxEnroll
+    notes
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteSection {
+  onDeleteSection {
+    id
+    courseID
+    sessions {
+      day
+      start
+      end
+      room
+    }
+    syllabus
+    code
+    instructor
+    curEnroll
+    maxEnroll
+    notes
+    createdAt
+    updatedAt
+  }
+}
+subscription OnCreateSchedule($owner: String!) {
+  onCreateSchedule(owner: $owner) {
+    id
+    year
+    term
+    name
+    courses
+    sections
+    autoLectures
+    autoPraticals
+    autoTutorials
+    score
+    createdAt
+    updatedAt
+    owner
+  }
+}
+subscription OnUpdateSchedule($owner: String!) {
+  onUpdateSchedule(owner: $owner) {
+    id
+    year
+    term
+    name
+    courses
+    sections
+    autoLectures
+    autoPraticals
+    autoTutorials
+    score
+    createdAt
+    updatedAt
+    owner
+  }
+}
+subscription OnDeleteSchedule($owner: String!) {
+  onDeleteSchedule(owner: $owner) {
+    id
+    year
+    term
+    name
+    courses
+    sections
+    autoLectures
+    autoPraticals
+    autoTutorials
+    score
+    createdAt
+    updatedAt
+    owner
+  }
+}

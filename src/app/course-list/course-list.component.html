@@ -1,51 +1,101 @@
-<div class="main row">
-  <div class="col-lg-12">
-    <img src="../assets/img/pineconelogo.svg" />
-  </div>
-  <button mat-raised-button class="float-left" id="notices" (click)="notices = !notices">
-    NOTICES
-  </button>
-  <p *ngIf="notices">
-    Pinecone helps you plan, but does not guarantee your enrolment in courses,
-    nor does it enforce rules of your degree or program(s). </p>
-  <p *ngIf="notices"> Course times are tentative and are subject to change. Refer to <a
-      href="https://www.acorn.utoronto.ca/" target="_blank">ACORN</a> for
-    official times and locations.
-  </p>
-  <p *ngIf="notices">We are not affiliated, associated, authorized, endorsed by, or in any way officially connected with
-    the University
-    of Toronto.</p>
-  <h2 style="width: 100%;"><strong>Selected Courses:</strong></h2>
+<div class="main">
+  <h2 style="width: 100%;">
+    <strong>Selected Courses:</strong>
+  </h2>
   <!-- <mat-chip-list>
     <mat-chip color="primary" *ngIf="!timetableService.coursesSubject">No courses selected.</mat-chip>
   </mat-chip-list> -->
-  <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-    <div *cdkVirtualFor="let item of timetableService.coursesSubject">
-      <div class="example-item row" (click)="item.expand = item.expand ? !item.expand : true">
-        <div class="item-content col-lg-10 col-md-10 col-sm-10">
-          <div><span class="highlight-code">{{getCode(item.code,0)}}</span>&nbsp;{{ getCode(item.code,1) }}&nbsp;
-            <strong>{{ getCode(item.code,2) }}</strong></div>
-          <div class="course-content">{{ item.name }}</div>
-        </div>
-        <div class="col-lg-2 col-md-10 col-sm-10">
-          <button mat-mini-fab color="default" class="close-but" (click)="timetableService.removeCourse(item)">
-            <mat-icon>close</mat-icon>
-          </button>
-        </div>
-        <div class="col-lg-12" *ngIf="item.expand">
-          <mat-chip-list aria-label="Lectures and tuts">
-            <mat-chip *ngFor="let lecs of item.lecs">{{lecs.section}}</mat-chip>
-            <mat-chip *ngFor="let tuts of item.tuts">{{tuts.section}}</mat-chip>
-          </mat-chip-list>
-          <div class="float-right">
-            <span class="info" (click)="scroll(item.code,$event)">
-              <mat-icon>info</mat-icon>
-            </span>
+  <div class="scroll">
+    <mat-accordion>
+      <ng-container
+        *ngIf="this.timetableService.scheduleSubject | async; let schedule"
+      >
+        <mat-expansion-panel *ngFor="let course of schedule.courses">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ course.code }}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ course.name }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="relative">
+            <div style="flex: 1;"></div>
+            <button mat-icon-button class="info">
+              <mat-icon>info_outline</mat-icon>
+            </button>
+            <button mat-icon-button class="info">
+              <mat-icon>cancel</mat-icon>
+            </button>
           </div>
+          <div class="section-container">
+            <button
+              mat-flat-button
+              class="section-but"
+              *ngFor="let lec of course.lectures"
+            >
+              {{ lec.code }}
+            </button>
+            <button
+              mat-flat-button
+              class="section-but"
+              *ngFor="let pra of course.praticals"
+            >
+              {{ pra.code }}
+            </button>
+            <button
+              mat-flat-button
+              class="section-but"
+              *ngFor="let tut of course.tutorials"
+            >
+              {{ tut.code }}
+            </button>
+          </div>
+        </mat-expansion-panel>
+      </ng-container>
+    </mat-accordion>
+  </div>
+  <!-- <div>
+        <div class="course-content">
+          <span class="highlight-code">{{ getCode(item.code, 0) }}</span
+          >&nbsp;{{ getCode(item.code, 1) }}&nbsp;
+          <strong>{{ getCode(item.code, 2) }}</strong>
         </div>
-
-        <mat-progress-bar mode="determinate" [value]="item.fillPercent * 100" class="progress-bar"></mat-progress-bar>
+        <div class="course-content">{{ item.name }}</div>
       </div>
-    </div>
-  </cdk-virtual-scroll-viewport>
+      <div>
+        <button
+          mat-mini-fab
+          color="default"
+          class="close-but"
+          (click)="timetableService.removeCourse(item)"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div
+        [id]="'sel' + item.code"
+        *ngIf="openItems[item.code]"
+        class="collapsed"
+        [style.maxHeight]="openItems[item.code].height + 'px'"
+      >
+        <mat-chip-list aria-label="Lectures and tuts">
+          <mat-chip *ngFor="let lecs of item.lecs">{{ lecs.section }}</mat-chip>
+          <mat-chip *ngFor="let tuts of item.tuts">{{ tuts.section }}</mat-chip>
+        </mat-chip-list>
+        <button
+          mat-icon-button
+          class="info float-right"
+          (click)="scroll(item.code, $event)"
+        >
+          <mat-icon>info_outline</mat-icon>
+        </button>
+      </div>
+
+      <mat-progress-bar
+        mode="determinate"
+        [value]="item.fillPercent * 100"
+        class="progress-bar"
+      ></mat-progress-bar>
+    </div> -->
 </div>

@@ -34,12 +34,34 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table'
-
+// import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
+// import { UiScrollModule } from 'ngx-ui-scroll';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { CdkScrollableModule } from '@angular/cdk/scrolling';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 // Calendar scheduler start
-import { ScheduleModule, DayService, WeekService, WorkWeekService, MonthService, AgendaService, MonthAgendaService, TimelineViewsService, TimelineMonthService } from '@syncfusion/ej2-angular-schedule';
+
 import { FormsModule } from '@angular/forms';
+import { DegreePlannerComponent } from './degree-planner/degree-planner.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 // Calendar schedule end;
+
+/* Add Amplify imports */
+// import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+import Amplify from 'aws-amplify';
+import awsconfig from '../aws-exports';
+import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
+import { HomeComponent } from './home/home.component';
+import { AuthService } from './auth.service';
+import { CourseInfoComponent } from './course-info/course-info.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
+
+/* Configure Amplify resources */
+Amplify.configure(awsconfig);
 
 @NgModule({
   declarations: [
@@ -49,10 +71,16 @@ import { FormsModule } from '@angular/forms';
     SettingsComponent,
     CoursesComponent,
     ScheduleOptionsComponent,
+    DegreePlannerComponent,
+    HomeComponent,
+    CourseInfoComponent,
+    NavBarComponent,
 
   ],
   imports: [
     // Core modules import start
+    AmplifyAngularModule,
+    // AmplifyUIAngularModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -75,19 +103,26 @@ import { FormsModule } from '@angular/forms';
     MatTabsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatFormFieldModule,
     MatChipsModule,
     MatTableModule,
+    CdkScrollableModule,
+    MatExpansionModule,
     // Materials Modules import end;
     // Calendar module import start;
-    ScheduleModule,
+    // ExperimentalScrollingModule,
+    // UiScrollModule,
     // Calendar module import end;
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatTooltipModule,
   ],
   exports: [
     MatFormFieldModule,
     MatInputModule
   ],
-  providers: [DayService, WeekService, WorkWeekService, MonthService, AgendaService, MonthAgendaService, TimelineViewsService, TimelineMonthService],
+  providers: [AmplifyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

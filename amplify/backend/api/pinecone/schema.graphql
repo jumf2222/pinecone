@@ -1,0 +1,68 @@
+type Course
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: groups, groups: ["Admin"] }
+    ]
+  )
+  # @key(
+  #   name: "byYearTermCodeCampus"
+  #   fields: ["year", "term", "code", "campus"]
+  #   queryField: "byYearTermCodeCampus"
+  # )
+  @searchable {
+  id: ID!
+  name: String
+  code: String!
+  year: String!
+  term: String!
+  campus: String
+  distributionRequirement: String
+  description: String
+  prerequisites: String
+  exclusions: String
+  enrollControlsType: String
+  enrollControls: [String]
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Section
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: groups, groups: ["Admin"] }
+    ]
+  ) {
+  id: ID!
+  courseID: ID!
+  sessions: [Session]
+  syllabus: String
+  code: String
+  instructor: String
+  curEnroll: Int
+  maxEnroll: Int
+  notes: String
+}
+
+type Session {
+  day: String
+  start: Int
+  end: Int
+  room: String
+}
+
+type Schedule @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  year: String
+  term: String
+  name: String
+  courses: [ID]
+  sections: [ID]
+  autoLectures: [ID]
+  autoPraticals: [ID]
+  autoTutorials: [ID]
+  score: Int
+}

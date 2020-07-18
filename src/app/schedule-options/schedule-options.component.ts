@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./schedule-options.component.scss']
 })
 export class ScheduleOptionsComponent implements OnInit {
+  notices = true;
 
   constructor() { }
 

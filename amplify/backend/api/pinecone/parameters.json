@@ -1,0 +1,11 @@
+{
+    "AppSyncApiName": "pinecone",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": "false",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authpineconee519da81",
+            "Outputs.UserPoolId"
+        ]
+    }
+}

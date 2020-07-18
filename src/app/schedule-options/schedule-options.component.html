@@ -1,24 +1,129 @@
-<div class="schedule-options-main">
-    <div class="m-0 row">
-        <mat-form-field>
-            <mat-label>Select year and session</mat-label>
-            <select matNativeControl>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="mercedes">Option 3</option>
-                <option value="audi">Option 4</option>
-            </select>
-        </mat-form-field>
+<!-- <div class="schedule-options-main"> -->
+<!-- <div class="m-0 row"> -->
+<form>
+  <div style="position: relative;">
+    <button mat-raised-button class="notices-but" (click)="notices = !notices">
+      NOTICES
+    </button>
+    <div [class]="notices ? 'notices-expanded' : ''" class="notices-card">
+      <p>
+        Pinecone helps you plan, but does not guarantee your enrolment in
+        courses, nor does it enforce rules of your degree or program(s).
+      </p>
+      <p>
+        Course times are tentative and are subject to change. Refer to
+        <a href="https://www.acorn.utoronto.ca/" target="_blank">ACORN</a> for
+        official times and locations.
+      </p>
+      <p>
+        We are not affiliated, associated, authorized, endorsed by, or in any
+        way officially connected with the University of Toronto.
+      </p>
     </div>
-    <div class="m-0 row">
-        <mat-form-field>
-            <mat-label>Course Time Preferences</mat-label>
-            <select matNativeControl>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="mercedes">Option 3</option>
-                <option value="audi">Option 4</option>
-            </select>
-        </mat-form-field>
-    </div>
-</div>
+  </div>
+
+  <!-- <mat-form-field>
+      <mat-label>Select year and session</mat-label>
+      <select matNativeControl>
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="mercedes">Option 3</option>
+        <option value="audi">Option 4</option>
+      </select>
+    </mat-form-field> -->
+
+  <!-- </div> -->
+  <!-- <div class="m-0 row"> -->
+  <!-- <mat-form-field>
+      <mat-label>Course Time Preferences</mat-label>
+      <select matNativeControl>
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="mercedes">Option 3</option>
+        <option value="audi">Option 4</option>
+      </select>
+    </mat-form-field> -->
+  <!-- </div> -->
+
+  <mat-form-field>
+    <input
+      type="number"
+      placeholder="Break Weight"
+      aria-label="Number"
+      value="-1"
+      matInput
+      [matAutocomplete]=""
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      type="number"
+      placeholder="Days Off Weight"
+      aria-label="Number"
+      value="100"
+      matInput
+      [matAutocomplete]=""
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      type="number"
+      placeholder="Day Duration Weight"
+      aria-label="Number"
+      value="-1"
+      matInput
+      [matAutocomplete]=""
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      type="number"
+      placeholder="Eary Class Weight"
+      aria-label="Number"
+      value="-1"
+      matInput
+      [matAutocomplete]=""
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      type="number"
+      placeholder="Miday Class Weight"
+      aria-label="Number"
+      value="0"
+      matInput
+      [matAutocomplete]=""
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      type="number"
+      placeholder="Late Class Weight"
+      aria-label="Number"
+      value="1"
+      matInput
+      [matAutocomplete]=""
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <input
+      type="number"
+      placeholder="Course Availability Weight"
+      aria-label="Number"
+      value="1"
+      matInput
+      [matAutocomplete]=""
+    />
+  </mat-form-field>
+
+  <mat-checkbox>Allow Full Courses</mat-checkbox>
+  <mat-form-field appearance="outline">
+    <mat-label>Select me</mat-label>
+    <mat-select>
+      <mat-option value="option">Option</mat-option>
+    </mat-select>
+    <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+  </mat-form-field>
+</form>
+
+<!-- </div> -->

@@ -1,20 +1,43 @@
 @import "../../variables.scss";
 
-.example-viewport {
-  height: 60vh;
-  width: 100%;
-  //   border: 1px solid black;
+::ng-deep .mat-progress-bar-fill::after {
+  background-color: $black;
 }
 
-.couse-details {
-  background: #222222;
-  width: fit-content;
-  color: white;
-  font-size: smaller;
-  padding: 5px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  cursor: pointer;
+::ng-deep .full-bar .mat-progress-bar-fill::after {
+  background-color: red;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background: lightgray;
+}
+
+.example-viewport {
+  max-height: calc(100vh - 155px);
+  max-width: 900px;
+  overflow-y: auto;
+  // padding-left: 60px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.collapsed {
+  max-height: 0px;
+  transition: max-height 0.5s ease;
+  overflow: hidden;
+}
+
+.add-plan {
+  min-width: 180px;
+  transition: background 0.5s ease;
+  flex: 1;
+
+  @media only screen and (min-width: 768px) {
+    flex: none;
+  }
 }
 
 .searchbar {
@@ -31,14 +54,28 @@
 .progress-bar {
   position: absolute;
   bottom: 0px;
+  height: 10px;
+}
+
+.item-margin {
+  margin: 5px 5px 0px 0px;
+  border: 1px solid #222222;
+  position: relative;
 }
 
 .example-item {
-  border: 1px solid #222222;
-  margin-top: 5px;
-  margin-right: 5px;
-  margin-left: 0px;
-  position: relative;
+  animation-name: example;
+  animation-duration: 0.5s;
+  cursor: pointer;
+}
+
+@keyframes example {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .close-but {
@@ -81,9 +118,15 @@
   background: #ababab;
 }
 
+.item-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 .main .item-header .item-header-h1 {
   width: 90%;
-  font-size: 14px;
+  // font-size: 36px;
 }
 
 table {
@@ -98,5 +141,5 @@ table thead th,
 
 .item-content h1 span {
   font-weight: normal;
-  font-size: 14px;
+  font-size: 16px;
 }

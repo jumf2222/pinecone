@@ -1,0 +1,58 @@
+<div class="programs">
+  <h1 style="margin-top: 10px;">
+    Programs:
+  </h1>
+  <p class="chip" *ngFor="let program of degreeService.getDegree().programs">
+    {{ program ? program.code + " - " + program.name : "-" }}
+  </p>
+</div>
+
+<div class="container">
+  <div class="year" *ngFor="let year of degreeService.getDegree().years">
+    <h1>
+      Year {{ year.level }}
+      <span style="font-weight: 400;">
+        - {{ year.credits.toFixed(1) }} Credits
+      </span>
+    </h1>
+    <ng-container *ngFor="let code of ['F', 'S', 'SF', 'SS']; let ind = index">
+      <div
+        class="session"
+        *ngIf="year.schedules[code]; let schedule"
+        [class]="ind === year.activeTerm ? 'session-active' : ''"
+      >
+        <div style="display: flex; justify-content: space-between;">
+          <button
+            mat-flat-button
+            matTooltip="Info about the action"
+            class="session-title"
+            (click)="year.activeTerm = ind"
+          >
+            <h2>{{ schedule.name }}</h2>
+          </button>
+          <button
+            mat-flat-button
+            class="timetable"
+            (click)="selectSchedule(schedule)"
+            [class]="ind === year.activeTerm ? 'timetable-open' : ''"
+          >
+            Timetable
+          </button>
+        </div>
+        <div class="course-list">
+          <button
+            mat-flat-button
+            class="slot"
+            [class]="courseInd === 5 ? 'slot-last' : ''"
+            *ngFor="
+              let course of formatCourses(schedule.courses);
+              let courseInd = index
+            "
+          >
+            {{ course ? course.code : "-" }}
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

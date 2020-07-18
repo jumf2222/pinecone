@@ -1,9 +1,83 @@
-<div class="row m-0 app-main">
-  <div class="column1 col-lg-3 col-md-12 col-sm-12">
+<!-- <amplify-authenticator username-alias="email"> -->
+<!-- <amplify-sign-up
+  slot="sign-up"
+  usernameAlias="email"
+  [formFields]="formFields"
+></amplify-sign-up> -->
+<!-- <amplify-federated-sign-in></amplify-federated-sign-in> -->
+<app-nav-bar></app-nav-bar>
+<!-- <mat-toolbar>
+  <button (click)="sideMenu = !sideMenu" class="hamburger-btn">
+    <div class="bar" [class]="sideMenu ? 'active' : ''"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </button>
+  <a routerLink="/" style="font-family: 'Pinecone';" class="logo">
+    Pinecone
+  </a>
+  <span class="example-spacer"></span>
+  <nav mat-tab-nav-bar>
+    <a
+      mat-tab-link
+      *ngFor="let link of links"
+      [routerLink]="link.route"
+      [active]="router.url === link.route"
+    >
+      {{ link.name }}
+    </a>
+  </nav>
+</mat-toolbar> -->
+
+<!-- <nav class="header">
+
+
+  <nav mat-tab-nav-bar>
+    <a
+      mat-tab-link
+      *ngFor="let link of links"
+      [routerLink]="link.route"
+      [active]="router.url === '/' + link.route"
+    >
+      {{ link.name }}
+    </a>
+    <a mat-tab-link routerLink="/" [active]="router.url === '/'">
+      <p style="font-family: 'Pinecone';">Pinecone</p>
+    </a>
+  </nav>
+
+ <a class="logo" routerLink="/"> -->
+<!-- <img
+      width="156"
+      src="../assets/img/Pinecone_Logo.svg"
+      alt="Pinecone logo"
+    /> -->
+<!-- </a> -->
+<!-- <amplify-sign-out></amplify-sign-out> -->
+<!-- <div class="sidebar" [class]="sideMenu ? 'sidebar-open' : ''"></div> -->
+<!-- </nav> -->
+
+<!-- <mat-sidenav-container style="height: 100%;" hasBackdrop="false">
+  <mat-sidenav [opened]="sideMenu" class="sidebar">
+    <a routerLink="/" class="menu-option">
+      Home
+    </a>
+    <a routerLink="/courses" class="menu-option">
+      Courses
+    </a>
+    <a routerLink="/settings" class="menu-option">
+      Settings
+    </a>
+  </mat-sidenav>
+  <mat-sidenav-content> -->
+<!-- <div class="app-main">
+      <button (click)="authService.signIn()" *ngIf="!authService.signedIn">
+        Sign in with Google
+      </button> -->
+<!-- <div class="column1">
     <app-course-list></app-course-list>
-  </div>
-  <div class="column2 col-lg-9 col-md-12 col-sm-12">
-    <mat-tab-group>
+  </div> -->
+<!-- <div class="column2">
+    <mat-tab-group selectedIndex="2">
       <mat-tab>
         <ng-template mat-tab-label>
           Courses
@@ -18,9 +92,16 @@
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label> Schedule </ng-template>
-        <app-schedule></app-schedule>
+       
       </mat-tab>
     </mat-tab-group>
-  </div>
+  </div> -->
+<!-- <app-schedule></app-schedule> -->
+
+<div class="app-main">
+  <router-outlet></router-outlet>
 </div>
-<router-outlet></router-outlet>
+<!-- </div>
+  </mat-sidenav-content>
+</mat-sidenav-container> -->
+<!-- </amplify-authenticator> -->
