@@ -62,23 +62,14 @@
         </mat-form-field>
       </form>
       <h1 style="flex: 1; padding-top: 20px;">
-        {{ schedule.name + " - Year " + year.level }}
+        {{ scheduleData.schedule.name }}
       </h1>
 
-      <button
-        mat-flat-button
-        class="but"
-        (click)="timetableService.nextOption()"
-      >
+      <button mat-flat-button class="but">
         Settings
       </button>
 
-      <button
-        mat-flat-button
-        color="primary"
-        class="but"
-        (click)="timetableService.createSchedule()"
-      >
+      <button mat-flat-button color="primary" class="but">
         Optimize Schedule
       </button>
     </div>
@@ -94,30 +85,29 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let time of TIMES">
+            <tr *ngFor="let row of slotData; let time = index">
               <td>{{ formatTime(time) }}</td>
               <!-- <td style="background: lightgreen; border-bottom: none;">CSC108H5f</td> -->
-              <ng-container *ngFor="let day of DAYS">
-                <td
-                  *ngIf="getSlotData(day, time); let data"
-                  [ngStyle]="data['style']"
-                >
-                  <p *ngFor="let text of data['texts']; let ind = index">
-                    {{ text }}
-                    <mat-icon
-                      *ngIf="data['conflicts'] && ind % 2 == 0"
-                      style="
-                        float: right;
-                        font-size: 30px;
-                        width: 30px;
-                        height: 30px !important;
-                      "
-                    >
-                      warning
-                    </mat-icon>
-                  </p>
-                </td>
-              </ng-container>
+              <td
+                [ngStyle]="data.style"
+                *ngFor="let data of row; let col = index"
+                (click)="clickSlot(time, col)"
+              >
+                <p *ngFor="let text of data.texts; let ind = index">
+                  {{ text }}
+                  <mat-icon
+                    *ngIf="data.conflicts && ind % 2 == 0"
+                    style="
+                      float: right;
+                      font-size: 30px;
+                      width: 30px;
+                      height: 30px !important;
+                    "
+                  >
+                    warning
+                  </mat-icon>
+                </p>
+              </td>
             </tr>
             <!-- </tbody> -->
           </tbody>

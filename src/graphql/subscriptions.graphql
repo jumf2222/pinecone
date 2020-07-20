@@ -119,11 +119,13 @@ subscription OnCreateSchedule($owner: String!) {
     year
     term
     name
-    courses
-    sections
-    autoLectures
-    autoPraticals
-    autoTutorials
+    courses {
+      courseID
+      autoLecture
+      autoPratical
+      autoTutorial
+    }
+    times
     score
     createdAt
     updatedAt
@@ -136,11 +138,13 @@ subscription OnUpdateSchedule($owner: String!) {
     year
     term
     name
-    courses
-    sections
-    autoLectures
-    autoPraticals
-    autoTutorials
+    courses {
+      courseID
+      autoLecture
+      autoPratical
+      autoTutorial
+    }
+    times
     score
     createdAt
     updatedAt
@@ -153,11 +157,13 @@ subscription OnDeleteSchedule($owner: String!) {
     year
     term
     name
-    courses
-    sections
-    autoLectures
-    autoPraticals
-    autoTutorials
+    courses {
+      courseID
+      autoLecture
+      autoPratical
+      autoTutorial
+    }
+    times
     score
     createdAt
     updatedAt

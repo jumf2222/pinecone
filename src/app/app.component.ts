@@ -1,26 +1,24 @@
-import { Component, Inject } from '@angular/core';
-// import { FormFieldTypes } from '@aws-amplify/ui-components';
-// import { Auth } from 'aws-amplify';
-// import Amplify, { Auth, Hub } from 'aws-amplify';
+import { Component, Inject } from "@angular/core";
+// import { FormFieldTypes } from "@aws-amplify/ui-components";
+// import { Auth } from "aws-amplify";
+// import Amplify, { Auth, Hub } from "aws-amplify";
 
-import { Router } from '@angular/router';
-import { AuthService } from './auth.service';
+import { Router } from "@angular/router";
+import { AuthService } from "./auth.service";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"]
 })
 export class AppComponent {
   // formFields: FormFieldTypes;
-  sideMenu: boolean = false;
-  selectedTab: number = 0;
-
-  links = [{ name: "Home", route: "/" }, { name: "Finder", route: "/finder" }, { name: "Planner", route: "/planner" }, { name: "Preferences", route: "/preferences" }];
+  // sideMenu: boolean = false;
+  // selectedTab: number = 0;
 
   constructor(public router: Router, public authService: AuthService) {
-    router.events.subscribe(() => this.sideMenu = false);
-    console.log(router.url);
+    // router.events.subscribe(() => this.sideMenu = false);
+    // console.log(router.url);
     // this.formFields = [
     //   {
     //     type: "email",

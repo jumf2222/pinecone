@@ -1,16 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { DegreePlannerComponent } from './degree-planner.component';
+import { DegreePlannerComponent } from "./degree-planner.component";
 
-describe('DegreePlannerComponent', () => {
+describe("DegreePlannerComponent", () => {
   let component: DegreePlannerComponent;
   let fixture: ComponentFixture<DegreePlannerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DegreePlannerComponent ]
+      declarations: [DegreePlannerComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('DegreePlannerComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

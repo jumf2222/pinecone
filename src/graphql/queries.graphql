@@ -95,11 +95,13 @@ query GetSchedule($id: ID!) {
     year
     term
     name
-    courses
-    sections
-    autoLectures
-    autoPraticals
-    autoTutorials
+    courses {
+      courseID
+      autoLecture
+      autoPratical
+      autoTutorial
+    }
+    times
     score
     createdAt
     updatedAt
@@ -117,15 +119,89 @@ query ListSchedules(
       year
       term
       name
-      courses
-      sections
-      autoLectures
-      autoPraticals
-      autoTutorials
+      courses {
+        courseID
+        autoLecture
+        autoPratical
+        autoTutorial
+      }
+      times
       score
       createdAt
       updatedAt
       owner
+    }
+    nextToken
+  }
+}
+query ByYearTermCampusCode(
+  $year: String
+  $termCampusCode: ModelCourseByYearTermCampusCodeCompositeKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelCourseFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  byYearTermCampusCode(
+    year: $year
+    termCampusCode: $termCampusCode
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      name
+      code
+      year
+      term
+      campus
+      distributionRequirement
+      description
+      prerequisites
+      exclusions
+      enrollControlsType
+      enrollControls
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+query ByCourseIdCode(
+  $courseID: ID
+  $code: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelSectionFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  byCourseIDCode(
+    courseID: $courseID
+    code: $code
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      courseID
+      sessions {
+        day
+        start
+        end
+        room
+      }
+      syllabus
+      code
+      instructor
+      curEnroll
+      maxEnroll
+      notes
+      createdAt
+      updatedAt
     }
     nextToken
   }

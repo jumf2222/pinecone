@@ -5,54 +5,95 @@
   <!-- <mat-chip-list>
     <mat-chip color="primary" *ngIf="!timetableService.coursesSubject">No courses selected.</mat-chip>
   </mat-chip-list> -->
+
   <div class="scroll">
     <mat-accordion>
-      <ng-container
-        *ngIf="this.timetableService.scheduleSubject | async; let schedule"
+      <mat-expansion-panel
+        *ngFor="let courseOption of scheduleData.schedule.courses"
       >
-        <mat-expansion-panel *ngFor="let course of schedule.courses">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              {{ course.code }}
-            </mat-panel-title>
-            <mat-panel-description>
-              {{ course.name }}
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <div class="relative">
-            <div style="flex: 1;"></div>
-            <button mat-icon-button class="info">
-              <mat-icon>info_outline</mat-icon>
-            </button>
-            <button mat-icon-button class="info">
-              <mat-icon>cancel</mat-icon>
-            </button>
+        <mat-expansion-panel-header
+          *ngIf="scheduleData.courses[courseOption.courseID]; let course"
+          [@panel]
+        >
+          <mat-panel-title>
+            {{ course.code }}
+          </mat-panel-title>
+          <mat-panel-description>
+            {{ course.name }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="relative">
+          <div style="flex: 1;"></div>
+          <button mat-icon-button class="info">
+            <mat-icon>info_outline</mat-icon>
+          </button>
+          <button mat-icon-button class="info">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </div>
+        <ng-container
+          *ngIf="
+            scheduleData.courseSections[courseOption.courseID];
+            let sections
+          "
+        >
+          <div *ngIf="sections.lectures.length > 0">
+            Lectures
+            <div class="section-container">
+              <mat-checkbox
+                (change)="courseOption.autoLecture = $event.checked"
+              >
+                Auto
+              </mat-checkbox>
+              <button
+                mat-flat-button
+                class="section-but"
+                *ngFor="let lec of sections.lectures"
+              >
+                {{ scheduleData.sections[lec].code }}
+              </button>
+            </div>
           </div>
-          <div class="section-container">
-            <button
-              mat-flat-button
-              class="section-but"
-              *ngFor="let lec of course.lectures"
-            >
-              {{ lec.code }}
-            </button>
-            <button
-              mat-flat-button
-              class="section-but"
-              *ngFor="let pra of course.praticals"
-            >
-              {{ pra.code }}
-            </button>
-            <button
-              mat-flat-button
-              class="section-but"
-              *ngFor="let tut of course.tutorials"
-            >
-              {{ tut.code }}
-            </button>
+          <div *ngIf="sections.praticals.length > 0">
+            <mat-divider></mat-divider>
+            Praticals
+            <div class="section-container">
+              <mat-checkbox
+                (change)="courseOption.autoPratical = $event.checked"
+              >
+                Auto
+              </mat-checkbox>
+              <button mat-flat-button class="section-but">Auto</button>
+              <button
+                mat-flat-button
+                class="section-but"
+                *ngFor="let pra of sections.praticals"
+              >
+                {{ scheduleData.sections[pra].code }}
+              </button>
+            </div>
           </div>
-        </mat-expansion-panel>
-      </ng-container>
+          <div *ngIf="sections.tutorials.length > 0">
+            <mat-divider></mat-divider>
+            Tutorials
+            <div class="section-container">
+              <mat-checkbox
+                (change)="courseOption.autoTutorial = $event.checked"
+              >
+                Auto
+              </mat-checkbox>
+              <button mat-flat-button class="section-but">Auto</button>
+              <button
+                mat-flat-button
+                class="section-but"
+                *ngFor="let tut of sections.tutorials"
+              >
+                {{ scheduleData.sections[tut].code }}
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </mat-expansion-panel>
     </mat-accordion>
   </div>
   <!-- <div>

@@ -6,11 +6,11 @@ type Course
       { allow: groups, groups: ["Admin"] }
     ]
   )
-  # @key(
-  #   name: "byYearTermCodeCampus"
-  #   fields: ["year", "term", "code", "campus"]
-  #   queryField: "byYearTermCodeCampus"
-  # )
+  @key(
+    name: "byYearTermCampusCode"
+    fields: ["year", "term", "campus", "code"]
+    queryField: "byYearTermCampusCode"
+  )
   @searchable {
   id: ID!
   name: String
@@ -35,6 +35,11 @@ type Section
       { allow: private, operations: [read] }
       { allow: groups, groups: ["Admin"] }
     ]
+  )
+  @key(
+    name: "byCourseIDCode"
+    fields: ["courseID", "code"]
+    queryField: "byCourseIDCode"
   ) {
   id: ID!
   courseID: ID!
@@ -59,10 +64,14 @@ type Schedule @model @auth(rules: [{ allow: owner }]) {
   year: String
   term: String
   name: String
-  courses: [ID]
-  sections: [ID]
-  autoLectures: [ID]
-  autoPraticals: [ID]
-  autoTutorials: [ID]
+  courses: [CourseOption]
+  times: AWSJSON
   score: Int
+}
+
+type CourseOption {
+  courseID: ID!
+  autoLecture: Boolean
+  autoPratical: Boolean
+  autoTutorial: Boolean
 }

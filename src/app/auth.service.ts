@@ -1,25 +1,28 @@
-import { Injectable } from '@angular/core';
-import { AmplifyService } from 'aws-amplify-angular';
-import Auth, { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
+import { Injectable } from "@angular/core";
+import { AmplifyService } from "aws-amplify-angular";
+import Auth, { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class AuthService {
-  greeting: string;
-  signedIn: boolean;
-  user;
+  greeting = "";
+  signedIn = new BehaviorSubject<boolean | null>(null);
+  user: { username: string } | null = null;
 
   constructor(public amplifyService: AmplifyService) {
     this.amplifyService.authStateChange$
       .subscribe(authState => {
-        this.signedIn = authState.state === 'signedIn';
         if (!authState.user) {
           this.user = null;
         } else {
           this.user = authState.user;
-          this.greeting = "Hello " + this.user.username;
+          if (this.user) {
+            this.greeting = "Hello " + this.user.username;
+          }
         }
+        this.signedIn.next(authState.state === "signedIn");
         console.log("auth", authState);
       });
   }

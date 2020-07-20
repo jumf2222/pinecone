@@ -183,23 +183,23 @@ export type CreateScheduleInput = {
   year?: string | null;
   term?: string | null;
   name?: string | null;
-  courses?: Array<string | null> | null;
-  sections?: Array<string | null> | null;
-  autoLectures?: Array<string | null> | null;
-  autoPraticals?: Array<string | null> | null;
-  autoTutorials?: Array<string | null> | null;
+  courses?: Array<CourseOptionInput | null> | null;
+  times?: string | null;
   score?: number | null;
+};
+
+export type CourseOptionInput = {
+  courseID: string;
+  autoLecture?: boolean | null;
+  autoPratical?: boolean | null;
+  autoTutorial?: boolean | null;
 };
 
 export type ModelScheduleConditionInput = {
   year?: ModelStringInput | null;
   term?: ModelStringInput | null;
   name?: ModelStringInput | null;
-  courses?: ModelIDInput | null;
-  sections?: ModelIDInput | null;
-  autoLectures?: ModelIDInput | null;
-  autoPraticals?: ModelIDInput | null;
-  autoTutorials?: ModelIDInput | null;
+  times?: ModelStringInput | null;
   score?: ModelIntInput | null;
   and?: Array<ModelScheduleConditionInput | null> | null;
   or?: Array<ModelScheduleConditionInput | null> | null;
@@ -211,11 +211,8 @@ export type UpdateScheduleInput = {
   year?: string | null;
   term?: string | null;
   name?: string | null;
-  courses?: Array<string | null> | null;
-  sections?: Array<string | null> | null;
-  autoLectures?: Array<string | null> | null;
-  autoPraticals?: Array<string | null> | null;
-  autoTutorials?: Array<string | null> | null;
+  courses?: Array<CourseOptionInput | null> | null;
+  times?: string | null;
   score?: number | null;
 };
 
@@ -262,15 +259,42 @@ export type ModelScheduleFilterInput = {
   year?: ModelStringInput | null;
   term?: ModelStringInput | null;
   name?: ModelStringInput | null;
-  courses?: ModelIDInput | null;
-  sections?: ModelIDInput | null;
-  autoLectures?: ModelIDInput | null;
-  autoPraticals?: ModelIDInput | null;
-  autoTutorials?: ModelIDInput | null;
+  times?: ModelStringInput | null;
   score?: ModelIntInput | null;
   and?: Array<ModelScheduleFilterInput | null> | null;
   or?: Array<ModelScheduleFilterInput | null> | null;
   not?: ModelScheduleFilterInput | null;
+};
+
+export type ModelCourseByYearTermCampusCodeCompositeKeyConditionInput = {
+  eq?: ModelCourseByYearTermCampusCodeCompositeKeyInput | null;
+  le?: ModelCourseByYearTermCampusCodeCompositeKeyInput | null;
+  lt?: ModelCourseByYearTermCampusCodeCompositeKeyInput | null;
+  ge?: ModelCourseByYearTermCampusCodeCompositeKeyInput | null;
+  gt?: ModelCourseByYearTermCampusCodeCompositeKeyInput | null;
+  between?: Array<ModelCourseByYearTermCampusCodeCompositeKeyInput | null> | null;
+  beginsWith?: ModelCourseByYearTermCampusCodeCompositeKeyInput | null;
+};
+
+export type ModelCourseByYearTermCampusCodeCompositeKeyInput = {
+  term?: string | null;
+  campus?: string | null;
+  code?: string | null;
+};
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC"
+}
+
+export type ModelStringKeyConditionInput = {
+  eq?: string | null;
+  le?: string | null;
+  lt?: string | null;
+  ge?: string | null;
+  gt?: string | null;
+  between?: Array<string | null> | null;
+  beginsWith?: string | null;
 };
 
 export type SearchableCourseFilterInput = {
@@ -475,11 +499,14 @@ export type CreateScheduleMutation = {
   year: string | null;
   term: string | null;
   name: string | null;
-  courses: Array<string | null> | null;
-  sections: Array<string | null> | null;
-  autoLectures: Array<string | null> | null;
-  autoPraticals: Array<string | null> | null;
-  autoTutorials: Array<string | null> | null;
+  courses: Array<{
+    __typename: "CourseOption";
+    courseID: string;
+    autoLecture: boolean | null;
+    autoPratical: boolean | null;
+    autoTutorial: boolean | null;
+  } | null> | null;
+  times: string | null;
   score: number | null;
   createdAt: string;
   updatedAt: string;
@@ -492,11 +519,14 @@ export type UpdateScheduleMutation = {
   year: string | null;
   term: string | null;
   name: string | null;
-  courses: Array<string | null> | null;
-  sections: Array<string | null> | null;
-  autoLectures: Array<string | null> | null;
-  autoPraticals: Array<string | null> | null;
-  autoTutorials: Array<string | null> | null;
+  courses: Array<{
+    __typename: "CourseOption";
+    courseID: string;
+    autoLecture: boolean | null;
+    autoPratical: boolean | null;
+    autoTutorial: boolean | null;
+  } | null> | null;
+  times: string | null;
   score: number | null;
   createdAt: string;
   updatedAt: string;
@@ -509,11 +539,14 @@ export type DeleteScheduleMutation = {
   year: string | null;
   term: string | null;
   name: string | null;
-  courses: Array<string | null> | null;
-  sections: Array<string | null> | null;
-  autoLectures: Array<string | null> | null;
-  autoPraticals: Array<string | null> | null;
-  autoTutorials: Array<string | null> | null;
+  courses: Array<{
+    __typename: "CourseOption";
+    courseID: string;
+    autoLecture: boolean | null;
+    autoPratical: boolean | null;
+    autoTutorial: boolean | null;
+  } | null> | null;
+  times: string | null;
   score: number | null;
   createdAt: string;
   updatedAt: string;
@@ -612,11 +645,14 @@ export type GetScheduleQuery = {
   year: string | null;
   term: string | null;
   name: string | null;
-  courses: Array<string | null> | null;
-  sections: Array<string | null> | null;
-  autoLectures: Array<string | null> | null;
-  autoPraticals: Array<string | null> | null;
-  autoTutorials: Array<string | null> | null;
+  courses: Array<{
+    __typename: "CourseOption";
+    courseID: string;
+    autoLecture: boolean | null;
+    autoPratical: boolean | null;
+    autoTutorial: boolean | null;
+  } | null> | null;
+  times: string | null;
   score: number | null;
   createdAt: string;
   updatedAt: string;
@@ -631,15 +667,65 @@ export type ListSchedulesQuery = {
     year: string | null;
     term: string | null;
     name: string | null;
-    courses: Array<string | null> | null;
-    sections: Array<string | null> | null;
-    autoLectures: Array<string | null> | null;
-    autoPraticals: Array<string | null> | null;
-    autoTutorials: Array<string | null> | null;
+    courses: Array<{
+      __typename: "CourseOption";
+      courseID: string;
+      autoLecture: boolean | null;
+      autoPratical: boolean | null;
+      autoTutorial: boolean | null;
+    } | null> | null;
+    times: string | null;
     score: number | null;
     createdAt: string;
     updatedAt: string;
     owner: string | null;
+  } | null> | null;
+  nextToken: string | null;
+};
+
+export type ByYearTermCampusCodeQuery = {
+  __typename: "ModelCourseConnection";
+  items: Array<{
+    __typename: "Course";
+    id: string;
+    name: string | null;
+    code: string;
+    year: string;
+    term: string;
+    campus: string | null;
+    distributionRequirement: string | null;
+    description: string | null;
+    prerequisites: string | null;
+    exclusions: string | null;
+    enrollControlsType: string | null;
+    enrollControls: Array<string | null> | null;
+    createdAt: string;
+    updatedAt: string;
+  } | null> | null;
+  nextToken: string | null;
+};
+
+export type ByCourseIdCodeQuery = {
+  __typename: "ModelSectionConnection";
+  items: Array<{
+    __typename: "Section";
+    id: string;
+    courseID: string;
+    sessions: Array<{
+      __typename: "Session";
+      day: string | null;
+      start: number | null;
+      end: number | null;
+      room: string | null;
+    } | null> | null;
+    syllabus: string | null;
+    code: string | null;
+    instructor: string | null;
+    curEnroll: number | null;
+    maxEnroll: number | null;
+    notes: string | null;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
 };
@@ -790,11 +876,14 @@ export type OnCreateScheduleSubscription = {
   year: string | null;
   term: string | null;
   name: string | null;
-  courses: Array<string | null> | null;
-  sections: Array<string | null> | null;
-  autoLectures: Array<string | null> | null;
-  autoPraticals: Array<string | null> | null;
-  autoTutorials: Array<string | null> | null;
+  courses: Array<{
+    __typename: "CourseOption";
+    courseID: string;
+    autoLecture: boolean | null;
+    autoPratical: boolean | null;
+    autoTutorial: boolean | null;
+  } | null> | null;
+  times: string | null;
   score: number | null;
   createdAt: string;
   updatedAt: string;
@@ -807,11 +896,14 @@ export type OnUpdateScheduleSubscription = {
   year: string | null;
   term: string | null;
   name: string | null;
-  courses: Array<string | null> | null;
-  sections: Array<string | null> | null;
-  autoLectures: Array<string | null> | null;
-  autoPraticals: Array<string | null> | null;
-  autoTutorials: Array<string | null> | null;
+  courses: Array<{
+    __typename: "CourseOption";
+    courseID: string;
+    autoLecture: boolean | null;
+    autoPratical: boolean | null;
+    autoTutorial: boolean | null;
+  } | null> | null;
+  times: string | null;
   score: number | null;
   createdAt: string;
   updatedAt: string;
@@ -824,11 +916,14 @@ export type OnDeleteScheduleSubscription = {
   year: string | null;
   term: string | null;
   name: string | null;
-  courses: Array<string | null> | null;
-  sections: Array<string | null> | null;
-  autoLectures: Array<string | null> | null;
-  autoPraticals: Array<string | null> | null;
-  autoTutorials: Array<string | null> | null;
+  courses: Array<{
+    __typename: "CourseOption";
+    courseID: string;
+    autoLecture: boolean | null;
+    autoPratical: boolean | null;
+    autoTutorial: boolean | null;
+  } | null> | null;
+  times: string | null;
   score: number | null;
   createdAt: string;
   updatedAt: string;
@@ -1063,11 +1158,14 @@ export class APIService {
           year
           term
           name
-          courses
-          sections
-          autoLectures
-          autoPraticals
-          autoTutorials
+          courses {
+            __typename
+            courseID
+            autoLecture
+            autoPratical
+            autoTutorial
+          }
+          times
           score
           createdAt
           updatedAt
@@ -1096,11 +1194,14 @@ export class APIService {
           year
           term
           name
-          courses
-          sections
-          autoLectures
-          autoPraticals
-          autoTutorials
+          courses {
+            __typename
+            courseID
+            autoLecture
+            autoPratical
+            autoTutorial
+          }
+          times
           score
           createdAt
           updatedAt
@@ -1129,11 +1230,14 @@ export class APIService {
           year
           term
           name
-          courses
-          sections
-          autoLectures
-          autoPraticals
-          autoTutorials
+          courses {
+            __typename
+            courseID
+            autoLecture
+            autoPratical
+            autoTutorial
+          }
+          times
           score
           createdAt
           updatedAt
@@ -1307,11 +1411,14 @@ export class APIService {
           year
           term
           name
-          courses
-          sections
-          autoLectures
-          autoPraticals
-          autoTutorials
+          courses {
+            __typename
+            courseID
+            autoLecture
+            autoPratical
+            autoTutorial
+          }
+          times
           score
           createdAt
           updatedAt
@@ -1340,11 +1447,14 @@ export class APIService {
             year
             term
             name
-            courses
-            sections
-            autoLectures
-            autoPraticals
-            autoTutorials
+            courses {
+              __typename
+              courseID
+              autoLecture
+              autoPratical
+              autoTutorial
+            }
+            times
             score
             createdAt
             updatedAt
@@ -1367,6 +1477,119 @@ export class APIService {
       graphqlOperation(statement, gqlAPIServiceArguments)
     )) as any;
     return <ListSchedulesQuery>response.data.listSchedules;
+  }
+  async ByYearTermCampusCode(
+    year?: string,
+    termCampusCode?: ModelCourseByYearTermCampusCodeCompositeKeyConditionInput,
+    sortDirection?: ModelSortDirection,
+    filter?: ModelCourseFilterInput,
+    limit?: number,
+    nextToken?: string
+  ): Promise<ByYearTermCampusCodeQuery> {
+    const statement = `query ByYearTermCampusCode($year: String, $termCampusCode: ModelCourseByYearTermCampusCodeCompositeKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelCourseFilterInput, $limit: Int, $nextToken: String) {
+        byYearTermCampusCode(year: $year, termCampusCode: $termCampusCode, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
+          __typename
+          items {
+            __typename
+            id
+            name
+            code
+            year
+            term
+            campus
+            distributionRequirement
+            description
+            prerequisites
+            exclusions
+            enrollControlsType
+            enrollControls
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }`;
+    const gqlAPIServiceArguments: any = {};
+    if (year) {
+      gqlAPIServiceArguments.year = year;
+    }
+    if (termCampusCode) {
+      gqlAPIServiceArguments.termCampusCode = termCampusCode;
+    }
+    if (sortDirection) {
+      gqlAPIServiceArguments.sortDirection = sortDirection;
+    }
+    if (filter) {
+      gqlAPIServiceArguments.filter = filter;
+    }
+    if (limit) {
+      gqlAPIServiceArguments.limit = limit;
+    }
+    if (nextToken) {
+      gqlAPIServiceArguments.nextToken = nextToken;
+    }
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <ByYearTermCampusCodeQuery>response.data.byYearTermCampusCode;
+  }
+  async ByCourseIdCode(
+    courseID?: string,
+    code?: ModelStringKeyConditionInput,
+    sortDirection?: ModelSortDirection,
+    filter?: ModelSectionFilterInput,
+    limit?: number,
+    nextToken?: string
+  ): Promise<ByCourseIdCodeQuery> {
+    const statement = `query ByCourseIdCode($courseID: ID, $code: ModelStringKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelSectionFilterInput, $limit: Int, $nextToken: String) {
+        byCourseIDCode(courseID: $courseID, code: $code, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
+          __typename
+          items {
+            __typename
+            id
+            courseID
+            sessions {
+              __typename
+              day
+              start
+              end
+              room
+            }
+            syllabus
+            code
+            instructor
+            curEnroll
+            maxEnroll
+            notes
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }`;
+    const gqlAPIServiceArguments: any = {};
+    if (courseID) {
+      gqlAPIServiceArguments.courseID = courseID;
+    }
+    if (code) {
+      gqlAPIServiceArguments.code = code;
+    }
+    if (sortDirection) {
+      gqlAPIServiceArguments.sortDirection = sortDirection;
+    }
+    if (filter) {
+      gqlAPIServiceArguments.filter = filter;
+    }
+    if (limit) {
+      gqlAPIServiceArguments.limit = limit;
+    }
+    if (nextToken) {
+      gqlAPIServiceArguments.nextToken = nextToken;
+    }
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <ByCourseIdCodeQuery>response.data.byCourseIDCode;
   }
   async SearchCourses(
     filter?: SearchableCourseFilterInput,
@@ -1586,11 +1809,14 @@ export class APIService {
           year
           term
           name
-          courses
-          sections
-          autoLectures
-          autoPraticals
-          autoTutorials
+          courses {
+            __typename
+            courseID
+            autoLecture
+            autoPratical
+            autoTutorial
+          }
+          times
           score
           createdAt
           updatedAt
@@ -1611,11 +1837,14 @@ export class APIService {
           year
           term
           name
-          courses
-          sections
-          autoLectures
-          autoPraticals
-          autoTutorials
+          courses {
+            __typename
+            courseID
+            autoLecture
+            autoPratical
+            autoTutorial
+          }
+          times
           score
           createdAt
           updatedAt
@@ -1636,11 +1865,14 @@ export class APIService {
           year
           term
           name
-          courses
-          sections
-          autoLectures
-          autoPraticals
-          autoTutorials
+          courses {
+            __typename
+            courseID
+            autoLecture
+            autoPratical
+            autoTutorial
+          }
+          times
           score
           createdAt
           updatedAt

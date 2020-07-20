@@ -1,16 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ScheduleOptionsComponent } from './schedule-options.component';
+import { ScheduleOptionsComponent } from "./schedule-options.component";
 
-describe('ScheduleOptionsComponent', () => {
+describe("ScheduleOptionsComponent", () => {
   let component: ScheduleOptionsComponent;
   let fixture: ComponentFixture<ScheduleOptionsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ScheduleOptionsComponent ]
+      declarations: [ScheduleOptionsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('ScheduleOptionsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

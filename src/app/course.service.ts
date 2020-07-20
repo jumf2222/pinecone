@@ -1,19 +1,21 @@
-import { Injectable } from '@angular/core';
-import { Course, Section, Dictionary } from './definitions';
-import { saveAs } from 'file-saver';
-import { binSearchRight, binSearchLeft } from './helpers';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { async } from '@angular/core/testing';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { APIService } from './API.service';
+import { Injectable } from "@angular/core";
+import { Course, Section, Dictionary } from "./definitions";
+import {
+  APIService,
+  ModelSortDirection,
+  ModelCourseFilterInput,
+  ByYearTermCampusCodeQuery,
+  ModelCourseByYearTermCampusCodeCompositeKeyConditionInput
+} from "./API.service";
+import API, { graphqlOperation } from "@aws-amplify/api";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class CourseService {
   year = "2020";
   courses: Dictionary<Course> = {};
+  courseSections: Dictionary<string[]> = {};
   sections: Dictionary<Section> = {};
   // academicSession = ACADEMIC_SESSIONS.PREV;
 
@@ -23,33 +25,13 @@ export class CourseService {
   // coursesDict: Dictionary<Course> = {};
   // searchResult: SearchResult = { query: null, data: [], startKey: null };
   // loaded: boolean = false;
-  // yos = 2; 
+  // yos = 2;
   // api = "nikel";
-  runningSearch = null;
+  // runningSearch = null;
+  // runningSearch = null;
 
-  async getCourse(courseID) {
-    let course = this.courses[courseID];
-    if (!course) {
-      course = await this.apiService.GetCourse(courseID);
-      this.courses[courseID] = course;
-    }
 
-    return course;
-    // coursesSubject
-  }
-
-  async getSection(sectionID) {
-    let section = this.sections[sectionID];
-    if (!section) {
-      section = await this.apiService.GetSection(sectionID);
-      this.sections[sectionID] = section;
-    }
-
-    return section;
-    // coursesSubject
-  }
-
-  constructor(private http: HttpClient, private apiService: APIService) {
+  constructor(private apiService: APIService) {
 
     // let requests = [];
     // for (let i = 0; i < 4; i++) {
@@ -75,13 +57,115 @@ export class CourseService {
     // });
   }
 
+  convertCourseToAWS(course: Course) {
+
+  }
+
+  private async loadCourse(courseID: string) {
+    let course = this.courses[courseID];
+    if (!course) {
+      course = await this.apiService.GetCourse(courseID) as Course;
+      this.courses[courseID] = course;
+    }
+
+    return course;
+  }
+
+  // getCourse(courseID: string) {
+  //   return this.courses[courseID];
+  // }
+
+  async loadCourseSections(courseID: string) {
+    console.log("Sections");
+    let sections = this.courseSections[courseID];
+    if (!sections) {
+      const items = (await this.apiService.ByCourseIdCode(courseID)).items as Section[];
+      sections = [];
+      if (items != null) {
+        for (const item of items) {
+          this.sections[item.id] = item;
+          sections.push(item.id);
+        }
+      }
+
+      this.courseSections[courseID] = sections;
+    }
+
+    return sections;
+  }
+
+  getCourseSections(courseID: string) {
+    return this.courseSections[courseID];
+  }
+
+  async loadSection(sectionID: string) {
+    let section = this.sections[sectionID];
+    if (!section) {
+      section = await this.apiService.GetSection(sectionID) as Section;
+      this.sections[sectionID] = section;
+    }
+
+    return section;
+  }
+
+  getSection(sectionID: string) {
+    return this.sections[sectionID];
+  }
+
+  async ByYearTermCampusCode(
+    year?: string,
+    termCampusCode?: ModelCourseByYearTermCampusCodeCompositeKeyConditionInput,
+    sortDirection?: ModelSortDirection,
+    filterInput?: ModelCourseFilterInput,
+    limit?: number,
+    nextToken?: string
+  ): Promise<ByYearTermCampusCodeQuery> {
+    const statement = `query ByYearTermCampusCode($year: String, $termCampusCode: ModelCourseByYearTermCampusCodeCompositeKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelCourseFilterInput, $limit: Int, $nextToken: String) {
+        byYearTermCampusCode(year: $year, termCampusCode: $termCampusCode, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
+          __typename
+          items {
+            __typename
+            id
+            name
+            code
+          }
+          nextToken
+        }
+      }`;
+    const gqlAPIServiceArguments: any = {};
+    if (year) {
+      gqlAPIServiceArguments.year = year;
+    }
+    if (termCampusCode) {
+      gqlAPIServiceArguments.termCampusCode = termCampusCode;
+    }
+    if (sortDirection) {
+      gqlAPIServiceArguments.sortDirection = sortDirection;
+    }
+    if (filterInput) {
+      gqlAPIServiceArguments.filter = filterInput;
+    }
+    if (limit) {
+      gqlAPIServiceArguments.limit = limit;
+    }
+    if (nextToken) {
+      gqlAPIServiceArguments.nextToken = nextToken;
+    }
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return response.data.byYearTermCampusCode as ByYearTermCampusCodeQuery;
+  }
+
+
   // convertTimeString(time: string): number {
   //   let tokens = time.split(":");
   //   return parseInt(tokens[0]) * 2 + parseInt(tokens[1]) / 30;
   // }
 
   // parseSect(sectElement, course: Course) {
-  //   let sect: Section = { sessions: [], syllabus: "", section: "", instructor: "", curEnroll: null, maxEnroll: null, notes: "", courseCode: course.code };
+  //   let sect: Section = { sessions: [], syllabus: "", section: "", instructor: "",
+  //  curEnroll: null, maxEnroll: null, notes: "", courseCode: course.code };
 
   //   if (sectElement.children[0].children[0])
   //     sect.syllabus = sectElement.children[0].children[0].href;
@@ -264,7 +348,9 @@ export class CourseService {
   //         await fetch(
   //           // "https://cors-anywhere.herokuapp.com/" +
   //           // `https://nikel.ml/api/courses?code=${search}&offset=${result.fullData.length}`,
-  //           `https://1d76a76xbj.execute-api.us-east-2.amazonaws.com/default/courses?code=${search}&term=${term}&limit=${Math.max(skip || 0, 20)}` + (result.startKey ? `&startKeyCode=${result.startKey.code}&startKeyTerm=${result.startKey.term}` : ""),
+  //           `https://1d76a76xbj.execute-api.us-east-2.amazonaws.com/default/courses?code=${search}
+  // &term=${term}&limit=${Math.max(skip || 0, 20)}` + (result.startKey ? `
+  // &startKeyCode=${result.startKey.code}&startKeyTerm=${result.startKey.term}` : ""),
   //           // { cache: "force-cache" }
   //         )
   //       ).json();
@@ -280,7 +366,7 @@ export class CourseService {
   //       result.data.push(...res.Items);
   //     }
   //   }
-  //   // } 
+  //   // }
   //   // else {
   //   //   if (!search) {
   //   //     result.query = "";
@@ -299,7 +385,7 @@ export class CourseService {
 
   //   let start = skip || 0;
   //   let end = (limit ? Math.min(result.data.length, start + limit) : result.data.length);
-  //   // result.data = 
+  //   // result.data =
 
   //   console.log("result", result);
   //   return result.data.slice(start, end);
@@ -310,11 +396,10 @@ export class CourseService {
   // }
 
   // downloadCourses() {
-  //   // saveAs(new Blob([JSON.stringify(this.coursesListSubject.value)], { type: "application/json" }), `${this.year}${this.academicSession}${this.yos}.json`);
+  //   // saveAs(new Blob([JSON.stringify(this.coursesListSubject.value)],
+  //  { type: "application/json" }), `${this.year}${this.academicSession}${this.yos}.json`);
   // }
 }
 
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+

@@ -3,6 +3,12 @@
     Pinecone
   </a>
   <span class="example-spacer"></span>
+  <button
+    (click)="authService.signIn()"
+    *ngIf="!(authService.signedIn | async)"
+  >
+    Sign in with Google
+  </button>
   <nav mat-tab-nav-bar>
     <a
       mat-tab-link

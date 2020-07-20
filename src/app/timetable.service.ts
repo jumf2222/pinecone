@@ -1,14 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Course, Section, Schedule, DAY_CODES } from './definitions';
-import { Subject, BehaviorSubject } from 'rxjs';
-// import { MeetingSession } from './definitions'
-import { DegreeService } from './degree.service';
-import { Session } from 'protractor';
-import { APIService } from './API.service';
-import { CourseService } from './course.service';
+import { Injectable } from "@angular/core";
+import { Course, Section, Schedule, DAY_CODES, ScheduleData, CourseSection } from "./definitions";
+import { Subject, BehaviorSubject } from "rxjs";
+// import { MeetingSession } from "./definitions"
+import { APIService } from "./API.service";
+import { CourseService } from "./course.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class TimetableService {
 
@@ -16,283 +14,205 @@ export class TimetableService {
   // sessionSubject = this.degreeService.activeSessionSubject;
   // courses: Course[];
   // coursesSubject = new BehaviorSubject<Course[]>(null);
-  scheduleSubject = new BehaviorSubject<Schedule>(null);
-  settings = { allowFull: true, scheduleCount: 10 };
-  schedule: Schedule;
-  scheduleOptions: Schedule[] = [];
-  scheduleOptionsInd: number = -1;
-  scheduleCount: number = 0;
+  scheduleData: ScheduleData = {
+    courses: {},
+    sections: {},
+    conflicts: {},
+    courseSections: {},
+    schedule: {
+      id: "100",
+      year: "2020",
+      term: "F",
+      name: "2020 - Fall",
+      courses: [],
+      score: 0,
+      times: {}
+    }
+  };
 
-  constructor(private degreeService: DegreeService, private courseService: CourseService, private apiService: APIService) {
+  scheduleSubject = new BehaviorSubject<ScheduleData>(this.scheduleData);
+  // settings = { allowFull: true, scheduleCount: 10 };
+  // // scheduleOptions: Schedule[] = [];
+  // // scheduleOptionsInd = -1;
+  // // scheduleCount = 0;
+
+  constructor(private courseService: CourseService, private apiService: APIService) {
   }
 
-  setSession(schedule: Schedule) {
-    // this.schedule.courses = schedule.courses;
-    // this.schedule.coursesSubject.next(this.schedule.courses);
-
-    // if (!session)
-    //   session.data = { sections: [], times: {}, score: 0, conflicts: [] };
-
-    this.schedule = schedule;
-    this.scheduleSubject.next(this.schedule);
-  }
-
-  async setScheduleByID(id: string) {
-    try {
-      this.schedule = await this.apiService.GetSchedule(id);
-    } catch (error) {
-      this.schedule = {
+  async setScheduleByID(id: string | null) {
+    this.scheduleData = {
+      courses: {},
+      sections: {},
+      conflicts: {},
+      courseSections: {},
+      schedule: {
         id: "100",
         year: "2020",
         term: "F",
         name: "2020 - Fall",
         courses: [],
-        sections: [],
-        autoLectures: [],
-        autoPraticals: [],
-        autoTutorials: [],
-        score: null
+        score: 0,
+        times: {}
       }
-    }
-  }
+    };
 
-  async selectCourse(course: Course) {
-    if (this.schedule.courses.length >= 6) return;
+    try {
+      if (id === null) { throw new Error("No ID"); }
+      const data = await this.apiService.GetSchedule(id);
+      this.scheduleData.schedule = { ...data, times: JSON.parse(data.times || ""), conflicts: [] } as Schedule;
+    } catch (error) { }
 
-    for (let c of this.schedule.courses) {
-      if (c?.code === course.code) {
-        return;
-      }
-    }
-
-    course = await this.courseService.getCourse(course.id);
-
-    this.schedule.courses.push(course);
-    // this.schedule.coursesSubject.next(this.schedule.courses);
-
-    let lec = course.lectures[0];
-    if (lec) this.addSection(this.schedule, lec);
-
-    let pra = course.praticals[0];
-    if (pra) this.addSection(this.schedule, pra);
-
-    let tut = course.tutorials[0];
-    if (tut) this.addSection(this.schedule, tut);
-
-    this.scheduleSubject.next(this.schedule);
-  }
-
-  removeCourse(course: Course): void {
-
-    for (let i = this.schedule.sections.length - 1; i > -1; i--) {
-      const element = this.schedule.sections[i];
-      if (element.courseID === course.id)
-        this.removeSection(this.schedule, element);
+    // Load data
+    for (const courseOption of this.scheduleData.schedule.courses) {
+      this.scheduleData.courses[courseOption.courseID] = await this.apiService.GetCourse(courseOption.courseID) as Course;
+      await this.loadSections(courseOption.courseID);
     }
 
-    let ind = this.schedule.courses.findIndex(a => a.code === course.code);
-    if (ind === -1) return;
-
-    this.schedule.courses.splice(ind, 1);
-    console.log(this.schedule);
-    this.scheduleSubject.next(this.schedule);
-  }
-
-  removeSection(schedule: Schedule, newSect: Section): void {
-
-    let ind = this.schedule.sections.findIndex(a => a.code === newSect.code);
-    console.log("new sect", newSect, ind);
-    if (ind === -1) return;
-
-    schedule.sections = schedule.sections.splice(ind, 1);
-    for (const newSess of newSect.sessions) {
-      console.log("sess", newSess);
-
-      let day = schedule.times[newSess.day];
-      for (let i = newSess.start; i < newSess.end; i++) {
-        if (!day[i]) continue;
-
-        console.log("index", day[i].findIndex(a => a === newSect));
-        day[i].splice(day[i].findIndex(a => a === newSect), 1);
-        if (day[i].length === 0) {
-          day[i] = undefined;
-          // console.log("deleted");
-        }
-      }
-    }
-  }
-
-  isConflicting(schedule: Schedule, newSect: Section): boolean {
-    for (const newSess of newSect.sessions) {
-      let day = schedule.times[newSess.day];
-      if (day === undefined) continue;
-
-      for (let i = newSess.start; i < newSess.end; i++) {
-        if (day[i]) return true;
-      }
-    }
-    return false;
-  }
-
-  addSection(schedule: Schedule, newSect: Section): void {
-    schedule.sections.push(newSect);
-    for (const newSess of newSect.sessions) {
-
-      if (!schedule.times[newSess.day]) schedule.times[newSess.day] = {};
-      let day = schedule.times[newSess.day];
-
-      for (let i = newSess.start; i < newSess.end; i++) {
-        if (day[i])
-          schedule.conflicts.push(newSect);
-        else
-          day[i] = [];
-
-        day[i].push(newSect);
-      }
-    }
-  }
-
-  popSection(schedule: Schedule, newSect: Section): void {
-    schedule.sections.pop();
-    for (const newSess of newSect.sessions) {
-
-      let day = schedule.times[newSess.day];
-      for (let i = newSess.start; i < newSess.end; i++) {
-        day[i].pop();
-        if (day[i].length === 0) {
-          day[i] = undefined;
-          // console.log("deleted");
-        }
-      }
-    }
-  }
-
-  scoreSchedule(schedule: Schedule): void {
-    this.scheduleCount++;
-
-    let total = 0;
-    for (let day of DAY_CODES) {
-      let begin = 100;
-      let end = 0;
-      let dayTotal = 0;
-
-      if (day in schedule.times) {
-        let dayTimes = schedule.times[day];
-        for (let timeString in dayTimes) {
-          if (dayTimes[timeString]) {
-            let time = parseInt(timeString);
-            if (time < begin) begin = time;
-            if (time > end) end = time;
-            dayTotal++;
+    // Populate conflicts
+    for (const day of Object.keys(this.scheduleData.schedule.times)) {
+      const dayTimes = this.scheduleData.schedule.times[day];
+      for (const time of Object.keys(dayTimes)) {
+        if (this.scheduleData.schedule.times[day][time].length > 1) {
+          for (const section of this.scheduleData.schedule.times[day][time]) {
+            if (section != null) {
+              this.scheduleData.conflicts[section] = true;
+            }
           }
         }
       }
-
-      if (begin >= end) {
-        total += 18;
-      } else {
-        total -= (end - begin + 1) - dayTotal;
-      }
     }
+    this.scheduleData.schedule.times.MO = { 1: [null], 2: [null] };
 
-    schedule.score = total;
+    this.scheduleData = this.scheduleData;
+    this.updateSchedule();
   }
 
-  copySchedule(schedule: Schedule): Schedule {
-    // return JSON.parse(JSON.stringify(schedule));
-    // console.log("done", JSON.parse(JSON.stringify(schedule)));
-
-    // return JSON.parse(JSON.stringify(schedule));
-
-    let tempDays = {};
-
-    for (let day in schedule.times) {
-      let hasData = false;
-      let tempDay = {};
-
-      for (let time in schedule.times[day]) {
-        let section = schedule.times[day][time];
-        if (!section) continue;
-        hasData = true;
-        tempDay[time] = [...section];
-      }
-
-      if (hasData) tempDays[day] = tempDay;
-    }
-
-    return { courses: [...schedule.courses], term: schedule.term, name: schedule.name, sections: [...schedule.sections], times: tempDays, score: schedule.score, conflicts: [...schedule.conflicts] };
+  updateSchedule() {
+    this.scheduleSubject.next(this.scheduleData);
   }
 
-  addCourse(schedule: Schedule, output: Schedule[], index: number = 0, type: number = 0) {
-    if (type > 2) {
-      this.scoreSchedule(schedule);
+  async loadSections(courseID: string) {
+    const sections = (await this.apiService.ByCourseIdCode(courseID)).items;
 
-      for (let i = 0; i < output.length; i++) {
-        if (output[i].score < schedule.score) {
-          output.splice(i, 0, this.copySchedule(schedule));
-          if (output.length > this.settings.scheduleCount) output.pop();
-          return;
+    const courseSections: CourseSection = {
+      lectures: [],
+      praticals: [],
+      tutorials: []
+    };
+
+    if (sections) {
+      for (const section of sections) {
+        if (section) {
+          if (section.code?.startsWith("LEC")) {
+            courseSections.lectures.push(section.id);
+          } else if (section.code?.startsWith("PRA")) {
+            courseSections.praticals.push(section.id);
+          } else if (section.code?.startsWith("TUT")) {
+            courseSections.tutorials.push(section.id);
+          }
+
+          this.scheduleData.sections[section.id] = section as Section;
         }
       }
-
-      if (output.length < this.settings.scheduleCount) output.push(this.copySchedule(schedule));
-      return;
     }
 
-    if (index >= this.schedule.courses.length) {
-      this.addCourse(schedule, output, 0, type + 1);
-      return;
-    }
-
-    let data = this.schedule.courses[index].lectures;
-    if (type === 1) data = this.schedule.courses[index].tutorials;
-    else if (type === 2) data = this.schedule.courses[index].praticals;
-
-    if (data.length === 0) {
-      this.addCourse(schedule, output, index + 1, type);
-      return;
-    }
-
-    for (let lec of data) {
-      if (lec.sessions.length === 0) continue;
-      if (!this.settings.allowFull && lec.curEnroll >= lec.maxEnroll) continue;
-
-      if (this.isConflicting(schedule, lec)) continue;
-      // await sleep(0);
-      this.addSection(schedule, lec);
-      this.addCourse(schedule, output, index + 1, type);
-      this.popSection(schedule, lec);
-    }
+    this.scheduleData.courseSections[courseID] = courseSections;
   }
 
-  createSchedule(): void {
-    let schedule: Schedule = { name: this.schedule.name, term: this.schedule.term, courses: [], sections: [], times: {}, score: 0, conflicts: [] };
-    let output = [];
-    this.scheduleCount = 0;
-    let start = Date.now();
-    this.addCourse(schedule, output);
+  async selectCourse(course: Course) {
+    if (this.scheduleData.schedule.courses.length >= 6 ||
+      this.scheduleData.courseSections[course.id]) { return; }
 
-    if (output.length === 0) {
-      console.log("No Possible Schedules!");
-    } else {
-      console.log("New schedules:", output);
-      console.log(`Found ${this.scheduleCount} possible schdules in ${(Date.now() - start) / 1000}s!`);
-      this.scheduleOptions = output;
-      this.nextOption();
-    }
+    this.scheduleData.schedule.courses.push({
+      courseID: course.id,
+      autoLecture: true,
+      autoPratical: true,
+      autoTutorial: true
+    });
 
+    this.scheduleData.courses[course.id] = course;
+    await this.loadSections(course.id);
+    // this.schedule.coursesSubject.next(this.schedule.courses);
+
+    // let lec = course.lectures[0];
+    // if (lec) this.addSection(this.schedule, lec);
+
+    // let pra = course.praticals[0];
+    // if (pra) this.addSection(this.schedule, pra);
+
+    // let tut = course.tutorials[0];
+    // if (tut) this.addSection(this.schedule, tut);
+
+    // this.scheduleSubject.next(this.scheduleData);
+    this.updateSchedule();
   }
 
-  nextOption() {
-    if (this.scheduleOptions.length === 0) return;
+  // setSession(schedule: Schedule) {
+  //   // this.schedule.courses = schedule.courses;
+  //   // this.schedule.coursesSubject.next(this.schedule.courses);
 
-    this.scheduleOptionsInd += 1;
-    if (this.scheduleOptionsInd < 0) this.scheduleOptionsInd = 0;
-    if (this.scheduleOptionsInd >= this.scheduleOptions.length) this.scheduleOptionsInd -= this.scheduleOptions.length;
+  //   // if (!session)
+  //   //   session.data = { sections: [], times: {}, score: 0, conflicts: [] };
 
-    this.schedule = this.scheduleOptions[this.scheduleOptionsInd];
-    // this.session.data[0] = this.schedule;
-    this.scheduleSubject.next(this.schedule);
-  }
+  //   this.schedule = schedule;
+  //   this.scheduleSubject.next(this.schedule);
+  // }
+
+  // removeCourse(course: Course): void {
+
+  //   for (let i = this.schedule.sections.length - 1; i > -1; i--) {
+  //     const element = this.schedule.sections[i];
+  //     if (element.courseID === course.id)
+  //       this.removeSection(this.schedule, element);
+  //   }
+
+  //   let ind = this.schedule.courses.findIndex(a => a.code === course.code);
+  //   if (ind === -1) return;
+
+  //   this.schedule.courses.splice(ind, 1);
+  //   console.log(this.schedule);
+  //   this.scheduleSubject.next(this.schedule);
+  // }
+
+
+
+  // createSchedule(): void {
+  //   let schedule: Schedule = {
+  //     name: this.schedule.name,
+  //     term: this.schedule.term,
+  //     courses: [],
+  //     sections: [],
+  //     times: {},
+  //     score: 0,
+  //     conflicts: []
+  //   };
+  //   let output = [];
+  //   this.scheduleCount = 0;
+  //   let start = Date.now();
+  //   this.addCourse(schedule, output);
+
+  //   if (output.length === 0) {
+  //     console.log("No Possible Schedules!");
+  //   } else {
+  //     console.log("New schedules:", output);
+  //     console.log(`Found ${this.scheduleCount} possible schdules in ${(Date.now() - start) / 1000}s!`);
+  //     this.scheduleOptions = output;
+  //     this.nextOption();
+  //   }
+
+  // }
+
+  // nextOption() {
+  //   if (this.scheduleOptions.length === 0) return;
+
+  //   this.scheduleOptionsInd += 1;
+  //   if (this.scheduleOptionsInd < 0) this.scheduleOptionsInd = 0;
+  //   if (this.scheduleOptionsInd >= this.scheduleOptions.length) this.scheduleOptionsInd -= this.scheduleOptions.length;
+
+  //   this.schedule = this.scheduleOptions[this.scheduleOptionsInd];
+  //   // this.session.data[0] = this.schedule;
+  //   this.scheduleSubject.next(this.schedule);
+  // }
+
 }
 

@@ -1,23 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { CourseService } from '../course.service';
-import { Course, Dictionary } from '../definitions';
-// import { Datasource } from 'ngx-ui-scroll';
-import { map, startWith, debounceTime, mergeMap, skipUntil, last, filter } from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
-import { FormControl } from '@angular/forms';
-import { binSearchLeft, binSearchRight } from '../helpers';
+import { Component, OnInit } from "@angular/core";
+import { CourseService } from "../course.service";
+import { Course, Dictionary } from "../definitions";
+// import { Datasource } from "ngx-ui-scroll";
+import { map, startWith, debounceTime, mergeMap, skipUntil, last, filter } from "rxjs/operators";
+import { combineLatest } from "rxjs";
+import { FormControl } from "@angular/forms";
+// import { binSearchLeft, binSearchRight } from "../helpers";
 
 
 @Component({
-  selector: 'app-courses',
-  templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.scss']
+  selector: "app-courses",
+  templateUrl: "./courses.component.html",
+  styleUrls: ["./courses.component.scss"]
 })
 export class CoursesComponent implements OnInit {
-  openItems: Dictionary<{ height: string, timeout?}> = {};
-  myControl = new FormControl();
-  // courses: Course[] = [];
-  activeItem: string;
+  // openItems: Dictionary<{ height: string, timeout?}> = {};
+  // myControl = new FormControl();
+  // // courses: Course[] = [];
+  // activeItem: string;
   // datasource = new Datasource({
   //   get: (index, count, success) => {
   //     this.courseService.search(this.myControl.value, "2020F", index, count).then(data => success(data));
@@ -36,7 +36,7 @@ export class CoursesComponent implements OnInit {
     // this.myControl.valueChanges
     //   .pipe(
     //     debounceTime(300),
-    //     startWith(''),
+    //     startWith(""),
     //     // mergeMap(([query, courses]) => this.courseService.search(query, 0, 1))
     //   ).subscribe((data) => {
     //     // this.datasource.settings.maxIndex = data.fullData.length;
@@ -44,17 +44,17 @@ export class CoursesComponent implements OnInit {
     //     // console.log(data);
     //   });
 
-    // this.myControl.setValue('');
+    // this.myControl.setValue("");
   }
 
-  formatAvailibility(item: Course) {
-    let output = "Availiblity: ";
-    // if (item.fillPercent === 0) output += "Empty";
-    // else if (item.fillPercent === 1) output += "Full";
-    // else output += (item.fillPercent * 100).toFixed(0) + "% Full";
+  // formatAvailibility(item: Course) {
+  //   let output = "Availiblity: ";
+  //   // if (item.fillPercent === 0) output += "Empty";
+  //   // else if (item.fillPercent === 1) output += "Full";
+  //   // else output += (item.fillPercent * 100).toFixed(0) + "% Full";
 
-    return output
-  }
+  //   return output
+  // }
 
   ngOnInit(): void {
   }

@@ -140,11 +140,13 @@ mutation CreateSchedule(
     year
     term
     name
-    courses
-    sections
-    autoLectures
-    autoPraticals
-    autoTutorials
+    courses {
+      courseID
+      autoLecture
+      autoPratical
+      autoTutorial
+    }
+    times
     score
     createdAt
     updatedAt
@@ -160,11 +162,13 @@ mutation UpdateSchedule(
     year
     term
     name
-    courses
-    sections
-    autoLectures
-    autoPraticals
-    autoTutorials
+    courses {
+      courseID
+      autoLecture
+      autoPratical
+      autoTutorial
+    }
+    times
     score
     createdAt
     updatedAt
@@ -180,11 +184,13 @@ mutation DeleteSchedule(
     year
     term
     name
-    courses
-    sections
-    autoLectures
-    autoPraticals
-    autoTutorials
+    courses {
+      courseID
+      autoLecture
+      autoPratical
+      autoTutorial
+    }
+    times
     score
     createdAt
     updatedAt

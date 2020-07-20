@@ -1,13 +1,25 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { CourseService } from '../course.service';
-import { Course } from '../definitions';
-import { TimetableService } from '../timetable.service';
-// import { IDatasource, Datasource } from 'ngx-ui-scroll';
+import { Component, OnInit, ElementRef, ChangeDetectorRef, Input } from "@angular/core";
+import { CourseService } from "../course.service";
+import { Course, Schedule, ScheduleData } from "../definitions";
+import { TimetableService } from "../timetable.service";
+import { transition, animate, style, trigger, animateChild } from "@angular/animations";
+// import { IDatasource, Datasource } from "ngx-ui-scroll";
 
 @Component({
-  selector: 'app-course-list',
-  templateUrl: './course-list.component.html',
-  styleUrls: ['./course-list.component.scss']
+  selector: "app-course-list",
+  templateUrl: "./course-list.component.html",
+  styleUrls: ["./course-list.component.scss"],
+  animations: [
+    trigger("panel", [
+      transition(":enter", [
+        style({ height: 0 }),
+        animate("100ms ease", style({ height: "48px" }))
+      ]),
+      transition(":leave", [
+        animate("100ms ease", style({ height: 0 }))
+      ])
+    ])
+  ]
 })
 export class CourseListComponent implements OnInit {
   // openItems = {};
@@ -24,8 +36,10 @@ export class CourseListComponent implements OnInit {
   //     startIndex: 0,
   //   }
   // });
+  scheduleData: ScheduleData;
 
-  constructor(public timetableService: TimetableService) {
+  constructor(public timetableService: TimetableService, public courseService: CourseService) {
+    this.scheduleData = this.timetableService.scheduleSubject.value;
     // this.timetableService.coursesSubject.subscribe(data => {
     //   if (data) {
     //     this.datasource.settings.maxIndex = data.length;
@@ -84,13 +98,24 @@ export class CourseListComponent implements OnInit {
   // }
 
   ngOnInit(): void {
+    // getCourses(this.scheduleData?.courses)
+    this.timetableService.scheduleSubject.subscribe(async schedule => {
+      if (!schedule) { return; }
 
+      // for (const course of Object.keys(schedule.courses)) {
 
+      // }
+
+      console.log("new", schedule);
+
+      this.scheduleData = schedule;
+    });
   }
 
   formatCode(code: string) {
     return code.substring(0, 3) + " " + code.substring(3, code.length - 1) + " " + code.substring(code.length - 1);
   }
+
   getCode(code: string, index: number) {
     return this.formatCode(code).split(" ")[index];
   }
@@ -99,7 +124,6 @@ export class CourseListComponent implements OnInit {
   //   console.log(`scrolling to ${id}`);
   //   // event.stopPropagation();
   //   // let el = document.getElementById(id);
-  //   // el.scrollIntoView({ behavior: 'smooth' });
+  //   // el.scrollIntoView({ behavior: "smooth" });
   // }
-
 }
