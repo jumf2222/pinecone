@@ -134,3 +134,34 @@
     display: none;
   }
 }
+
+nav a {
+  width: auto;
+  display: inline-block;
+  position: relative;
+  line-height: 64px;
+  height: 64px;
+  padding: 0px 40px;
+}
+
+.active-nav {
+  text-decoration: none;
+  padding: 0px, 30px;
+
+}
+
+.top-bar {
+  height: 0px;
+  position: absolute;
+  top: 0px;
+  left: 40px;
+  right: 40px;
+  // width: 100%;
+  background: #ff8de6;
+  transition: height 0.2s ease;
+}
+
+.active-nav > .top-bar {
+  height: 6px;
+  
+}

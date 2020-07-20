@@ -3,19 +3,24 @@
     Pinecone
   </a>
   <span class="example-spacer"></span>
-  <button
-    (click)="authService.signIn()"
-    *ngIf="!(authService.signedIn | async)"
-  >
+  <button (click)="authService.signIn()" *ngIf="!(authService.signedIn | async)">
     Sign in with Google
   </button>
-  <nav mat-tab-nav-bar>
-    <a
-      mat-tab-link
-      *ngFor="let link of links"
-      [routerLink]="link.route"
-      [active]="router.url === link.route"
-    >
+  <!-- <nav mat-tab-nav-bar>
+    <a mat-tab-link *ngFor="let link of links" [routerLink]="link.route" [active]="router.url === link.route">
+      {{ link.name }}
+    </a>
+  </nav>
+  <button (click)="sideMenu = !sideMenu" class="hamburger-btn">
+    <div class="bar" [class]="sideMenu ? 'active' : ''"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </button> -->
+
+  <nav>
+    <a *ngFor="let link of links" [routerLink]="link.route" [ngClass]="router.url === link.route ? 'active-nav' : '' ">
+      <div class="top-bar">
+      </div>
       {{ link.name }}
     </a>
   </nav>
@@ -24,4 +29,5 @@
     <div class="bar"></div>
     <div class="bar"></div>
   </button>
+
 </mat-toolbar>

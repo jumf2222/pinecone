@@ -132,6 +132,7 @@ body {
   font-family: "Open Sans", "Helvetica Neue", sans-serif;
   color: #222222;
   font-size: 12px;
+
 }
 
 .mat-tab-labels .mat-tab-label {
@@ -171,3 +172,38 @@ $config: (
 button:focus {
   outline: none;
 }
+
+[_nghost-c5] {
+  display: inline-block !important;
+  width: 100%;
+}
+.mat-tab-link-active,
+.mat-tab-label-active {
+  background-color: #5EADB0;
+  color: #D5FEFF;
+  // border: 1px solid #6B7F7F;
+  font-weight: bold;
+}
+
+.mat-tab-link,
+.mat-tab-label {
+  line-height: 30px !important;
+  height: 64px !important;
+  // min-width: 100px !important;
+  // border: 1px solid #7e7e7e;
+}
+
+.tabContentContainer {
+  // border: 1px solid #aaaaaa;
+  background: #ffffff 50% 50% repeat-x;
+}
+
+// nav {
+//   border-bottom: none !important;
+// }
+
+// .mat-ink-bar {
+//   height: 8px !important;
+//   bottom: none;
+//   top: 0px;
+// }
