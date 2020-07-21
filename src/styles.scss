@@ -207,3 +207,11 @@ nav {
   bottom: none;
   top: 0px;
 }
+
+::-moz-selection { /* Code for Firefox */
+  background: #ffff00;
+}
+
+::selection {
+  background: #ffff00;
+}
