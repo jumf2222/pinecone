@@ -13,10 +13,10 @@ export class NavBarComponent implements OnInit {
   selectedTab = 0;
 
   links = [
-    { name: "Home", route: "/" },
-    { name: "Finder", route: "/finder" },
-    { name: "Planner", route: "/planner" },
-    { name: "Preferences", route: "/preferences" }
+    { name: "Dashboard", route: "/" },
+    { name: "Course Finder", route: "/finder" },
+    { name: "Timetable", route: "/planner" },
+    { name: "Settings", route: "/preferences" }
   ];
   constructor(public router: Router, public authService: AuthService, public mediaMatcher: MediaMatcher) { }
 

@@ -8,33 +8,108 @@
   position: sticky;
   top: 0px;
   z-index: 2;
-  // left: 0px;
-  // width: 100%;
-}
-
-// a {
-//   color: #ababab;
-//   font-size: 24px;
-//   text-decoration: none;
-//   transition: color ease-in 0.2s;
-// }
-
-// a:hover {
-//   color: #222222;
-// }
-
-.header {
-  padding: 10px;
+  padding: 0px 25px;
   background: #ffffff;
-  height: 40px;
-  box-shadow: 0px 2px 5px #2222224f;
-  display: flex;
-  width: 100vw;
-  position: fixed;
-  top: 0px;
-  z-index: 2;
 }
 
+// NAVBAR RIGHT
+nav a {
+  width: auto;
+  display: inline-block;
+  position: relative;
+  line-height: 64px;
+  height: 64px;
+  padding: 0px 40px;
+  font-size: 16px;
+  text-decoration: none;
+  color: #919EAB;
+  transition: color ease-in 0.2s;
+  font-weight: 600;
+}
+
+.active-nav {
+  text-decoration: underline;
+  padding: 0px, 30px;
+  color: #476098 !important;
+
+}
+
+.top-bar {
+  height: 0px;
+  position: absolute;
+  top: 0px;
+  left: 40px;
+  right: 40px;
+  background: #476098;
+  transition: height 0.2s ease;
+}
+
+.active-nav > .top-bar {
+  height: 5px;
+}
+
+// PINECONE LOGO
+.logo {
+  font-size: 30px;
+  text-decoration: none;
+  background: #CA4246;
+  background-color: #CA4246;
+  background: conic-gradient(
+    #CA4246 16.666%, 
+    #E16541 16.666%, 
+    #E16541 33.333%, 
+    #F18F43 33.333%, 
+    #F18F43 50%, 
+    #8B9862 50%, 
+    #8B9862 66.666%, 
+    #476098 66.666%, 
+    #476098 83.333%, 
+    #A7489B 83.333%);
+  
+  background-size: 57%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  
+  animation: rainbow-text-animation-rev 0.5s ease forwards;
+  cursor: pointer;
+}
+
+.logo:hover {
+  animation: rainbow-text-animation 0.5s ease forwards;
+}
+
+@keyframes rainbow-text-animation {
+  0% {
+    background-size: 57%;
+    background-position: 0 0;
+  }
+  20% {
+    background-size: 57%;
+    background-position: 0 1em;
+  }
+  100% {
+    background-size: 400%;
+    background-position: -9em 1em;
+  }
+}
+
+@keyframes rainbow-text-animation-rev {
+  0% {
+    background-size: 400%;
+    background-position: -9em 1em;
+  }
+  20% {
+    background-size: 40%;
+    background-position: 0 1em;
+  }
+  100% {
+    background-size: 40%;
+    background-position: 0 0;
+  }
+}
+
+// MOBILE NAVBAR
 .hamburger-btn {
   height: 40px;
   background: none;
@@ -45,7 +120,7 @@
   width: 26px;
   height: 4px;
   margin: 5px 0px;
-  background: #222222;
+  background: #E16541;
   transition: all 0.3s ease;
   display: none;
 }
@@ -59,9 +134,9 @@
   flex: 1 1 auto;
 }
 
-// .active + div + div {
-//   transform: rotate(45deg);
-// }
+.active + div + div {
+  transform: rotate(45deg);
+}
 
 .active + div + div {
   transform: translate(-3px, -5px) rotate(45deg);
@@ -78,21 +153,8 @@
   top: 15px;
 }
 
-.logo {
-  margin-left: 20px;
-  // display: inline;
-  // align-items: center;
-  // margin-top: 8px;
-  font-size: 34px;
-}
-
-.logo:visited {
-  color: #222222;
-  text-decoration: none;
-}
-
 .menu-option {
-  color: white;
+  color: #222222;
   display: block;
   font-size: 20px;
   height: 20px;
@@ -104,7 +166,7 @@
   padding: 5px;
   left: 0px;
   top: 60px;
-  // z-index: 4;
+  z-index: 4;
   height: calc(100vh - 60px);
   width: 100%;
   background: #222222;
@@ -127,41 +189,10 @@
 @media only screen and (max-width: 767px) {
   .logo {
     margin: 0 auto;
-    padding-right: 48px;
-    margin-top: 6px;
+    // padding-right: 48px;
+    // margin-top: 6px;
   }
   nav {
     display: none;
   }
-}
-
-nav a {
-  width: auto;
-  display: inline-block;
-  position: relative;
-  line-height: 64px;
-  height: 64px;
-  padding: 0px 40px;
-}
-
-.active-nav {
-  text-decoration: none;
-  padding: 0px, 30px;
-
-}
-
-.top-bar {
-  height: 0px;
-  position: absolute;
-  top: 0px;
-  left: 40px;
-  right: 40px;
-  // width: 100%;
-  background: #ff8de6;
-  transition: height 0.2s ease;
-}
-
-.active-nav > .top-bar {
-  height: 6px;
-  
 }
