@@ -29,8 +29,8 @@ export class ScheduleComponent implements OnInit {
   filteredCourses: Course[] = [];
   courses: Course[] = [];
   height = "";
-  // start = 16;
-  // end = 44;
+  start = 16;
+  end = 44;
 
   // filteredOptions: Course[];
   scheduleData: ScheduleData;
@@ -162,7 +162,7 @@ export class ScheduleComponent implements OnInit {
 
     for (const sect of sections) {
       if (sect && this.scheduleData.conflicts[sect]) {
-        data.style = { background: "#4A4A4A", color: "#FFBB00", borderTop: extend ? "none" : "" };
+        data.style = { background: "#4A4A4A", color: "#FFBB00", borderTop: extend ? "1px solid transparent" : "" };
         data.conflicts = true;
         data.texts = outputStrings;
         return;
@@ -170,14 +170,14 @@ export class ScheduleComponent implements OnInit {
     }
 
     if (!sections[0]) {
-      data.style = { background: "grey", "border-top": extend ? "none" : "" };
+      data.style = { background: "grey", "border-top": extend ? "1px solid transparent" : "" };
       data.conflicts = false;
       data.texts = outputStrings;
     } else {
       const section = this.scheduleData.sections[sections[0]];
       let type = section.code.startsWith("LEC") ? 0 : 1;
       type = this.scheduleData.schedule.courses.findIndex(a => a.courseID === section.courseID) * 2 + type;
-      data.style = { background: this.COLOURS[type], borderTop: extend ? "none" : "" };
+      data.style = { background: this.COLOURS[type], borderTop: extend ? "1px solid transparent" : "" };
       data.conflicts = false;
       data.texts = outputStrings;
     }
