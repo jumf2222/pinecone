@@ -241,7 +241,7 @@ export class ScheduleComponent implements OnInit {
     });
     // this.timetableService.coursesSubject.subscribe(courses => { console.log("selected", courses); })
     this.route.queryParamMap.subscribe(async params => {
-      await this.timetableService.setScheduleByID(params.get("scheduleData"));
+      await this.timetableService.setScheduleByID(params.get("scheduleData") || "");
 
       const data = await this.courseService.ByYearTermCampusCode(this.scheduleData.schedule.year,
         { beginsWith: { term: this.scheduleData.schedule.term, campus: "H5" } },

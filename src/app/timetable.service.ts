@@ -26,7 +26,7 @@ export class TimetableService {
     conflicts: {},
     courseSections: {},
     schedule: {
-      id: "100",
+      id: "",
       year: "2020",
       term: "F",
       name: "2020 - Fall",
@@ -45,7 +45,12 @@ export class TimetableService {
   constructor(private courseService: CourseService, private apiService: APIService, private snackBar: MatSnackBar) {
   }
 
-  async setScheduleByID(id: string | null) {
+  async setScheduleByID(id: string) {
+    if (this.scheduleData.schedule.id === id) {
+      this.updateSchedule();
+      return;
+    }
+
     this.scheduleData = {
       courses: {},
       sections: {},
