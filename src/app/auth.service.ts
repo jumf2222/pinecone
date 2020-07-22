@@ -30,4 +30,7 @@ export class AuthService {
   signIn() {
     Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google }).then(data => console.log("in", data));
   }
+  signOut() {
+    Auth.signOut();
+  }
 }

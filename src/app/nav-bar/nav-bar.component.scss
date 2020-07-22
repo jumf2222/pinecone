@@ -19,10 +19,10 @@ nav a {
   position: relative;
   line-height: 64px;
   height: 64px;
-  padding: 0px 40px;
+  padding: 0px 20px;
   font-size: 16px;
   text-decoration: none;
-  color: #919EAB;
+  color: #919eab;
   transition: color ease-in 0.2s;
   font-weight: 600;
 }
@@ -31,15 +31,14 @@ nav a {
   text-decoration: underline;
   padding: 0px, 30px;
   color: #476098 !important;
-
 }
 
 .top-bar {
   height: 0px;
   position: absolute;
   top: 0px;
-  left: 40px;
-  right: 40px;
+  left: 20px;
+  right: 20px;
   background: #476098;
   transition: height 0.2s ease;
 }
@@ -52,25 +51,27 @@ nav a {
 .logo {
   font-size: 30px;
   text-decoration: none;
-  background: #CA4246;
-  background-color: #CA4246;
+  background: #ca4246;
+  background-color: #ca4246;
   background: conic-gradient(
-    #CA4246 16.666%, 
-    #E16541 16.666%, 
-    #E16541 33.333%, 
-    #F18F43 33.333%, 
-    #F18F43 50%, 
-    #8B9862 50%, 
-    #8B9862 66.666%, 
-    #476098 66.666%, 
-    #476098 83.333%, 
-    #A7489B 83.333%);
-  
+    #ca4246 16.666%,
+    #e16541 16.666%,
+    #e16541 33.333%,
+    #f18f43 33.333%,
+    #f18f43 50%,
+    #8b9862 50%,
+    #8b9862 66.666%,
+    #476098 66.666%,
+    #476098 83.333%,
+    #a7489b 83.333%
+  );
+
   background-size: 57%;
   background-repeat: repeat;
+  background-clip: text;
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent; 
-  
+  -webkit-text-fill-color: transparent;
+
   animation: rainbow-text-animation-rev 0.5s ease forwards;
   cursor: pointer;
 }
@@ -120,7 +121,7 @@ nav a {
   width: 26px;
   height: 4px;
   margin: 5px 0px;
-  background: #E16541;
+  background: #e16541;
   transition: all 0.3s ease;
   display: none;
 }
@@ -174,7 +175,7 @@ nav a {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 900px) {
   .sidebar {
     width: 400px;
   }

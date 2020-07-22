@@ -4,6 +4,8 @@ import { Subject, BehaviorSubject } from "rxjs";
 // import { MeetingSession } from "./definitions"
 import { APIService } from "./API.service";
 import { CourseService } from "./course.service";
+import { ScheduleCreator } from "./schedule-creator";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Injectable({
   providedIn: "root"
@@ -14,6 +16,10 @@ export class TimetableService {
   // sessionSubject = this.degreeService.activeSessionSubject;
   // courses: Course[];
   // coursesSubject = new BehaviorSubject<Course[]>(null);
+  scheduleOptions: Schedule[] = [];
+  scheduleOptionsInd = 0;
+  originalData: ScheduleData | null = null;
+
   scheduleData: ScheduleData = {
     courses: {},
     sections: {},
@@ -36,7 +42,7 @@ export class TimetableService {
   // // scheduleOptionsInd = -1;
   // // scheduleCount = 0;
 
-  constructor(private courseService: CourseService, private apiService: APIService) {
+  constructor(private courseService: CourseService, private apiService: APIService, private snackBar: MatSnackBar) {
   }
 
   async setScheduleByID(id: string | null) {
@@ -68,7 +74,13 @@ export class TimetableService {
       await this.loadSections(courseOption.courseID);
     }
 
-    // Populate conflicts
+    this.populateConflicts();
+    this.scheduleData = this.scheduleData;
+    this.updateSchedule();
+  }
+
+  private populateConflicts() {
+    this.scheduleData.conflicts = {};
     for (const day of Object.keys(this.scheduleData.schedule.times)) {
       const dayTimes = this.scheduleData.schedule.times[day];
       for (const time of Object.keys(dayTimes)) {
@@ -81,10 +93,6 @@ export class TimetableService {
         }
       }
     }
-    this.scheduleData.schedule.times.MO = { 1: [null], 2: [null] };
-
-    this.scheduleData = this.scheduleData;
-    this.updateSchedule();
   }
 
   updateSchedule() {
@@ -117,6 +125,46 @@ export class TimetableService {
     }
 
     this.scheduleData.courseSections[courseID] = courseSections;
+  }
+
+  hoverSection(section: string) {
+    this.originalData = JSON.parse(JSON.stringify(this.scheduleData));
+    const creator = new ScheduleCreator();
+    const success = creator.selectSection(this.scheduleData, section);
+    if (success) {
+      this.populateConflicts();
+      this.updateSchedule();
+    }
+  }
+
+  blurSection(section: string) {
+    if (this.originalData) {
+      this.scheduleData = this.originalData;
+      this.originalData = null;
+      this.updateSchedule();
+    }
+  }
+
+  selectSection(section: string): boolean {
+    const creator = new ScheduleCreator();
+    const success = creator.selectSection(this.scheduleData, section);
+    if (success) {
+      this.populateConflicts();
+      this.updateSchedule();
+      this.originalData = null;
+      return true;
+    } else {
+      this.snackBar.open("Failed to select section!", "Dismiss", {
+        duration: 3000
+      });
+      return false;
+    }
+  }
+
+  removeCourse(course: string) {
+    const creator = new ScheduleCreator();
+    creator.removeCourse(this.scheduleData, course);
+    this.updateSchedule();
   }
 
   async selectCourse(course: Course) {
@@ -176,7 +224,12 @@ export class TimetableService {
 
 
 
-  // createSchedule(): void {
+  createSchedule(): void {
+    const creator = new ScheduleCreator();
+    this.scheduleOptions = creator.createSchedule(JSON.parse(JSON.stringify(this.scheduleData)));
+    this.scheduleOptionsInd = -1;
+    this.nextOption();
+  }
   //   let schedule: Schedule = {
   //     name: this.schedule.name,
   //     term: this.schedule.term,
@@ -202,17 +255,17 @@ export class TimetableService {
 
   // }
 
-  // nextOption() {
-  //   if (this.scheduleOptions.length === 0) return;
+  nextOption() {
+    if (this.scheduleOptions.length === 0) { return; }
 
-  //   this.scheduleOptionsInd += 1;
-  //   if (this.scheduleOptionsInd < 0) this.scheduleOptionsInd = 0;
-  //   if (this.scheduleOptionsInd >= this.scheduleOptions.length) this.scheduleOptionsInd -= this.scheduleOptions.length;
+    this.scheduleOptionsInd += 1;
+    if (this.scheduleOptionsInd < 0) { this.scheduleOptionsInd = 0; }
+    if (this.scheduleOptionsInd >= this.scheduleOptions.length) { this.scheduleOptionsInd -= this.scheduleOptions.length; }
 
-  //   this.schedule = this.scheduleOptions[this.scheduleOptionsInd];
-  //   // this.session.data[0] = this.schedule;
-  //   this.scheduleSubject.next(this.schedule);
-  // }
+    this.scheduleData.schedule = this.scheduleOptions[this.scheduleOptionsInd];
+    // this.session.data[0] = this.schedule;
+    this.updateSchedule();
+  }
 
 }
 

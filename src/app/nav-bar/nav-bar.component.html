@@ -4,16 +4,28 @@
   </a>
 
   <span class="example-spacer"></span>
-  <button (click)="authService.signIn()" *ngIf="!(authService.signedIn | async)">
-    Sign in with Google
-  </button>
 
   <nav>
-    <a *ngFor="let link of links" [routerLink]="link.route" [ngClass]="router.url === link.route ? 'active-nav' : '' ">
-      <div class="top-bar">
-      </div>
-      {{ link.name }}
-    </a>
+    <button
+      mat-flat-button
+      (click)="authService.signIn()"
+      *ngIf="!(authService.signedIn | async)"
+    >
+      Sign in with Google
+    </button>
+    <ng-container *ngIf="authService.signedIn | async">
+      <button mat-flat-button (click)="authService.signOut()">
+        Sign out
+      </button>
+      <a
+        *ngFor="let link of links"
+        [routerLink]="link.route"
+        [ngClass]="router.url === link.route ? 'active-nav' : ''"
+      >
+        <div class="top-bar"></div>
+        {{ link.name }}
+      </a>
+    </ng-container>
   </nav>
 
   <button (click)="sideMenu = !sideMenu" class="hamburger-btn">
@@ -21,5 +33,4 @@
     <div class="bar"></div>
     <div class="bar"></div>
   </button>
-
 </mat-toolbar>

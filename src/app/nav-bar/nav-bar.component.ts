@@ -15,7 +15,7 @@ export class NavBarComponent implements OnInit {
   links = [
     { name: "Dashboard", route: "/" },
     { name: "Course Finder", route: "/finder" },
-    { name: "Timetable", route: "/planner" },
+    { name: "Timetable", route: "/timetable" },
     { name: "Settings", route: "/preferences" }
   ];
   constructor(public router: Router, public authService: AuthService, public mediaMatcher: MediaMatcher) { }

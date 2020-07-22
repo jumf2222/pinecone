@@ -9,7 +9,6 @@ import { CourseService } from "../course.service";
 // import { Datasource } from "ngx-ui-scroll";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { ActivatedRoute } from "@angular/router";
-import { deepStrictEqual } from 'assert';
 // import { DegreeService } from "../degree.service";
 
 interface SlotData {
@@ -30,6 +29,8 @@ export class ScheduleComponent implements OnInit {
   filteredCourses: Course[] = [];
   courses: Course[] = [];
   height = "";
+  // start = 16;
+  // end = 44;
 
   // filteredOptions: Course[];
   scheduleData: ScheduleData;
@@ -144,9 +145,13 @@ export class ScheduleComponent implements OnInit {
     let prevSections = this.getSections(day, time - 1);
     if (!prevSections) { prevSections = []; }
 
+    let extend = false;
     const outputStrings: string[] = [];
     for (const sect of sections) {
-      if (!prevSections.find(a => a === sect) && sect) {
+      if (prevSections.includes(sect)) {
+        extend = true;
+      } else {
+        if (!sect) { continue; }
         const curSection = this.scheduleData.sections[sect];
         const curCourse = this.scheduleData.courses[curSection.courseID];
 
@@ -157,7 +162,7 @@ export class ScheduleComponent implements OnInit {
 
     for (const sect of sections) {
       if (sect && this.scheduleData.conflicts[sect]) {
-        data.style = { background: "#4A4A4A", color: "#FFBB00", borderBottom: "none" };
+        data.style = { background: "#4A4A4A", color: "#FFBB00", borderTop: extend ? "none" : "" };
         data.conflicts = true;
         data.texts = outputStrings;
         return;
@@ -165,14 +170,14 @@ export class ScheduleComponent implements OnInit {
     }
 
     if (!sections[0]) {
-      data.style = { background: "grey", borderBottom: "none" };
+      data.style = { background: "grey", "border-top": extend ? "none" : "" };
       data.conflicts = false;
       data.texts = outputStrings;
     } else {
       const section = this.scheduleData.sections[sections[0]];
       let type = section.code.startsWith("LEC") ? 0 : 1;
       type = this.scheduleData.schedule.courses.findIndex(a => a.courseID === section.courseID) * 2 + type;
-      data.style = { background: this.COLOURS[type], borderBottom: "none" };
+      data.style = { background: this.COLOURS[type], borderTop: extend ? "none" : "" };
       data.conflicts = false;
       data.texts = outputStrings;
     }
@@ -204,8 +209,9 @@ export class ScheduleComponent implements OnInit {
 
   getSections(day: string, time: number): (string | null)[] | null {
     day = day.substring(0, 2).toUpperCase();
-    if (!this.scheduleData.schedule.times.hasOwnProperty(day) ||
-      !this.scheduleData.schedule.times[day].hasOwnProperty(time)) { return null; }
+    if (!this.scheduleData.schedule.times[day] ||
+      !this.scheduleData.schedule.times[day][time] ||
+      this.scheduleData.schedule.times[day][time].length === 0) { return null; }
     return this.scheduleData.schedule.times[day][time];
   }
 

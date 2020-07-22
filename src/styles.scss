@@ -132,7 +132,6 @@ body {
   font-family: "Open Sans", "Helvetica Neue", sans-serif;
   color: #222222;
   font-size: 12px;
-
 }
 
 .mat-tab-labels .mat-tab-label {
@@ -164,6 +163,57 @@ $config: (
 //   width: 24px !important;
 // }
 
+.gradient-underline .mat-form-field-underline .mat-form-field-ripple,
+.gradient-underline .mat-form-field-underline::before,
+.gradient-underline .mat-form-field.mat-focused .mat-form-field-ripple {
+  background: linear-gradient(
+    to right,
+    #ca4246,
+    #e16541,
+    #e16541,
+    #f18f43,
+    #f18f43,
+    #8b9862,
+    #8b9862,
+    #476098,
+    #476098,
+    #a7489b,
+    #ca4246,
+    #a7489b,
+    #ca4246,
+    #a7489b
+  );
+
+  background-size: 500% 10px;
+  background-position: 0% 0%;
+
+  // border-radius: 0 0 4px 4px;
+
+  animation: gradient 3s linear infinite;
+}
+
+.gradient-underline.mat-form-field .mat-form-field-underline,
+.gradient-underline.mat-form-field .mat-form-field-ripple,
+.gradient-underline.mat-form-field-appearance-fill
+  .mat-form-field-underline::before {
+  transform: none;
+  height: 2px;
+}
+
+.gradient-underline.mat-form-field.mat-focused .mat-form-field-ripple,
+.gradient-underline.mat-form-field:hover .mat-form-field-ripple {
+  height: 3px;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
 .mat-chip {
   font-size: 12px;
   padding: 5px 9px;
@@ -179,8 +229,8 @@ button:focus {
 }
 .mat-tab-link-active,
 .mat-tab-label-active {
-  background-color: #5EADB0;
-  color: #D5FEFF;
+  background-color: #5eadb0;
+  color: #d5feff;
   // border: 1px solid #6B7F7F;
   font-weight: bold;
 }
@@ -208,7 +258,8 @@ nav {
   top: 0px;
 }
 
-::-moz-selection { /* Code for Firefox */
+::-moz-selection {
+  /* Code for Firefox */
   background: #ffff00;
 }
 

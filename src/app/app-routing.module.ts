@@ -10,7 +10,7 @@ import { AuthGuard } from "./auth.guard";
 
 const routes: Routes = [
   { path: "finder", component: CoursesComponent, canActivate: [AuthGuard] },
-  { path: "schedule", component: ScheduleComponent, canActivate: [AuthGuard] },
+  { path: "timetable", component: ScheduleComponent, canActivate: [AuthGuard] },
   { path: "preferences", component: ScheduleOptionsComponent, canActivate: [AuthGuard] },
   { path: "planner", component: DegreePlannerComponent, canActivate: [AuthGuard] },
   { path: "", component: HomeComponent },

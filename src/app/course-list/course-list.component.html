@@ -9,7 +9,11 @@
   <div class="scroll">
     <mat-accordion>
       <mat-expansion-panel
-        *ngFor="let courseOption of scheduleData.schedule.courses"
+        [@total]
+        *ngFor="
+          let courseOption of scheduleData.schedule.courses;
+          trackBy: trackByFn
+        "
       >
         <mat-expansion-panel-header
           *ngIf="scheduleData.courses[courseOption.courseID]; let course"
@@ -27,7 +31,11 @@
           <button mat-icon-button class="info">
             <mat-icon>info_outline</mat-icon>
           </button>
-          <button mat-icon-button class="info">
+          <button
+            mat-icon-button
+            class="info"
+            (click)="timetableService.removeCourse(courseOption.courseID)"
+          >
             <mat-icon>cancel</mat-icon>
           </button>
         </div>
@@ -41,6 +49,8 @@
             Lectures
             <div class="section-container">
               <mat-checkbox
+                class="auto-checkbox"
+                [checked]="courseOption.autoLecture"
                 (change)="courseOption.autoLecture = $event.checked"
               >
                 Auto
@@ -48,9 +58,13 @@
               <button
                 mat-flat-button
                 class="section-but"
-                *ngFor="let lec of sections.lectures"
+                *ngFor="let sect of sections.lectures"
+                [ngClass]="selectedSections[sect] ? 'selected' : ''"
+                (click)="selectSection(sect)"
+                (mouseenter)="timetableService.hoverSection(sect)"
+                (mouseleave)="timetableService.blurSection(sect)"
               >
-                {{ scheduleData.sections[lec].code }}
+                {{ scheduleData.sections[sect].code }}
               </button>
             </div>
           </div>
@@ -59,6 +73,8 @@
             Praticals
             <div class="section-container">
               <mat-checkbox
+                class="auto-checkbox"
+                [checked]="courseOption.autoPratical"
                 (change)="courseOption.autoPratical = $event.checked"
               >
                 Auto
@@ -67,9 +83,11 @@
               <button
                 mat-flat-button
                 class="section-but"
-                *ngFor="let pra of sections.praticals"
+                *ngFor="let sect of sections.praticals"
+                [ngClass]="selectedSections[sect] ? 'selected' : ''"
+                (click)="selectSection(sect)"
               >
-                {{ scheduleData.sections[pra].code }}
+                {{ scheduleData.sections[sect].code }}
               </button>
             </div>
           </div>
@@ -78,6 +96,8 @@
             Tutorials
             <div class="section-container">
               <mat-checkbox
+                class="auto-checkbox"
+                [checked]="courseOption.autoTutorial"
                 (change)="courseOption.autoTutorial = $event.checked"
               >
                 Auto
@@ -86,9 +106,11 @@
               <button
                 mat-flat-button
                 class="section-but"
-                *ngFor="let tut of sections.tutorials"
+                *ngFor="let sect of sections.tutorials"
+                [ngClass]="selectedSections[sect] ? 'selected' : ''"
+                (click)="selectSection(sect)"
               >
-                {{ scheduleData.sections[tut].code }}
+                {{ scheduleData.sections[sect].code }}
               </button>
             </div>
           </div>

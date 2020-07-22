@@ -5,14 +5,15 @@
   <div style="width: 70%;">
     <div style="display: flex;">
       <form>
-        <mat-form-field>
+        <mat-form-field appearance="fill" class="gradient-underline">
           <input
             type="text"
-            placeholder="Search Courses"
+            placeholder="ex. ANT100"
             matInput
             [formControl]="form"
             [matAutocomplete]="auto"
           />
+          <mat-label>Search Courses</mat-label>
 
           <mat-autocomplete
             #auto="matAutocomplete"
@@ -65,19 +66,23 @@
         {{ scheduleData.schedule.name }}
       </h1>
 
-      <button mat-flat-button class="but">
-        Settings
+      <button
+        mat-flat-button
+        color="primary"
+        class="but"
+        (click)="this.timetableService.createSchedule()"
+      >
+        Optimize
       </button>
 
-      <button mat-flat-button color="primary" class="but">
-        Optimize Schedule
+      <button mat-flat-button class="but" color="warn">
+        Save
       </button>
     </div>
 
     <div style="display: flex; justify-content: space-around;">
       <div class="table-wrap">
         <table>
-          <!-- <tbody> -->
           <thead>
             <tr>
               <th></th>
@@ -87,7 +92,6 @@
           <tbody>
             <tr *ngFor="let row of slotData; let time = index">
               <td>{{ formatTime(time) }}</td>
-              <!-- <td style="background: lightgreen; border-bottom: none;">CSC108H5f</td> -->
               <td
                 [ngStyle]="data.style"
                 *ngFor="let data of row; let col = index"
@@ -109,7 +113,6 @@
                 </p>
               </td>
             </tr>
-            <!-- </tbody> -->
           </tbody>
         </table>
       </div>

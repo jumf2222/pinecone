@@ -48,6 +48,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { FormsModule } from "@angular/forms";
 import { DegreePlannerComponent } from "./degree-planner/degree-planner.component";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 // Calendar schedule end;
 
 /* Add Amplify imports */
@@ -107,6 +108,7 @@ Amplify.configure(awsconfig);
     MatTableModule,
     CdkScrollableModule,
     MatExpansionModule,
+    MatSnackBarModule,
     // Materials Modules import end;
     // Calendar module import start;
     // ExperimentalScrollingModule,

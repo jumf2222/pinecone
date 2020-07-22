@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ChangeDetectorRef, Input } from "@angular/core";
 import { CourseService } from "../course.service";
-import { Course, Schedule, ScheduleData } from "../definitions";
+import { Course, Schedule, ScheduleData, Dictionary, CourseOption } from "../definitions";
 import { TimetableService } from "../timetable.service";
 import { transition, animate, style, trigger, animateChild } from "@angular/animations";
 // import { IDatasource, Datasource } from "ngx-ui-scroll";
@@ -16,7 +16,12 @@ import { transition, animate, style, trigger, animateChild } from "@angular/anim
         animate("100ms ease", style({ height: "48px" }))
       ]),
       transition(":leave", [
-        animate("100ms ease", style({ height: 0 }))
+        animate("9s ease", style({ height: 0 }))
+      ])
+    ]),
+    trigger("total", [
+      transition(":leave", [
+        animate("0.3s ease", style({ height: 0 }))
       ])
     ])
   ]
@@ -37,6 +42,7 @@ export class CourseListComponent implements OnInit {
   //   }
   // });
   scheduleData: ScheduleData;
+  selectedSections: Dictionary<boolean> = {};
 
   constructor(public timetableService: TimetableService, public courseService: CourseService) {
     this.scheduleData = this.timetableService.scheduleSubject.value;
@@ -46,6 +52,10 @@ export class CourseListComponent implements OnInit {
     //     this.datasource.adapter.reset();
     //   }
     // });
+  }
+
+  selectSection(sect: string) {
+    this.timetableService.selectSection(sect);
   }
 
   // toggleExpand(item: Course) {
@@ -106,6 +116,22 @@ export class CourseListComponent implements OnInit {
 
       // }
 
+      this.selectedSections = {};
+
+      // Remove old
+      for (const day of Object.keys(schedule.schedule.times)) {
+        for (const time of Object.keys(schedule.schedule.times[day])) {
+          const sections = schedule.schedule.times[day][time];
+
+          for (let ind = sections.length - 1; ind > -1; ind--) {
+            const sectID = sections[ind];
+            if (!sectID) { continue; }
+
+            this.selectedSections[sectID] = true;
+          }
+        }
+      }
+
       console.log("new", schedule);
 
       this.scheduleData = schedule;
@@ -118,6 +144,10 @@ export class CourseListComponent implements OnInit {
 
   getCode(code: string, index: number) {
     return this.formatCode(code).split(" ")[index];
+  }
+
+  trackByFn(index: number, course: CourseOption) {
+    return course.courseID;
   }
 
   // scroll(id, event) {
