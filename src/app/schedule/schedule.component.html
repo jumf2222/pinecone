@@ -6,31 +6,14 @@
     <div style="display: flex;">
       <form>
         <mat-form-field appearance="fill" class="gradient-underline">
-          <input
-            type="text"
-            placeholder="ex. ANT100"
-            matInput
-            [formControl]="form"
-            [matAutocomplete]="auto"
-          />
+          <input type="text" placeholder="ex. ANT100" matInput [formControl]="form" [matAutocomplete]="auto" />
           <mat-label>Search Courses</mat-label>
 
-          <mat-autocomplete
-            #auto="matAutocomplete"
-            autoActiveFirstOption
-            [displayWith]="displayFn"
-            (optionSelected)="selectCourse($event.option.value)"
-          >
-            <cdk-virtual-scroll-viewport
-              class="autocomplete-test-viewport"
-              [ngStyle]="{ height: height }"
-              itemSize="25"
-            >
-              <mat-option
-                *cdkVirtualFor="let option of filteredCourses"
-                [value]="option"
-                class="autocomplete-item"
-              >
+          <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption [displayWith]="displayFn"
+            (optionSelected)="selectCourse($event.option.value)">
+            <cdk-virtual-scroll-viewport class="autocomplete-test-viewport" [ngStyle]="{ height: height }"
+              itemSize="25">
+              <mat-option *cdkVirtualFor="let option of filteredCourses" [value]="option" class="autocomplete-item">
                 {{ option.code }}
               </mat-option>
             </cdk-virtual-scroll-viewport>
@@ -66,12 +49,7 @@
         {{ scheduleData.schedule.name }}
       </h1>
 
-      <button
-        mat-flat-button
-        color="primary"
-        class="but"
-        (click)="this.timetableService.createSchedule()"
-      >
+      <button mat-flat-button color="primary" class="but" (click)="this.timetableService.createSchedule()">
         Optimize
       </button>
 
@@ -82,39 +60,34 @@
 
     <div style="display: flex; justify-content: space-around;">
       <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th *ngFor="let day of DAYS">{{ formatDay(day) }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of slotData; let time = index">
-              <td>{{ formatTime(time) }}</td>
-              <td
-                [ngStyle]="data.style"
-                *ngFor="let data of row; let col = index"
-                (click)="clickSlot(time, col)"
-              >
-                <p *ngFor="let text of data.texts; let ind = index">
-                  {{ text }}
-                  <mat-icon
-                    *ngIf="data.conflicts && ind % 2 == 0"
-                    style="
+        <div style="border-radius: 3px 3px 0px 0px;">
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th *ngFor="let day of DAYS">{{ formatDay(day) }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of slotData; let time = index">
+                <td>{{ formatTime(time) }}</td>
+                <td [ngStyle]="data.style" *ngFor="let data of row; let col = index" (click)="clickSlot(time, col)">
+                  <p *ngFor="let text of data.texts; let ind = index">
+                    {{ text }}
+                    <mat-icon *ngIf="data.conflicts && ind % 2 == 0" style="
                       float: right;
                       font-size: 30px;
                       width: 30px;
                       height: 30px !important;
-                    "
-                  >
-                    warning
-                  </mat-icon>
-                </p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                    ">
+                      warning
+                    </mat-icon>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
