@@ -1,30 +1,22 @@
 <mat-toolbar>
-  <a routerLink="/" style="font-family: 'Pinecone';" class="logo">
+  <a routerLink="/" class="logo">
     Pinecone
   </a>
 
   <span class="example-spacer"></span>
 
   <nav>
-    <button
-      mat-flat-button
-      (click)="authService.signIn()"
-      *ngIf="!(authService.signedIn | async)"
-    >
+    <button mat-flat-button (click)="authService.signIn()" *ngIf="!(authService.signedIn | async)">
       Sign in with Google
     </button>
     <ng-container *ngIf="authService.signedIn | async">
-      <button mat-flat-button (click)="authService.signOut()">
-        Sign out
-      </button>
-      <a
-        *ngFor="let link of links"
-        [routerLink]="link.route"
-        [ngClass]="router.url === link.route ? 'active-nav' : ''"
-      >
+      <a *ngFor="let link of links" [routerLink]="link.route" [ngClass]="router.url === link.route ? 'active-nav' : ''">
         <div class="top-bar"></div>
         {{ link.name }}
       </a>
+      <button mat-flat-button color="warn" style="margin-left: 10px;" (click)="authService.signOut()">
+        Sign out
+      </button>
     </ng-container>
   </nav>
 

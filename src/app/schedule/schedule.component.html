@@ -5,38 +5,15 @@
   <div style="width: 70%;">
     <div style="display: flex;">
       <form style="width: 400px;">
-        <mat-form-field
-          appearance="fill"
-          class="gradient-underline"
-          style="max-width: 400px; width: 100%;"
-        >
-          <input
-            type="text"
-            placeholder="ex. ANT100"
-            matInput
-            [formControl]="form"
-            [matAutocomplete]="auto"
-          />
+        <mat-form-field appearance="fill" class="gradient-underline" style="max-width: 400px; width: 100%;">
+          <input type="text" placeholder="ex. ANT100" matInput [formControl]="form" [matAutocomplete]="auto" />
           <mat-label>Search Courses</mat-label>
 
-          <mat-autocomplete
-            #auto="matAutocomplete"
-            autoActiveFirstOption
-            [displayWith]="displayFn"
-            (optionSelected)="selectCourse($event.option.value)"
-          >
-            <cdk-virtual-scroll-viewport
-              class="autocomplete-test-viewport"
-              [ngStyle]="{ height: height }"
-              itemSize="48"
-              minBufferPx="200"
-              maxBufferPx="250"
-            >
-              <mat-option
-                *cdkVirtualFor="let option of filteredCourses"
-                [value]="option"
-                class="autocomplete-item"
-              >
+          <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption [displayWith]="displayFn"
+            (optionSelected)="selectCourse($event.option.value)">
+            <cdk-virtual-scroll-viewport class="autocomplete-test-viewport" [ngStyle]="{ height: height }" itemSize="48"
+              minBufferPx="200" maxBufferPx="250">
+              <mat-option *cdkVirtualFor="let option of filteredCourses" [value]="option" class="autocomplete-item">
                 {{ displayFn(option) }}
               </mat-option>
             </cdk-virtual-scroll-viewport>
@@ -68,16 +45,11 @@
           <!-- </mat-autocomplete>  -->
         </mat-form-field>
       </form>
-      <h1 style="flex: 1; padding-top: 20px;">
+      <h1 style="flex: 1; padding-top: 20px; font-family: 'Pinecone';">
         {{ scheduleData.schedule.name }}
       </h1>
 
-      <button
-        mat-flat-button
-        color="primary"
-        class="but"
-        (click)="this.timetableService.createSchedule()"
-      >
+      <button mat-flat-button color="primary" class="but" (click)="this.timetableService.createSchedule()">
         Optimize
       </button>
 
@@ -100,25 +72,18 @@
               <ng-container *ngFor="let row of slotData; let time = index">
                 <tr *ngIf="time >= start && time < end">
                   <td>{{ formatTime(time) }}</td>
-                  <td
-                    [ngStyle]="data.style"
-                    *ngFor="let data of row; let col = index"
-                    (click)="clickSlot(time, col)"
-                  >
+                  <td [ngStyle]="data.style" *ngFor="let data of row; let col = index" (click)="clickSlot(time, col)">
                     <div class="text-wrapper">
                       <p *ngFor="let text of data.texts; let ind = index">
                         {{ text }}
-                        <mat-icon
-                          *ngIf="data.conflicts && ind % 6 == 1"
-                          style="
+                        <mat-icon *ngIf="data.conflicts && ind % 6 == 1" style="
                             position: absolute;
                             right: 0px;
                             top: 0px;
                             font-size: 30px;
                             width: 30px;
                             height: 30px !important;
-                          "
-                        >
+                          ">
                           warning
                         </mat-icon>
                       </p>
