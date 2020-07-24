@@ -12,13 +12,13 @@ export type CreateCourseInput = {
   code: string;
   year: string;
   term: string;
-  campus?: string | null;
-  distributionRequirement?: string | null;
-  description?: string | null;
-  prerequisites?: string | null;
-  exclusions?: string | null;
-  enrollControlsType?: string | null;
-  enrollControls?: Array<string | null> | null;
+  campus: string;
+  distribution: string;
+  description: string;
+  prerequisites: string;
+  corequisites: string;
+  exclusions: string;
+  breadth: string;
   createdAt?: string | null;
   updatedAt?: string | null;
 };
@@ -29,12 +29,12 @@ export type ModelCourseConditionInput = {
   year?: ModelStringInput | null;
   term?: ModelStringInput | null;
   campus?: ModelStringInput | null;
-  distributionRequirement?: ModelStringInput | null;
+  distribution?: ModelStringInput | null;
   description?: ModelStringInput | null;
   prerequisites?: ModelStringInput | null;
+  corequisites?: ModelStringInput | null;
   exclusions?: ModelStringInput | null;
-  enrollControlsType?: ModelStringInput | null;
-  enrollControls?: ModelStringInput | null;
+  breadth?: ModelStringInput | null;
   createdAt?: ModelStringInput | null;
   updatedAt?: ModelStringInput | null;
   and?: Array<ModelCourseConditionInput | null> | null;
@@ -88,12 +88,12 @@ export type UpdateCourseInput = {
   year?: string | null;
   term?: string | null;
   campus?: string | null;
-  distributionRequirement?: string | null;
+  distribution?: string | null;
   description?: string | null;
   prerequisites?: string | null;
+  corequisites?: string | null;
   exclusions?: string | null;
-  enrollControlsType?: string | null;
-  enrollControls?: Array<string | null> | null;
+  breadth?: string | null;
   createdAt?: string | null;
   updatedAt?: string | null;
 };
@@ -105,30 +105,28 @@ export type DeleteCourseInput = {
 export type CreateSectionInput = {
   id?: string | null;
   courseID: string;
-  sessions?: Array<SessionInput | null> | null;
-  syllabus?: string | null;
-  code?: string | null;
-  instructor?: string | null;
-  curEnroll?: number | null;
-  maxEnroll?: number | null;
-  notes?: string | null;
+  sessions: Array<SessionInput | null>;
+  code: string;
+  instructors: Array<string | null>;
+  curEnroll: number;
+  maxEnroll: number;
+  method: string;
 };
 
 export type SessionInput = {
-  day?: string | null;
-  start?: number | null;
-  end?: number | null;
-  room?: string | null;
+  day: string;
+  start: number;
+  end: number;
+  location: string;
 };
 
 export type ModelSectionConditionInput = {
   courseID?: ModelIDInput | null;
-  syllabus?: ModelStringInput | null;
   code?: ModelStringInput | null;
-  instructor?: ModelStringInput | null;
+  instructors?: ModelStringInput | null;
   curEnroll?: ModelIntInput | null;
   maxEnroll?: ModelIntInput | null;
-  notes?: ModelStringInput | null;
+  method?: ModelStringInput | null;
   and?: Array<ModelSectionConditionInput | null> | null;
   or?: Array<ModelSectionConditionInput | null> | null;
   not?: ModelSectionConditionInput | null;
@@ -166,12 +164,11 @@ export type UpdateSectionInput = {
   id: string;
   courseID?: string | null;
   sessions?: Array<SessionInput | null> | null;
-  syllabus?: string | null;
   code?: string | null;
-  instructor?: string | null;
+  instructors?: Array<string | null> | null;
   curEnroll?: number | null;
   maxEnroll?: number | null;
-  notes?: string | null;
+  method?: string | null;
 };
 
 export type DeleteSectionInput = {
@@ -227,43 +224,17 @@ export type ModelCourseFilterInput = {
   year?: ModelStringInput | null;
   term?: ModelStringInput | null;
   campus?: ModelStringInput | null;
-  distributionRequirement?: ModelStringInput | null;
+  distribution?: ModelStringInput | null;
   description?: ModelStringInput | null;
   prerequisites?: ModelStringInput | null;
+  corequisites?: ModelStringInput | null;
   exclusions?: ModelStringInput | null;
-  enrollControlsType?: ModelStringInput | null;
-  enrollControls?: ModelStringInput | null;
+  breadth?: ModelStringInput | null;
   createdAt?: ModelStringInput | null;
   updatedAt?: ModelStringInput | null;
   and?: Array<ModelCourseFilterInput | null> | null;
   or?: Array<ModelCourseFilterInput | null> | null;
   not?: ModelCourseFilterInput | null;
-};
-
-export type ModelSectionFilterInput = {
-  id?: ModelIDInput | null;
-  courseID?: ModelIDInput | null;
-  syllabus?: ModelStringInput | null;
-  code?: ModelStringInput | null;
-  instructor?: ModelStringInput | null;
-  curEnroll?: ModelIntInput | null;
-  maxEnroll?: ModelIntInput | null;
-  notes?: ModelStringInput | null;
-  and?: Array<ModelSectionFilterInput | null> | null;
-  or?: Array<ModelSectionFilterInput | null> | null;
-  not?: ModelSectionFilterInput | null;
-};
-
-export type ModelScheduleFilterInput = {
-  id?: ModelIDInput | null;
-  year?: ModelStringInput | null;
-  term?: ModelStringInput | null;
-  name?: ModelStringInput | null;
-  times?: ModelStringInput | null;
-  score?: ModelIntInput | null;
-  and?: Array<ModelScheduleFilterInput | null> | null;
-  or?: Array<ModelScheduleFilterInput | null> | null;
-  not?: ModelScheduleFilterInput | null;
 };
 
 export type ModelCourseByYearTermCampusCodeCompositeKeyConditionInput = {
@@ -287,16 +258,6 @@ export enum ModelSortDirection {
   DESC = "DESC"
 }
 
-export type ModelStringKeyConditionInput = {
-  eq?: string | null;
-  le?: string | null;
-  lt?: string | null;
-  ge?: string | null;
-  gt?: string | null;
-  between?: Array<string | null> | null;
-  beginsWith?: string | null;
-};
-
 export type SearchableCourseFilterInput = {
   id?: SearchableIDFilterInput | null;
   name?: SearchableStringFilterInput | null;
@@ -304,12 +265,12 @@ export type SearchableCourseFilterInput = {
   year?: SearchableStringFilterInput | null;
   term?: SearchableStringFilterInput | null;
   campus?: SearchableStringFilterInput | null;
-  distributionRequirement?: SearchableStringFilterInput | null;
+  distribution?: SearchableStringFilterInput | null;
   description?: SearchableStringFilterInput | null;
   prerequisites?: SearchableStringFilterInput | null;
+  corequisites?: SearchableStringFilterInput | null;
   exclusions?: SearchableStringFilterInput | null;
-  enrollControlsType?: SearchableStringFilterInput | null;
-  enrollControls?: SearchableStringFilterInput | null;
+  breadth?: SearchableStringFilterInput | null;
   createdAt?: SearchableStringFilterInput | null;
   updatedAt?: SearchableStringFilterInput | null;
   and?: Array<SearchableCourseFilterInput | null> | null;
@@ -361,12 +322,12 @@ export enum SearchableCourseSortableFields {
   year = "year",
   term = "term",
   campus = "campus",
-  distributionRequirement = "distributionRequirement",
+  distribution = "distribution",
   description = "description",
   prerequisites = "prerequisites",
+  corequisites = "corequisites",
   exclusions = "exclusions",
-  enrollControlsType = "enrollControlsType",
-  enrollControls = "enrollControls",
+  breadth = "breadth",
   createdAt = "createdAt",
   updatedAt = "updatedAt"
 }
@@ -376,6 +337,41 @@ export enum SearchableSortDirection {
   desc = "desc"
 }
 
+export type ModelSectionFilterInput = {
+  id?: ModelIDInput | null;
+  courseID?: ModelIDInput | null;
+  code?: ModelStringInput | null;
+  instructors?: ModelStringInput | null;
+  curEnroll?: ModelIntInput | null;
+  maxEnroll?: ModelIntInput | null;
+  method?: ModelStringInput | null;
+  and?: Array<ModelSectionFilterInput | null> | null;
+  or?: Array<ModelSectionFilterInput | null> | null;
+  not?: ModelSectionFilterInput | null;
+};
+
+export type ModelStringKeyConditionInput = {
+  eq?: string | null;
+  le?: string | null;
+  lt?: string | null;
+  ge?: string | null;
+  gt?: string | null;
+  between?: Array<string | null> | null;
+  beginsWith?: string | null;
+};
+
+export type ModelScheduleFilterInput = {
+  id?: ModelIDInput | null;
+  year?: ModelStringInput | null;
+  term?: ModelStringInput | null;
+  name?: ModelStringInput | null;
+  times?: ModelStringInput | null;
+  score?: ModelIntInput | null;
+  and?: Array<ModelScheduleFilterInput | null> | null;
+  or?: Array<ModelScheduleFilterInput | null> | null;
+  not?: ModelScheduleFilterInput | null;
+};
+
 export type CreateCourseMutation = {
   __typename: "Course";
   id: string;
@@ -383,13 +379,13 @@ export type CreateCourseMutation = {
   code: string;
   year: string;
   term: string;
-  campus: string | null;
-  distributionRequirement: string | null;
-  description: string | null;
-  prerequisites: string | null;
-  exclusions: string | null;
-  enrollControlsType: string | null;
-  enrollControls: Array<string | null> | null;
+  campus: string;
+  distribution: string;
+  description: string;
+  prerequisites: string;
+  corequisites: string;
+  exclusions: string;
+  breadth: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -401,13 +397,13 @@ export type UpdateCourseMutation = {
   code: string;
   year: string;
   term: string;
-  campus: string | null;
-  distributionRequirement: string | null;
-  description: string | null;
-  prerequisites: string | null;
-  exclusions: string | null;
-  enrollControlsType: string | null;
-  enrollControls: Array<string | null> | null;
+  campus: string;
+  distribution: string;
+  description: string;
+  prerequisites: string;
+  corequisites: string;
+  exclusions: string;
+  breadth: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -419,13 +415,13 @@ export type DeleteCourseMutation = {
   code: string;
   year: string;
   term: string;
-  campus: string | null;
-  distributionRequirement: string | null;
-  description: string | null;
-  prerequisites: string | null;
-  exclusions: string | null;
-  enrollControlsType: string | null;
-  enrollControls: Array<string | null> | null;
+  campus: string;
+  distribution: string;
+  description: string;
+  prerequisites: string;
+  corequisites: string;
+  exclusions: string;
+  breadth: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -436,17 +432,16 @@ export type CreateSectionMutation = {
   courseID: string;
   sessions: Array<{
     __typename: "Session";
-    day: string | null;
-    start: number | null;
-    end: number | null;
-    room: string | null;
-  } | null> | null;
-  syllabus: string | null;
-  code: string | null;
-  instructor: string | null;
-  curEnroll: number | null;
-  maxEnroll: number | null;
-  notes: string | null;
+    day: string;
+    start: number;
+    end: number;
+    location: string;
+  } | null>;
+  code: string;
+  instructors: Array<string | null>;
+  curEnroll: number;
+  maxEnroll: number;
+  method: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -457,17 +452,16 @@ export type UpdateSectionMutation = {
   courseID: string;
   sessions: Array<{
     __typename: "Session";
-    day: string | null;
-    start: number | null;
-    end: number | null;
-    room: string | null;
-  } | null> | null;
-  syllabus: string | null;
-  code: string | null;
-  instructor: string | null;
-  curEnroll: number | null;
-  maxEnroll: number | null;
-  notes: string | null;
+    day: string;
+    start: number;
+    end: number;
+    location: string;
+  } | null>;
+  code: string;
+  instructors: Array<string | null>;
+  curEnroll: number;
+  maxEnroll: number;
+  method: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -478,17 +472,16 @@ export type DeleteSectionMutation = {
   courseID: string;
   sessions: Array<{
     __typename: "Session";
-    day: string | null;
-    start: number | null;
-    end: number | null;
-    room: string | null;
-  } | null> | null;
-  syllabus: string | null;
-  code: string | null;
-  instructor: string | null;
-  curEnroll: number | null;
-  maxEnroll: number | null;
-  notes: string | null;
+    day: string;
+    start: number;
+    end: number;
+    location: string;
+  } | null>;
+  code: string;
+  instructors: Array<string | null>;
+  curEnroll: number;
+  maxEnroll: number;
+  method: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -560,13 +553,13 @@ export type GetCourseQuery = {
   code: string;
   year: string;
   term: string;
-  campus: string | null;
-  distributionRequirement: string | null;
-  description: string | null;
-  prerequisites: string | null;
-  exclusions: string | null;
-  enrollControlsType: string | null;
-  enrollControls: Array<string | null> | null;
+  campus: string;
+  distribution: string;
+  description: string;
+  prerequisites: string;
+  corequisites: string;
+  exclusions: string;
+  breadth: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -580,17 +573,62 @@ export type ListCoursesQuery = {
     code: string;
     year: string;
     term: string;
-    campus: string | null;
-    distributionRequirement: string | null;
-    description: string | null;
-    prerequisites: string | null;
-    exclusions: string | null;
-    enrollControlsType: string | null;
-    enrollControls: Array<string | null> | null;
+    campus: string;
+    distribution: string;
+    description: string;
+    prerequisites: string;
+    corequisites: string;
+    exclusions: string;
+    breadth: string;
     createdAt: string;
     updatedAt: string;
   } | null> | null;
   nextToken: string | null;
+};
+
+export type ByYearTermCampusCodeQuery = {
+  __typename: "ModelCourseConnection";
+  items: Array<{
+    __typename: "Course";
+    id: string;
+    name: string | null;
+    code: string;
+    year: string;
+    term: string;
+    campus: string;
+    distribution: string;
+    description: string;
+    prerequisites: string;
+    corequisites: string;
+    exclusions: string;
+    breadth: string;
+    createdAt: string;
+    updatedAt: string;
+  } | null> | null;
+  nextToken: string | null;
+};
+
+export type SearchCoursesQuery = {
+  __typename: "SearchableCourseConnection";
+  items: Array<{
+    __typename: "Course";
+    id: string;
+    name: string | null;
+    code: string;
+    year: string;
+    term: string;
+    campus: string;
+    distribution: string;
+    description: string;
+    prerequisites: string;
+    corequisites: string;
+    exclusions: string;
+    breadth: string;
+    createdAt: string;
+    updatedAt: string;
+  } | null> | null;
+  nextToken: string | null;
+  total: number | null;
 };
 
 export type GetSectionQuery = {
@@ -599,17 +637,16 @@ export type GetSectionQuery = {
   courseID: string;
   sessions: Array<{
     __typename: "Session";
-    day: string | null;
-    start: number | null;
-    end: number | null;
-    room: string | null;
-  } | null> | null;
-  syllabus: string | null;
-  code: string | null;
-  instructor: string | null;
-  curEnroll: number | null;
-  maxEnroll: number | null;
-  notes: string | null;
+    day: string;
+    start: number;
+    end: number;
+    location: string;
+  } | null>;
+  code: string;
+  instructors: Array<string | null>;
+  curEnroll: number;
+  maxEnroll: number;
+  method: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -622,17 +659,40 @@ export type ListSectionsQuery = {
     courseID: string;
     sessions: Array<{
       __typename: "Session";
-      day: string | null;
-      start: number | null;
-      end: number | null;
-      room: string | null;
-    } | null> | null;
-    syllabus: string | null;
-    code: string | null;
-    instructor: string | null;
-    curEnroll: number | null;
-    maxEnroll: number | null;
-    notes: string | null;
+      day: string;
+      start: number;
+      end: number;
+      location: string;
+    } | null>;
+    code: string;
+    instructors: Array<string | null>;
+    curEnroll: number;
+    maxEnroll: number;
+    method: string;
+    createdAt: string;
+    updatedAt: string;
+  } | null> | null;
+  nextToken: string | null;
+};
+
+export type ByCourseIdCodeQuery = {
+  __typename: "ModelSectionConnection";
+  items: Array<{
+    __typename: "Section";
+    id: string;
+    courseID: string;
+    sessions: Array<{
+      __typename: "Session";
+      day: string;
+      start: number;
+      end: number;
+      location: string;
+    } | null>;
+    code: string;
+    instructors: Array<string | null>;
+    curEnroll: number;
+    maxEnroll: number;
+    method: string;
     createdAt: string;
     updatedAt: string;
   } | null> | null;
@@ -683,76 +743,6 @@ export type ListSchedulesQuery = {
   nextToken: string | null;
 };
 
-export type ByYearTermCampusCodeQuery = {
-  __typename: "ModelCourseConnection";
-  items: Array<{
-    __typename: "Course";
-    id: string;
-    name: string | null;
-    code: string;
-    year: string;
-    term: string;
-    campus: string | null;
-    distributionRequirement: string | null;
-    description: string | null;
-    prerequisites: string | null;
-    exclusions: string | null;
-    enrollControlsType: string | null;
-    enrollControls: Array<string | null> | null;
-    createdAt: string;
-    updatedAt: string;
-  } | null> | null;
-  nextToken: string | null;
-};
-
-export type ByCourseIdCodeQuery = {
-  __typename: "ModelSectionConnection";
-  items: Array<{
-    __typename: "Section";
-    id: string;
-    courseID: string;
-    sessions: Array<{
-      __typename: "Session";
-      day: string | null;
-      start: number | null;
-      end: number | null;
-      room: string | null;
-    } | null> | null;
-    syllabus: string | null;
-    code: string | null;
-    instructor: string | null;
-    curEnroll: number | null;
-    maxEnroll: number | null;
-    notes: string | null;
-    createdAt: string;
-    updatedAt: string;
-  } | null> | null;
-  nextToken: string | null;
-};
-
-export type SearchCoursesQuery = {
-  __typename: "SearchableCourseConnection";
-  items: Array<{
-    __typename: "Course";
-    id: string;
-    name: string | null;
-    code: string;
-    year: string;
-    term: string;
-    campus: string | null;
-    distributionRequirement: string | null;
-    description: string | null;
-    prerequisites: string | null;
-    exclusions: string | null;
-    enrollControlsType: string | null;
-    enrollControls: Array<string | null> | null;
-    createdAt: string;
-    updatedAt: string;
-  } | null> | null;
-  nextToken: string | null;
-  total: number | null;
-};
-
 export type OnCreateCourseSubscription = {
   __typename: "Course";
   id: string;
@@ -760,13 +750,13 @@ export type OnCreateCourseSubscription = {
   code: string;
   year: string;
   term: string;
-  campus: string | null;
-  distributionRequirement: string | null;
-  description: string | null;
-  prerequisites: string | null;
-  exclusions: string | null;
-  enrollControlsType: string | null;
-  enrollControls: Array<string | null> | null;
+  campus: string;
+  distribution: string;
+  description: string;
+  prerequisites: string;
+  corequisites: string;
+  exclusions: string;
+  breadth: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -778,13 +768,13 @@ export type OnUpdateCourseSubscription = {
   code: string;
   year: string;
   term: string;
-  campus: string | null;
-  distributionRequirement: string | null;
-  description: string | null;
-  prerequisites: string | null;
-  exclusions: string | null;
-  enrollControlsType: string | null;
-  enrollControls: Array<string | null> | null;
+  campus: string;
+  distribution: string;
+  description: string;
+  prerequisites: string;
+  corequisites: string;
+  exclusions: string;
+  breadth: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -796,13 +786,13 @@ export type OnDeleteCourseSubscription = {
   code: string;
   year: string;
   term: string;
-  campus: string | null;
-  distributionRequirement: string | null;
-  description: string | null;
-  prerequisites: string | null;
-  exclusions: string | null;
-  enrollControlsType: string | null;
-  enrollControls: Array<string | null> | null;
+  campus: string;
+  distribution: string;
+  description: string;
+  prerequisites: string;
+  corequisites: string;
+  exclusions: string;
+  breadth: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -813,17 +803,16 @@ export type OnCreateSectionSubscription = {
   courseID: string;
   sessions: Array<{
     __typename: "Session";
-    day: string | null;
-    start: number | null;
-    end: number | null;
-    room: string | null;
-  } | null> | null;
-  syllabus: string | null;
-  code: string | null;
-  instructor: string | null;
-  curEnroll: number | null;
-  maxEnroll: number | null;
-  notes: string | null;
+    day: string;
+    start: number;
+    end: number;
+    location: string;
+  } | null>;
+  code: string;
+  instructors: Array<string | null>;
+  curEnroll: number;
+  maxEnroll: number;
+  method: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -834,17 +823,16 @@ export type OnUpdateSectionSubscription = {
   courseID: string;
   sessions: Array<{
     __typename: "Session";
-    day: string | null;
-    start: number | null;
-    end: number | null;
-    room: string | null;
-  } | null> | null;
-  syllabus: string | null;
-  code: string | null;
-  instructor: string | null;
-  curEnroll: number | null;
-  maxEnroll: number | null;
-  notes: string | null;
+    day: string;
+    start: number;
+    end: number;
+    location: string;
+  } | null>;
+  code: string;
+  instructors: Array<string | null>;
+  curEnroll: number;
+  maxEnroll: number;
+  method: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -855,17 +843,16 @@ export type OnDeleteSectionSubscription = {
   courseID: string;
   sessions: Array<{
     __typename: "Session";
-    day: string | null;
-    start: number | null;
-    end: number | null;
-    room: string | null;
-  } | null> | null;
-  syllabus: string | null;
-  code: string | null;
-  instructor: string | null;
-  curEnroll: number | null;
-  maxEnroll: number | null;
-  notes: string | null;
+    day: string;
+    start: number;
+    end: number;
+    location: string;
+  } | null>;
+  code: string;
+  instructors: Array<string | null>;
+  curEnroll: number;
+  maxEnroll: number;
+  method: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -947,12 +934,12 @@ export class APIService {
           year
           term
           campus
-          distributionRequirement
+          distribution
           description
           prerequisites
+          corequisites
           exclusions
-          enrollControlsType
-          enrollControls
+          breadth
           createdAt
           updatedAt
         }
@@ -981,12 +968,12 @@ export class APIService {
           year
           term
           campus
-          distributionRequirement
+          distribution
           description
           prerequisites
+          corequisites
           exclusions
-          enrollControlsType
-          enrollControls
+          breadth
           createdAt
           updatedAt
         }
@@ -1015,12 +1002,12 @@ export class APIService {
           year
           term
           campus
-          distributionRequirement
+          distribution
           description
           prerequisites
+          corequisites
           exclusions
-          enrollControlsType
-          enrollControls
+          breadth
           createdAt
           updatedAt
         }
@@ -1050,14 +1037,13 @@ export class APIService {
             day
             start
             end
-            room
+            location
           }
-          syllabus
           code
-          instructor
+          instructors
           curEnroll
           maxEnroll
-          notes
+          method
           createdAt
           updatedAt
         }
@@ -1087,14 +1073,13 @@ export class APIService {
             day
             start
             end
-            room
+            location
           }
-          syllabus
           code
-          instructor
+          instructors
           curEnroll
           maxEnroll
-          notes
+          method
           createdAt
           updatedAt
         }
@@ -1124,14 +1109,13 @@ export class APIService {
             day
             start
             end
-            room
+            location
           }
-          syllabus
           code
-          instructor
+          instructors
           curEnroll
           maxEnroll
-          notes
+          method
           createdAt
           updatedAt
         }
@@ -1265,12 +1249,12 @@ export class APIService {
           year
           term
           campus
-          distributionRequirement
+          distribution
           description
           prerequisites
+          corequisites
           exclusions
-          enrollControlsType
-          enrollControls
+          breadth
           createdAt
           updatedAt
         }
@@ -1299,12 +1283,12 @@ export class APIService {
             year
             term
             campus
-            distributionRequirement
+            distribution
             description
             prerequisites
+            corequisites
             exclusions
-            enrollControlsType
-            enrollControls
+            breadth
             createdAt
             updatedAt
           }
@@ -1326,6 +1310,109 @@ export class APIService {
     )) as any;
     return <ListCoursesQuery>response.data.listCourses;
   }
+  async ByYearTermCampusCode(
+    year?: string,
+    termCampusCode?: ModelCourseByYearTermCampusCodeCompositeKeyConditionInput,
+    sortDirection?: ModelSortDirection,
+    filter?: ModelCourseFilterInput,
+    limit?: number,
+    nextToken?: string
+  ): Promise<ByYearTermCampusCodeQuery> {
+    const statement = `query ByYearTermCampusCode($year: String, $termCampusCode: ModelCourseByYearTermCampusCodeCompositeKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelCourseFilterInput, $limit: Int, $nextToken: String) {
+        byYearTermCampusCode(year: $year, termCampusCode: $termCampusCode, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
+          __typename
+          items {
+            __typename
+            id
+            name
+            code
+            year
+            term
+            campus
+            distribution
+            description
+            prerequisites
+            corequisites
+            exclusions
+            breadth
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }`;
+    const gqlAPIServiceArguments: any = {};
+    if (year) {
+      gqlAPIServiceArguments.year = year;
+    }
+    if (termCampusCode) {
+      gqlAPIServiceArguments.termCampusCode = termCampusCode;
+    }
+    if (sortDirection) {
+      gqlAPIServiceArguments.sortDirection = sortDirection;
+    }
+    if (filter) {
+      gqlAPIServiceArguments.filter = filter;
+    }
+    if (limit) {
+      gqlAPIServiceArguments.limit = limit;
+    }
+    if (nextToken) {
+      gqlAPIServiceArguments.nextToken = nextToken;
+    }
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <ByYearTermCampusCodeQuery>response.data.byYearTermCampusCode;
+  }
+  async SearchCourses(
+    filter?: SearchableCourseFilterInput,
+    sort?: SearchableCourseSortInput,
+    limit?: number,
+    nextToken?: string
+  ): Promise<SearchCoursesQuery> {
+    const statement = `query SearchCourses($filter: SearchableCourseFilterInput, $sort: SearchableCourseSortInput, $limit: Int, $nextToken: String) {
+        searchCourses(filter: $filter, sort: $sort, limit: $limit, nextToken: $nextToken) {
+          __typename
+          items {
+            __typename
+            id
+            name
+            code
+            year
+            term
+            campus
+            distribution
+            description
+            prerequisites
+            corequisites
+            exclusions
+            breadth
+            createdAt
+            updatedAt
+          }
+          nextToken
+          total
+        }
+      }`;
+    const gqlAPIServiceArguments: any = {};
+    if (filter) {
+      gqlAPIServiceArguments.filter = filter;
+    }
+    if (sort) {
+      gqlAPIServiceArguments.sort = sort;
+    }
+    if (limit) {
+      gqlAPIServiceArguments.limit = limit;
+    }
+    if (nextToken) {
+      gqlAPIServiceArguments.nextToken = nextToken;
+    }
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <SearchCoursesQuery>response.data.searchCourses;
+  }
   async GetSection(id: string): Promise<GetSectionQuery> {
     const statement = `query GetSection($id: ID!) {
         getSection(id: $id) {
@@ -1337,14 +1424,13 @@ export class APIService {
             day
             start
             end
-            room
+            location
           }
-          syllabus
           code
-          instructor
+          instructors
           curEnroll
           maxEnroll
-          notes
+          method
           createdAt
           updatedAt
         }
@@ -1374,14 +1460,13 @@ export class APIService {
               day
               start
               end
-              room
+              location
             }
-            syllabus
             code
-            instructor
+            instructors
             curEnroll
             maxEnroll
-            notes
+            method
             createdAt
             updatedAt
           }
@@ -1402,6 +1487,63 @@ export class APIService {
       graphqlOperation(statement, gqlAPIServiceArguments)
     )) as any;
     return <ListSectionsQuery>response.data.listSections;
+  }
+  async ByCourseIdCode(
+    courseID?: string,
+    code?: ModelStringKeyConditionInput,
+    sortDirection?: ModelSortDirection,
+    filter?: ModelSectionFilterInput,
+    limit?: number,
+    nextToken?: string
+  ): Promise<ByCourseIdCodeQuery> {
+    const statement = `query ByCourseIdCode($courseID: ID, $code: ModelStringKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelSectionFilterInput, $limit: Int, $nextToken: String) {
+        byCourseIDCode(courseID: $courseID, code: $code, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
+          __typename
+          items {
+            __typename
+            id
+            courseID
+            sessions {
+              __typename
+              day
+              start
+              end
+              location
+            }
+            code
+            instructors
+            curEnroll
+            maxEnroll
+            method
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }`;
+    const gqlAPIServiceArguments: any = {};
+    if (courseID) {
+      gqlAPIServiceArguments.courseID = courseID;
+    }
+    if (code) {
+      gqlAPIServiceArguments.code = code;
+    }
+    if (sortDirection) {
+      gqlAPIServiceArguments.sortDirection = sortDirection;
+    }
+    if (filter) {
+      gqlAPIServiceArguments.filter = filter;
+    }
+    if (limit) {
+      gqlAPIServiceArguments.limit = limit;
+    }
+    if (nextToken) {
+      gqlAPIServiceArguments.nextToken = nextToken;
+    }
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <ByCourseIdCodeQuery>response.data.byCourseIDCode;
   }
   async GetSchedule(id: string): Promise<GetScheduleQuery> {
     const statement = `query GetSchedule($id: ID!) {
@@ -1478,167 +1620,6 @@ export class APIService {
     )) as any;
     return <ListSchedulesQuery>response.data.listSchedules;
   }
-  async ByYearTermCampusCode(
-    year?: string,
-    termCampusCode?: ModelCourseByYearTermCampusCodeCompositeKeyConditionInput,
-    sortDirection?: ModelSortDirection,
-    filter?: ModelCourseFilterInput,
-    limit?: number,
-    nextToken?: string
-  ): Promise<ByYearTermCampusCodeQuery> {
-    const statement = `query ByYearTermCampusCode($year: String, $termCampusCode: ModelCourseByYearTermCampusCodeCompositeKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelCourseFilterInput, $limit: Int, $nextToken: String) {
-        byYearTermCampusCode(year: $year, termCampusCode: $termCampusCode, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
-          __typename
-          items {
-            __typename
-            id
-            name
-            code
-            year
-            term
-            campus
-            distributionRequirement
-            description
-            prerequisites
-            exclusions
-            enrollControlsType
-            enrollControls
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {};
-    if (year) {
-      gqlAPIServiceArguments.year = year;
-    }
-    if (termCampusCode) {
-      gqlAPIServiceArguments.termCampusCode = termCampusCode;
-    }
-    if (sortDirection) {
-      gqlAPIServiceArguments.sortDirection = sortDirection;
-    }
-    if (filter) {
-      gqlAPIServiceArguments.filter = filter;
-    }
-    if (limit) {
-      gqlAPIServiceArguments.limit = limit;
-    }
-    if (nextToken) {
-      gqlAPIServiceArguments.nextToken = nextToken;
-    }
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <ByYearTermCampusCodeQuery>response.data.byYearTermCampusCode;
-  }
-  async ByCourseIdCode(
-    courseID?: string,
-    code?: ModelStringKeyConditionInput,
-    sortDirection?: ModelSortDirection,
-    filter?: ModelSectionFilterInput,
-    limit?: number,
-    nextToken?: string
-  ): Promise<ByCourseIdCodeQuery> {
-    const statement = `query ByCourseIdCode($courseID: ID, $code: ModelStringKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelSectionFilterInput, $limit: Int, $nextToken: String) {
-        byCourseIDCode(courseID: $courseID, code: $code, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
-          __typename
-          items {
-            __typename
-            id
-            courseID
-            sessions {
-              __typename
-              day
-              start
-              end
-              room
-            }
-            syllabus
-            code
-            instructor
-            curEnroll
-            maxEnroll
-            notes
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {};
-    if (courseID) {
-      gqlAPIServiceArguments.courseID = courseID;
-    }
-    if (code) {
-      gqlAPIServiceArguments.code = code;
-    }
-    if (sortDirection) {
-      gqlAPIServiceArguments.sortDirection = sortDirection;
-    }
-    if (filter) {
-      gqlAPIServiceArguments.filter = filter;
-    }
-    if (limit) {
-      gqlAPIServiceArguments.limit = limit;
-    }
-    if (nextToken) {
-      gqlAPIServiceArguments.nextToken = nextToken;
-    }
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <ByCourseIdCodeQuery>response.data.byCourseIDCode;
-  }
-  async SearchCourses(
-    filter?: SearchableCourseFilterInput,
-    sort?: SearchableCourseSortInput,
-    limit?: number,
-    nextToken?: string
-  ): Promise<SearchCoursesQuery> {
-    const statement = `query SearchCourses($filter: SearchableCourseFilterInput, $sort: SearchableCourseSortInput, $limit: Int, $nextToken: String) {
-        searchCourses(filter: $filter, sort: $sort, limit: $limit, nextToken: $nextToken) {
-          __typename
-          items {
-            __typename
-            id
-            name
-            code
-            year
-            term
-            campus
-            distributionRequirement
-            description
-            prerequisites
-            exclusions
-            enrollControlsType
-            enrollControls
-            createdAt
-            updatedAt
-          }
-          nextToken
-          total
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {};
-    if (filter) {
-      gqlAPIServiceArguments.filter = filter;
-    }
-    if (sort) {
-      gqlAPIServiceArguments.sort = sort;
-    }
-    if (limit) {
-      gqlAPIServiceArguments.limit = limit;
-    }
-    if (nextToken) {
-      gqlAPIServiceArguments.nextToken = nextToken;
-    }
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <SearchCoursesQuery>response.data.searchCourses;
-  }
   OnCreateCourseListener: Observable<OnCreateCourseSubscription> = API.graphql(
     graphqlOperation(
       `subscription OnCreateCourse {
@@ -1650,12 +1631,12 @@ export class APIService {
           year
           term
           campus
-          distributionRequirement
+          distribution
           description
           prerequisites
+          corequisites
           exclusions
-          enrollControlsType
-          enrollControls
+          breadth
           createdAt
           updatedAt
         }
@@ -1674,12 +1655,12 @@ export class APIService {
           year
           term
           campus
-          distributionRequirement
+          distribution
           description
           prerequisites
+          corequisites
           exclusions
-          enrollControlsType
-          enrollControls
+          breadth
           createdAt
           updatedAt
         }
@@ -1698,12 +1679,12 @@ export class APIService {
           year
           term
           campus
-          distributionRequirement
+          distribution
           description
           prerequisites
+          corequisites
           exclusions
-          enrollControlsType
-          enrollControls
+          breadth
           createdAt
           updatedAt
         }
@@ -1725,14 +1706,13 @@ export class APIService {
             day
             start
             end
-            room
+            location
           }
-          syllabus
           code
-          instructor
+          instructors
           curEnroll
           maxEnroll
-          notes
+          method
           createdAt
           updatedAt
         }
@@ -1754,14 +1734,13 @@ export class APIService {
             day
             start
             end
-            room
+            location
           }
-          syllabus
           code
-          instructor
+          instructors
           curEnroll
           maxEnroll
-          notes
+          method
           createdAt
           updatedAt
         }
@@ -1783,14 +1762,13 @@ export class APIService {
             day
             start
             end
-            room
+            location
           }
-          syllabus
           code
-          instructor
+          instructors
           curEnroll
           maxEnroll
-          notes
+          method
           createdAt
           updatedAt
         }

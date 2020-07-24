@@ -7,12 +7,12 @@ subscription OnCreateCourse {
     year
     term
     campus
-    distributionRequirement
+    distribution
     description
     prerequisites
+    corequisites
     exclusions
-    enrollControlsType
-    enrollControls
+    breadth
     createdAt
     updatedAt
   }
@@ -25,12 +25,12 @@ subscription OnUpdateCourse {
     year
     term
     campus
-    distributionRequirement
+    distribution
     description
     prerequisites
+    corequisites
     exclusions
-    enrollControlsType
-    enrollControls
+    breadth
     createdAt
     updatedAt
   }
@@ -43,12 +43,12 @@ subscription OnDeleteCourse {
     year
     term
     campus
-    distributionRequirement
+    distribution
     description
     prerequisites
+    corequisites
     exclusions
-    enrollControlsType
-    enrollControls
+    breadth
     createdAt
     updatedAt
   }
@@ -61,14 +61,13 @@ subscription OnCreateSection {
       day
       start
       end
-      room
+      location
     }
-    syllabus
     code
-    instructor
+    instructors
     curEnroll
     maxEnroll
-    notes
+    method
     createdAt
     updatedAt
   }
@@ -81,14 +80,13 @@ subscription OnUpdateSection {
       day
       start
       end
-      room
+      location
     }
-    syllabus
     code
-    instructor
+    instructors
     curEnroll
     maxEnroll
-    notes
+    method
     createdAt
     updatedAt
   }
@@ -101,14 +99,13 @@ subscription OnDeleteSection {
       day
       start
       end
-      room
+      location
     }
-    syllabus
     code
-    instructor
+    instructors
     curEnroll
     maxEnroll
-    notes
+    method
     createdAt
     updatedAt
   }

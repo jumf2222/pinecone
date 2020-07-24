@@ -10,12 +10,12 @@ mutation CreateCourse(
     year
     term
     campus
-    distributionRequirement
+    distribution
     description
     prerequisites
+    corequisites
     exclusions
-    enrollControlsType
-    enrollControls
+    breadth
     createdAt
     updatedAt
   }
@@ -31,12 +31,12 @@ mutation UpdateCourse(
     year
     term
     campus
-    distributionRequirement
+    distribution
     description
     prerequisites
+    corequisites
     exclusions
-    enrollControlsType
-    enrollControls
+    breadth
     createdAt
     updatedAt
   }
@@ -52,12 +52,12 @@ mutation DeleteCourse(
     year
     term
     campus
-    distributionRequirement
+    distribution
     description
     prerequisites
+    corequisites
     exclusions
-    enrollControlsType
-    enrollControls
+    breadth
     createdAt
     updatedAt
   }
@@ -73,14 +73,13 @@ mutation CreateSection(
       day
       start
       end
-      room
+      location
     }
-    syllabus
     code
-    instructor
+    instructors
     curEnroll
     maxEnroll
-    notes
+    method
     createdAt
     updatedAt
   }
@@ -96,14 +95,13 @@ mutation UpdateSection(
       day
       start
       end
-      room
+      location
     }
-    syllabus
     code
-    instructor
+    instructors
     curEnroll
     maxEnroll
-    notes
+    method
     createdAt
     updatedAt
   }
@@ -119,14 +117,13 @@ mutation DeleteSection(
       day
       start
       end
-      room
+      location
     }
-    syllabus
     code
-    instructor
+    instructors
     curEnroll
     maxEnroll
-    notes
+    method
     createdAt
     updatedAt
   }

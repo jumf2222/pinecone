@@ -92,14 +92,20 @@ export class ScheduleCreator {
         }
 
         // Add New
-        for (const newSess of sect.sessions) {
+        if (sect.method === "ASYNC") {
+            if (!scheduleData.schedule.times.ASYNC) { scheduleData.schedule.times.ASYNC = {}; }
+            if (!scheduleData.schedule.times.ASYNC["0"]) { scheduleData.schedule.times.ASYNC["0"] = []; }
+            scheduleData.schedule.times.ASYNC["0"].push(section);
+        } else {
+            for (const newSess of sect.sessions) {
 
-            if (!scheduleData.schedule.times[newSess.day]) { scheduleData.schedule.times[newSess.day] = {}; }
-            const day = scheduleData.schedule.times[newSess.day];
+                if (!scheduleData.schedule.times[newSess.day]) { scheduleData.schedule.times[newSess.day] = {}; }
+                const day = scheduleData.schedule.times[newSess.day];
 
-            for (let i = newSess.start; i < newSess.end; i++) {
-                if (!day[i]) { day[i] = []; }
-                day[i].push(sect.id);
+                for (let i = newSess.start; i < newSess.end; i++) {
+                    if (!day[i]) { day[i] = []; }
+                    day[i].push(sect.id);
+                }
             }
         }
 
@@ -145,13 +151,19 @@ export class ScheduleCreator {
      * Add a section without conflict checking
      */
     private pushSection(schedule: Schedule, section: Section): void {
-        for (const newSess of section.sessions) {
+        if (section.method === "ASYNC") {
+            if (!schedule.times.ASYNC) { schedule.times.ASYNC = {}; }
+            if (!schedule.times.ASYNC["0"]) { schedule.times.ASYNC["0"] = []; }
+            schedule.times.ASYNC["0"].push(section.id);
+        } else {
+            for (const newSess of section.sessions) {
 
-            if (!schedule.times[newSess.day]) { schedule.times[newSess.day] = {}; }
-            const day = schedule.times[newSess.day];
+                if (!schedule.times[newSess.day]) { schedule.times[newSess.day] = {}; }
+                const day = schedule.times[newSess.day];
 
-            for (let i = newSess.start; i < newSess.end; i++) {
-                day[i] = [section.id];
+                for (let i = newSess.start; i < newSess.end; i++) {
+                    day[i] = [section.id];
+                }
             }
         }
     }
@@ -160,11 +172,15 @@ export class ScheduleCreator {
      * Remove a section without object cleaning
      */
     private popSection(schedule: Schedule, newSect: Section): void {
-        for (const newSess of newSect.sessions) {
+        if (newSect.method === "ASYNC") {
+            schedule.times.ASYNC["0"].pop();
+        } else {
+            for (const newSess of newSect.sessions) {
 
-            const day = schedule.times[newSess.day];
-            for (let i = newSess.start; i < newSess.end; i++) {
-                day[i].pop();
+                const day = schedule.times[newSess.day];
+                for (let i = newSess.start; i < newSess.end; i++) {
+                    day[i].pop();
+                }
             }
         }
     }
@@ -203,36 +219,6 @@ export class ScheduleCreator {
      */
     copySchedule(schedule: Schedule): Schedule {
         return JSON.parse(JSON.stringify(schedule));
-        // const tempDays: Dictionary<Dictionary<string[]>> = {};
-
-        // for (const day of Object.keys(schedule.times)) {
-        //     let hasData = false;
-        //     const tempDay: Dictionary<string[]> = {};
-
-        //     for (const time of Object.keys(schedule.times[day])) {
-        //         const section = schedule.times[day][time];
-        //         if (!section) { continue; }
-        //         hasData = true;
-        //         tempDay[time] = [...section];
-        //     }
-
-        //     if (hasData) { tempDays[day] = tempDay; }
-        // }
-
-        // return {
-        //     id: schedule.id,
-        //     year: schedule.year,
-        //     term: schedule.term,
-        //     name: schedule.name,
-        //     courses: [...schedule.courses],
-        //     sections: [...schedule.sections],
-        //     autoLectures: [...schedule.autoLectures],
-        //     autoPraticals: [...schedule.autoPraticals],
-        //     autoTutorials: [...schedule.autoTutorials],
-        //     score: schedule.score,
-        //     conflicts: [...schedule.conflicts],
-        //     times: tempDays,
-        // };
     }
 
     private populate(
@@ -261,10 +247,6 @@ export class ScheduleCreator {
         }
 
         if (groupInd >= groups.length) { return; }
-
-        // let data = this.reference.courses[groupInd].lectures;
-        // if (type === 1) data = this.reference.courses[groupInd].tutorials;
-        // else if (type === 2) data = this.reference.courses[groupInd].praticals;
 
         for (const lec of groups[groupInd]) {
             console.log("CONFLICT", this.isConflicting(schedule, lec));

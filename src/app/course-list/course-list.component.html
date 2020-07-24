@@ -17,10 +17,12 @@
       >
         <mat-expansion-panel-header
           *ngIf="scheduleData.courses[courseOption.courseID]; let course"
+          [collapsedHeight]="'auto'"
+          [expandedHeight]="'auto'"
           [@panel]
         >
           <mat-panel-title>
-            {{ course.code }}
+            {{ displayFn(course) }}
           </mat-panel-title>
           <mat-panel-description>
             {{ course.name }}
@@ -69,7 +71,6 @@
             </div>
           </div>
           <div *ngIf="sections.praticals.length > 0">
-            <mat-divider></mat-divider>
             Praticals
             <div class="section-container">
               <mat-checkbox
@@ -79,20 +80,20 @@
               >
                 Auto
               </mat-checkbox>
-              <button mat-flat-button class="section-but">Auto</button>
               <button
                 mat-flat-button
                 class="section-but"
                 *ngFor="let sect of sections.praticals"
                 [ngClass]="selectedSections[sect] ? 'selected' : ''"
                 (click)="selectSection(sect)"
+                (mouseenter)="timetableService.hoverSection(sect)"
+                (mouseleave)="timetableService.blurSection(sect)"
               >
                 {{ scheduleData.sections[sect].code }}
               </button>
             </div>
           </div>
           <div *ngIf="sections.tutorials.length > 0">
-            <mat-divider></mat-divider>
             Tutorials
             <div class="section-container">
               <mat-checkbox
@@ -102,13 +103,14 @@
               >
                 Auto
               </mat-checkbox>
-              <button mat-flat-button class="section-but">Auto</button>
               <button
                 mat-flat-button
                 class="section-but"
                 *ngFor="let sect of sections.tutorials"
                 [ngClass]="selectedSections[sect] ? 'selected' : ''"
                 (click)="selectSection(sect)"
+                (mouseenter)="timetableService.hoverSection(sect)"
+                (mouseleave)="timetableService.blurSection(sect)"
               >
                 {{ scheduleData.sections[sect].code }}
               </button>

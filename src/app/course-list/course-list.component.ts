@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ChangeDetectorRef, Input } from "@angular/core";
 import { CourseService } from "../course.service";
-import { Course, Schedule, ScheduleData, Dictionary, CourseOption } from "../definitions";
+import { Course, Schedule, ScheduleData, Dictionary, CourseOption, CAMPUS_NAMES } from "../definitions";
 import { TimetableService } from "../timetable.service";
 import { transition, animate, style, trigger, animateChild } from "@angular/animations";
 // import { IDatasource, Datasource } from "ngx-ui-scroll";
@@ -12,11 +12,11 @@ import { transition, animate, style, trigger, animateChild } from "@angular/anim
   animations: [
     trigger("panel", [
       transition(":enter", [
-        style({ height: 0 }),
-        animate("100ms ease", style({ height: "48px" }))
+        style({ height: 0, padding: "0px 12px" }),
+        animate("100ms ease", style({ height: "auto", padding: "12px" }))
       ]),
       transition(":leave", [
-        animate("9s ease", style({ height: 0 }))
+        animate("9s ease", style({ height: 0, padding: "0px 12px" }))
       ])
     ]),
     trigger("total", [
@@ -148,6 +148,14 @@ export class CourseListComponent implements OnInit {
 
   trackByFn(index: number, course: CourseOption) {
     return course.courseID;
+  }
+
+  displayFn(course: Course): string {
+    if (!course) { return ""; }
+    let output = "";
+    if (course.code) { output += course.code; }
+    if (course.code) { output += " - " + CAMPUS_NAMES[course.campus]; }
+    return output;
   }
 
   // scroll(id, event) {
