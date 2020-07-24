@@ -34,6 +34,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatTableModule } from "@angular/material/table";
+import { MatDialogModule } from "@angular/material/dialog";
 // import { ScrollingModule as ExperimentalScrollingModule } from "@angular/cdk-experimental/scrolling";
 // import { UiScrollModule } from "ngx-ui-scroll";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
@@ -119,12 +120,16 @@ Amplify.configure(awsconfig);
     MatCheckboxModule,
     MatSelectModule,
     MatTooltipModule,
+    MatDialogModule,
   ],
   exports: [
     MatFormFieldModule,
     MatInputModule
   ],
   providers: [AmplifyService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    CourseInfoComponent
+  ],
 })
 export class AppModule { }
