@@ -1,23 +1,21 @@
-<p>This page is a complete mess lol, but this is gonna be the search bar</p>
 <div class="example-container mat-elevation-z2">
   <table mat-table [dataSource]="schedules" matSort>
-
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.position }}</td>
     </ng-container>
 
     <ng-container matColumnDef="year">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Year </th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Year</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
     </ng-container>
 
     <ng-container matColumnDef="term">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Session </th>
-      <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Session</th>
+      <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 </div>

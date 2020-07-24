@@ -43,6 +43,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { CdkScrollableModule } from "@angular/cdk/scrolling";
 import { MatExpansionModule } from "@angular/material/expansion";
+import { MatSortModule } from "@angular/material/sort";
 
 // Calendar scheduler start
 
@@ -121,6 +122,7 @@ Amplify.configure(awsconfig);
     MatSelectModule,
     MatTooltipModule,
     MatDialogModule,
+    MatSortModule,
   ],
   exports: [
     MatFormFieldModule,
