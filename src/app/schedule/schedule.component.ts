@@ -264,6 +264,15 @@ export class ScheduleComponent implements OnInit {
 
         this.courses.push(...data.items as Course[]);
       } while (data.nextToken);
+
+      do {
+        data = await this.courseService.ByYearTermCampusCode("2021",
+          { beginsWith: { term: "S" } },
+          undefined, undefined, 10000, data && data.nextToken ? data.nextToken : undefined);
+
+        this.courses.push(...data.items as Course[]);
+      } while (data.nextToken);
+
       console.log("courses", data);
 
       // this.apiService.OnCreateCourseListener.subscribe(course => {

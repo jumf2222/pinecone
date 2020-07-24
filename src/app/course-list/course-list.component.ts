@@ -3,6 +3,8 @@ import { CourseService } from "../course.service";
 import { Course, Schedule, ScheduleData, Dictionary, CourseOption, CAMPUS_NAMES } from "../definitions";
 import { TimetableService } from "../timetable.service";
 import { transition, animate, style, trigger, animateChild } from "@angular/animations";
+import { MatDialog } from "@angular/material/dialog";
+import { CourseInfoComponent } from "../course-info/course-info.component";
 // import { IDatasource, Datasource } from "ngx-ui-scroll";
 
 @Component({
@@ -44,7 +46,7 @@ export class CourseListComponent implements OnInit {
   scheduleData: ScheduleData;
   selectedSections: Dictionary<boolean> = {};
 
-  constructor(public timetableService: TimetableService, public courseService: CourseService) {
+  constructor(public timetableService: TimetableService, public courseService: CourseService, public dialog: MatDialog) {
     this.scheduleData = this.timetableService.scheduleSubject.value;
     // this.timetableService.coursesSubject.subscribe(data => {
     //   if (data) {
@@ -156,6 +158,12 @@ export class CourseListComponent implements OnInit {
     if (course.code) { output += course.code; }
     if (course.code) { output += " - " + CAMPUS_NAMES[course.campus]; }
     return output;
+  }
+
+  openCourseInfo(course: Course) {
+    this.dialog.open(CourseInfoComponent, {
+      data: course
+    });
   }
 
   // scroll(id, event) {

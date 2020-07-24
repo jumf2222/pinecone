@@ -30,7 +30,13 @@
         </mat-expansion-panel-header>
         <div class="relative">
           <div style="flex: 1;"></div>
-          <button mat-icon-button class="info">
+          <button
+            mat-icon-button
+            class="info"
+            (click)="
+              openCourseInfo(scheduleData.courses[courseOption.courseID])
+            "
+          >
             <mat-icon>info_outline</mat-icon>
           </button>
           <button
