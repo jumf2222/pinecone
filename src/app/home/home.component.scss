@@ -1,101 +1,20 @@
-p {
-  font-family: "Pinecone";
-  padding-top: 20px;
-  font-size: 40px;
+.example-container {
+  height: 400px;
+  overflow: auto;
+  max-width: 1000px;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  border: none;
-  box-sizing: border-box;
-  outline: none;
+.table {
+  border-radius: 2px;
+  box-shadow: ;
 }
 
-body {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
-  background: #121212;
-}
-
-.custom-input::placeholder {
-  color: #919EAB;
-}
-
-.custom-input {
-  padding: 18px;
-  min-width: 400px;
-  border-radius: 4px;
-  font-size: 16px;
-
-  color: #222222;
-  background: #f1f1f1;
-}
-
-.custom-input-button {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  color: #cedbf8;
-}
-
-.custom-input-button svg {
-  width: 18px;
-}
-
-.input-container {
-  position: relative;
-}
-
-.input-container::after {
-  content: "";
-  display: block;
-
-  position: absolute;
-  left: 0;
-  bottom: 0;
-
+table {
   width: 100%;
-  height: 4px;
-
-  background: linear-gradient(
-    to right,
-      #CA4246, 
-    #E16541, 
-    #E16541, 
-    #F18F43, 
-    #F18F43, 
-    #8B9862, 
-    #8B9862, 
-    #476098,
-    #476098, 
-    #A7489B,
-    #CA4246, 
-    #A7489B,
-    #CA4246, 
-    #A7489B
-  );
-
-  background-size: 500% auto;
-  background-position: 0% 0%;
-
-  border-radius: 0 0 4px 4px;
-
-  animation: gradient 3s linear infinite;
 }
 
-@keyframes gradient {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 100% 0;
-  }
+p {
+  font-family: "Pinecone", serif;
+  font-size: 34px;
 }
