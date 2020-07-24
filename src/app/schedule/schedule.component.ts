@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
 import { TimetableService } from "../timetable.service";
-import { Course, Schedule, Section, ScheduleData, DAY_CODES } from "../definitions";
+import { Course, Schedule, Section, ScheduleData, DAY_CODES, CAMPUS_NAMES } from "../definitions";
 import { FormControl } from "@angular/forms";
 import { map, startWith, debounceTime, mergeMap, skipUntil, last, filter } from "rxjs/operators";
 import { combineLatest } from "rxjs";
@@ -9,6 +9,7 @@ import { CourseService } from "../course.service";
 // import { Datasource } from "ngx-ui-scroll";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { ActivatedRoute } from "@angular/router";
+import { APIService, ByYearTermCampusCodeQuery } from "../API.service";
 // import { DegreeService } from "../degree.service";
 
 interface SlotData {
@@ -89,6 +90,7 @@ export class ScheduleComponent implements OnInit {
     public timetableService: TimetableService,
     private courseService: CourseService,
     private route: ActivatedRoute,
+    private apiService: APIService
   ) {
     this.scheduleData = this.timetableService.scheduleSubject.value;
     for (let i = 0; i < 48; i++) {
@@ -148,15 +150,26 @@ export class ScheduleComponent implements OnInit {
     let extend = false;
     const outputStrings: string[] = [];
     for (const sect of sections) {
-      if (prevSections.includes(sect)) {
-        extend = true;
-      } else {
-        if (!sect) { continue; }
-        const curSection = this.scheduleData.sections[sect];
-        const curCourse = this.scheduleData.courses[curSection.courseID];
+      if (!sect) {
+        if (prevSections.includes(sect)) { extend = true; }
+        continue;
+      }
+      const curSection = this.scheduleData.sections[sect];
 
-        outputStrings.push(curSection.code);
-        outputStrings.push(curCourse.code);
+      for (const sess of curSection.sessions) {
+        if (sess.day !== day || time < sess.start || time > sess.end) { continue; }
+        if (sess.start !== time) {
+          extend = true;
+        } else {
+          const curCourse = this.scheduleData.courses[curSection.courseID];
+
+          outputStrings.push(curCourse.code);
+          outputStrings.push(CAMPUS_NAMES[curCourse.campus]);
+          outputStrings.push(curSection.code);
+          outputStrings.push(curSection.method);
+          outputStrings.push(this.formatTime(sess.start) + " - " + this.formatTime(sess.end));
+          outputStrings.push(curSection.curEnroll + " / " + curSection.maxEnroll);
+        }
       }
     }
 
@@ -208,7 +221,6 @@ export class ScheduleComponent implements OnInit {
   }
 
   getSections(day: string, time: number): (string | null)[] | null {
-    day = day.substring(0, 2).toUpperCase();
     if (!this.scheduleData.schedule.times[day] ||
       !this.scheduleData.schedule.times[day][time] ||
       this.scheduleData.schedule.times[day][time].length === 0) { return null; }
@@ -243,12 +255,22 @@ export class ScheduleComponent implements OnInit {
     this.route.queryParamMap.subscribe(async params => {
       await this.timetableService.setScheduleByID(params.get("scheduleData") || "");
 
-      const data = await this.courseService.ByYearTermCampusCode(this.scheduleData.schedule.year,
-        { beginsWith: { term: this.scheduleData.schedule.term, campus: "H5" } },
-        undefined, undefined, 10000);
+      this.courses = [];
+      let data: ByYearTermCampusCodeQuery | null = null;
+      do {
+        data = await this.courseService.ByYearTermCampusCode(this.scheduleData.schedule.year,
+          { beginsWith: { term: this.scheduleData.schedule.term } },
+          undefined, undefined, 10000, data && data.nextToken ? data.nextToken : undefined);
 
-      this.courses = data.items as Course[];
+        this.courses.push(...data.items as Course[]);
+      } while (data.nextToken);
       console.log("courses", data);
+
+      // this.apiService.OnCreateCourseListener.subscribe(course => {
+      //   this.courses.push(course as Course);
+      // });
+
+
       // if ();
       // let yearLevel = parseInt(params.get("level")) || 1;
 
@@ -321,7 +343,11 @@ export class ScheduleComponent implements OnInit {
   }
 
   displayFn(course: Course): string {
-    return course && course.code ? course.code : "";
+    if (!course) { return ""; }
+    let output = "";
+    if (course.code) { output += course.code; }
+    if (course.code) { output += " - " + CAMPUS_NAMES[course.campus]; }
+    return output;
   }
 
   // private _filter(value: string, courses: Course[]): Course[] {

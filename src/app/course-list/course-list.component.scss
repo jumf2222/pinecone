@@ -64,6 +64,11 @@
   flex: 1;
 }
 
+mat-expansion-panel mat-expansion-panel-header {
+  padding: 12px;
+  line-height: 20px;
+}
+
 .section-but {
   padding: 0 16px;
   margin: 5px;
@@ -74,6 +79,8 @@
 
 .auto-checkbox {
   padding-top: 10px;
+  width: 100px;
+  margin: 5px;
 }
 
 .selected {

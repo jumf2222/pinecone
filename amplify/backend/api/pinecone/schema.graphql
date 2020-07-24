@@ -4,6 +4,7 @@ type Course
     rules: [
       { allow: private, operations: [read] }
       { allow: groups, groups: ["Admin"] }
+      { allow: private, provider: iam }
     ]
   )
   @key(
@@ -17,13 +18,14 @@ type Course
   code: String!
   year: String!
   term: String!
-  campus: String
-  distributionRequirement: String
-  description: String
-  prerequisites: String
-  exclusions: String
-  enrollControlsType: String
-  enrollControls: [String]
+  campus: String!
+  credit: String!
+  distribution: String!
+  description: String!
+  prerequisites: String!
+  corequisites: String!
+  exclusions: String!
+  breadth: String!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
@@ -34,6 +36,7 @@ type Section
     rules: [
       { allow: private, operations: [read] }
       { allow: groups, groups: ["Admin"] }
+      { allow: private, provider: iam }
     ]
   )
   @key(
@@ -43,23 +46,24 @@ type Section
   ) {
   id: ID!
   courseID: ID!
-  sessions: [Session]
-  syllabus: String
-  code: String
-  instructor: String
-  curEnroll: Int
-  maxEnroll: Int
-  notes: String
+  sessions: [Session]!
+  code: String!
+  instructors: [String]!
+  curEnroll: Int!
+  maxEnroll: Int!
+  method: String!
 }
 
 type Session {
-  day: String
-  start: Int
-  end: Int
-  room: String
+  day: String!
+  start: Int!
+  end: Int!
+  location: String!
 }
 
-type Schedule @model @auth(rules: [{ allow: owner }]) {
+type Schedule
+  @model
+  @auth(rules: [{ allow: owner }, { allow: private, provider: iam }]) {
   id: ID!
   year: String
   term: String

@@ -28,14 +28,16 @@
             <cdk-virtual-scroll-viewport
               class="autocomplete-test-viewport"
               [ngStyle]="{ height: height }"
-              itemSize="25"
+              itemSize="48"
+              minBufferPx="200"
+              maxBufferPx="250"
             >
               <mat-option
                 *cdkVirtualFor="let option of filteredCourses"
                 [value]="option"
                 class="autocomplete-item"
               >
-                {{ option.code }}
+                {{ displayFn(option) }}
               </mat-option>
             </cdk-virtual-scroll-viewport>
           </mat-autocomplete>
@@ -91,7 +93,7 @@
             <thead>
               <tr>
                 <th></th>
-                <th *ngFor="let day of DAYS">{{ formatDay(day) }}</th>
+                <th *ngFor="let day of DAYS">{{ day }}</th>
               </tr>
             </thead>
             <tbody>
@@ -103,20 +105,24 @@
                     *ngFor="let data of row; let col = index"
                     (click)="clickSlot(time, col)"
                   >
-                    <p *ngFor="let text of data.texts; let ind = index">
-                      {{ text }}
-                      <mat-icon
-                        *ngIf="data.conflicts && ind % 2 == 0"
-                        style="
-                          float: right;
-                          font-size: 30px;
-                          width: 30px;
-                          height: 30px !important;
-                        "
-                      >
-                        warning
-                      </mat-icon>
-                    </p>
+                    <div class="text-wrapper">
+                      <p *ngFor="let text of data.texts; let ind = index">
+                        {{ text }}
+                        <mat-icon
+                          *ngIf="data.conflicts && ind % 6 == 1"
+                          style="
+                            position: absolute;
+                            right: 0px;
+                            top: 0px;
+                            font-size: 30px;
+                            width: 30px;
+                            height: 30px !important;
+                          "
+                        >
+                          warning
+                        </mat-icon>
+                      </p>
+                    </div>
                   </td>
                 </tr>
               </ng-container>

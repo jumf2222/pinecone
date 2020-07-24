@@ -2,34 +2,33 @@ export interface Course {
     id: string;
     name: string;
     code: string;
-    term: string;
     year: string;
+    term: string;
     campus: string;
-    distributionRequirement: string;
+    distribution: string;
     description: string;
     prerequisites: string;
+    corequisites: string;
     exclusions: string;
-    enrollControlsType: string;
-    enrollControls: string[];
+    breadth: string;
 }
 
 export interface Section {
     id: string;
     courseID: string;
     sessions: Session[];
-    syllabus: string;
     code: string;
-    instructor: string;
+    instructors: string[];
     curEnroll: number;
     maxEnroll: number;
-    notes: string;
+    method: string;
 }
 
 export interface Session {
     day: string;
     start: number;
     end: number;
-    room: string;
+    location: string;
 }
 
 // export interface DaySlot {
@@ -85,8 +84,9 @@ export interface Dictionary<T> {
 //     FREQ: string
 // }
 // export const ACADEMIC_SESSIONS = { PREV: "1", SPRING: "5", FALL_WINTER: "9" };
-export const DAY_CODES = ["MO", "TU", "WE", "TH", "FR"];
-export const CAMPUS_NAMES = { H5: "UTM", H1: "UTSG", H3: "UTSC" };
+export const DAY_CODES = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"];
+export const CAMPUS_NAMES: Dictionary<string> = { 5: "UTM", 1: "UTSG", 3: "UTSC" };
+
 // export const TERMS = ["F", "S", "SF", "SS"];
 
 // export interface Program {

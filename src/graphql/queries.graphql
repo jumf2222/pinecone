@@ -7,12 +7,12 @@ query GetCourse($id: ID!) {
     year
     term
     campus
-    distributionRequirement
+    distribution
     description
     prerequisites
+    corequisites
     exclusions
-    enrollControlsType
-    enrollControls
+    breadth
     createdAt
     updatedAt
   }
@@ -30,16 +30,83 @@ query ListCourses(
       year
       term
       campus
-      distributionRequirement
+      distribution
       description
       prerequisites
+      corequisites
       exclusions
-      enrollControlsType
-      enrollControls
+      breadth
       createdAt
       updatedAt
     }
     nextToken
+  }
+}
+query ByYearTermCampusCode(
+  $year: String
+  $termCampusCode: ModelCourseByYearTermCampusCodeCompositeKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelCourseFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  byYearTermCampusCode(
+    year: $year
+    termCampusCode: $termCampusCode
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      name
+      code
+      year
+      term
+      campus
+      distribution
+      description
+      prerequisites
+      corequisites
+      exclusions
+      breadth
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+query SearchCourses(
+  $filter: SearchableCourseFilterInput
+  $sort: SearchableCourseSortInput
+  $limit: Int
+  $nextToken: String
+) {
+  searchCourses(
+    filter: $filter
+    sort: $sort
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      name
+      code
+      year
+      term
+      campus
+      distribution
+      description
+      prerequisites
+      corequisites
+      exclusions
+      breadth
+      createdAt
+      updatedAt
+    }
+    nextToken
+    total
   }
 }
 query GetSection($id: ID!) {
@@ -50,14 +117,13 @@ query GetSection($id: ID!) {
       day
       start
       end
-      room
+      location
     }
-    syllabus
     code
-    instructor
+    instructors
     curEnroll
     maxEnroll
-    notes
+    method
     createdAt
     updatedAt
   }
@@ -75,14 +141,49 @@ query ListSections(
         day
         start
         end
-        room
+        location
       }
-      syllabus
       code
-      instructor
+      instructors
       curEnroll
       maxEnroll
-      notes
+      method
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+query ByCourseIdCode(
+  $courseID: ID
+  $code: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelSectionFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  byCourseIDCode(
+    courseID: $courseID
+    code: $code
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      courseID
+      sessions {
+        day
+        start
+        end
+        location
+      }
+      code
+      instructors
+      curEnroll
+      maxEnroll
+      method
       createdAt
       updatedAt
     }
@@ -132,109 +233,5 @@ query ListSchedules(
       owner
     }
     nextToken
-  }
-}
-query ByYearTermCampusCode(
-  $year: String
-  $termCampusCode: ModelCourseByYearTermCampusCodeCompositeKeyConditionInput
-  $sortDirection: ModelSortDirection
-  $filter: ModelCourseFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  byYearTermCampusCode(
-    year: $year
-    termCampusCode: $termCampusCode
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      name
-      code
-      year
-      term
-      campus
-      distributionRequirement
-      description
-      prerequisites
-      exclusions
-      enrollControlsType
-      enrollControls
-      createdAt
-      updatedAt
-    }
-    nextToken
-  }
-}
-query ByCourseIdCode(
-  $courseID: ID
-  $code: ModelStringKeyConditionInput
-  $sortDirection: ModelSortDirection
-  $filter: ModelSectionFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  byCourseIDCode(
-    courseID: $courseID
-    code: $code
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      courseID
-      sessions {
-        day
-        start
-        end
-        room
-      }
-      syllabus
-      code
-      instructor
-      curEnroll
-      maxEnroll
-      notes
-      createdAt
-      updatedAt
-    }
-    nextToken
-  }
-}
-query SearchCourses(
-  $filter: SearchableCourseFilterInput
-  $sort: SearchableCourseSortInput
-  $limit: Int
-  $nextToken: String
-) {
-  searchCourses(
-    filter: $filter
-    sort: $sort
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      name
-      code
-      year
-      term
-      campus
-      distributionRequirement
-      description
-      prerequisites
-      exclusions
-      enrollControlsType
-      enrollControls
-      createdAt
-      updatedAt
-    }
-    nextToken
-    total
   }
 }

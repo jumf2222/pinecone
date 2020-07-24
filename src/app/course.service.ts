@@ -128,6 +128,7 @@ export class CourseService {
             id
             name
             code
+            campus
           }
           nextToken
         }
