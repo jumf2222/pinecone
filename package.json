@@ -1,56 +1,22 @@
 {
-  "name": "pinecone",
-  "version": "0.0.0",
-  "sideEffects": false,
+  "name": "svelte-app",
+  "version": "1.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "postinstall": "ngcc"
-  },
-  "private": true,
-  "dependencies": {
-    "@angular/animations": "~10.0.3",
-    "@angular/cdk": "^10.0.1",
-    "@angular/common": "~10.0.3",
-    "@angular/compiler": "~10.0.3",
-    "@angular/core": "~10.0.3",
-    "@angular/forms": "~10.0.3",
-    "@angular/material": "^10.0.1",
-    "@angular/platform-browser": "~10.0.3",
-    "@angular/platform-browser-dynamic": "~10.0.3",
-    "@angular/router": "~10.0.3",
-    "@aws-amplify/ui-angular": "^0.2.11",
-    "@types/graphql": "^14.5.0",
-    "aws-amplify": "^3.0.20",
-    "aws-amplify-angular": "^5.0.20",
-    "file-saver": "^2.0.2",
-    "rxjs": "~6.5.4",
-    "tslib": "^2.0.0",
-    "zone.js": "~0.10.2"
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "sirv public"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.900.7",
-    "@angular/cli": "^10.0.2",
-    "@angular/compiler-cli": "~10.0.3",
-    "@angular/language-service": "~10.0.3",
-    "@types/jasmine": "~3.5.0",
-    "@types/jasminewd2": "~2.0.3",
-    "@types/node": "^12.12.50",
-    "codelyzer": "^6.0.0",
-    "jasmine-core": "~3.5.0",
-    "jasmine-spec-reporter": "~5.0.0",
-    "karma": "~5.0.0",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage-istanbul-reporter": "~3.0.2",
-    "karma-jasmine": "~3.3.0",
-    "karma-jasmine-html-reporter": "^1.5.0",
-    "protractor": "~7.0.0",
-    "ts-node": "~8.3.0",
-    "tslint": "~6.1.0",
-    "typescript": "~3.9.6"
+    "@rollup/plugin-commonjs": "^16.0.0",
+    "@rollup/plugin-node-resolve": "^10.0.0",
+    "rollup": "^2.3.4",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-svelte": "^7.0.0",
+    "rollup-plugin-terser": "^7.0.0",
+    "svelte": "^3.0.0"
+  },
+  "dependencies": {
+    "sirv-cli": "^1.0.0"
   }
 }
