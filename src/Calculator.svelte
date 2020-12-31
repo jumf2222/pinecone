@@ -3,6 +3,9 @@
   import { currentCourse, courses } from "./stores";
   import Tooltip from "./Tooltip.svelte";
 
+  let gradesDivHeight = 0;
+  let gradesDiv;
+
   $: if ($courses.length > 0) {
     let avg = 0;
     for (const assessment of $courses[$currentCourse].assessments) {
@@ -21,18 +24,21 @@
 
 {#if $courses.length > 0}
   <div class="wrapper">
-    <div class="hbox">
-      <div class="vbox">
-        <input bind:value={$courses[$currentCourse].name} class="course" />
-        <p>
-          GRADE:
-          {$courses[$currentCourse].mark ? `${$courses[$currentCourse].mark}%` : ''}
-        </p>
-      </div>
-
+    <p class="grade">
+      GRADE:
+      {$courses[$currentCourse].mark ? `${$courses[$currentCourse].mark}%` : ''}
+    </p>
+    <div class="title">
+      <input bind:value={$courses[$currentCourse].name} class="course" />
+      <!-- <Tooltip left>
+        <button class="action" on:click={() => {}}>
+          <i class="material-icons">insights</i>
+        </button>
+        <p slot="tip">Grade Visualizer</p>
+      </Tooltip> -->
       <Tooltip left>
         <button
-          class="delete"
+          class="action"
           on:click={() => {
             $courses = [...$courses.slice(0, $currentCourse), ...$courses.slice($currentCourse + 1)];
             if ($currentCourse >= $courses.length && $courses.length > 0) $currentCourse = $courses.length - 1;
@@ -42,7 +48,11 @@
         <p slot="tip">Delete Course</p>
       </Tooltip>
     </div>
-    <div class="container">
+    <div
+      class="grades"
+      class:scrollbar={!(gradesDiv && gradesDiv.scrollHeight > gradesDivHeight)}
+      bind:clientHeight={gradesDivHeight}
+      bind:this={gradesDiv}>
       {#each $courses[$currentCourse].assessments as assessment, i}
         <AssessmentCard
           bind:assessment
@@ -61,11 +71,37 @@
 
 <style>
   .wrapper {
+    display: grid;
+    grid-template-areas:
+      "space1 title space2"
+      "space1 grade space2"
+      "space1 grades space2"
+      "space1 space4 space2";
+    grid-template-columns: minmax(0, 1fr) minmax(0, auto) minmax(0px, 1fr);
+    grid-template-rows: minmax(0, auto) auto minmax(0, auto) 0;
+    place-content: start;
+    gap: 20px;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .grades {
+    grid-area: grades;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    gap: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
     align-items: center;
-    max-height: 100%;
+    height: 100%;
+  }
+
+  .grade {
+    grid-area: grade;
+  }
+
+  .scrollbar {
+    padding-right: 8px;
   }
 
   .course {
@@ -74,6 +110,7 @@
     padding: 8px 0px;
     font-size: 28px;
     color: var(--font-color);
+    flex: 1;
   }
 
   .course:focus {
@@ -81,23 +118,11 @@
     border-bottom: 1px solid var(--font-color);
   }
 
-  .container {
-    margin: 20px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    align-items: center;
-    height: 100%;
-  }
-
   i {
     vertical-align: middle;
   }
 
-  .delete {
+  .action {
     text-align: center;
     height: 50px;
     width: 50px;
@@ -120,25 +145,34 @@
 
   .add {
     padding: 14px;
-    width: 570px;
+    width: 100%;
     display: inline-block;
     margin-bottom: 10px;
+    cursor: pointer;
   }
 
-  .hbox {
+  .title {
+    grid-area: title;
     display: flex;
     flex-direction: row;
-    gap: 10px;
-    margin-top: 30px;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 570px;
+    gap: 20px;
+    margin-top: 20px;
     align-items: center;
+  }
+
+  .spacer {
+    flex: 1;
   }
 
   .vbox {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
+  }
+
+  input {
+    min-width: 0;
+    max-width: 100%;
   }
 </style>

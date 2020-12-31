@@ -81,6 +81,8 @@
     border-radius: 3px;
     height: 40px;
     font-size: 16px;
+    min-width: 0;
+    max-width: 100%;
   }
 
   form {
@@ -88,7 +90,7 @@
     border-radius: 6px;
     padding: 15px;
     width: 550px;
-    max-width: 550px;
+    max-width: calc(100% - 40px);
   }
 
   button {
@@ -146,6 +148,10 @@
     margin-top: 10px;
     width: 100%;
     height: 50px;
+    background: transparent;
+  }
+  .add:hover {
+    background: transparent;
   }
 
   input[type="number"]::-webkit-inner-spin-button,

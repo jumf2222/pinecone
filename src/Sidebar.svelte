@@ -33,7 +33,7 @@
 </script>
 
 <div>
-  <p class="gpa">SGPA: {gpa || gpa === 0 ? gpa : ''}</p>
+  <p class="gpa">GPA: {gpa || gpa === 0 ? gpa : ''}</p>
   <p class="title">Courses:</p>
   {#each $courses as course, i}
     <button
@@ -69,7 +69,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: 2.5px 10px;
+    margin: 5px 10px;
   }
 
   button:hover {

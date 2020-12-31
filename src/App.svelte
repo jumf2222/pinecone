@@ -3,24 +3,22 @@
   import Sidebar from "./Sidebar.svelte";
 </script>
 
-<main>
-  <div class="container">
-    <header><img src="logo.svg" alt="Pinecone Logo" /></header>
-    <nav>
-      <Sidebar />
-    </nav>
+<div class="container">
+  <header><img src="logo.svg" alt="Pinecone Logo" /></header>
+  <nav>
+    <Sidebar />
+  </nav>
 
-    <aside />
+  <aside />
 
-    <main>
-      <Calculator />
-    </main>
+  <main>
+    <Calculator />
+  </main>
 
-    <footer>
-      <p>Made by Brian Latchman & Julian de Rushe, 2021</p>
-    </footer>
-  </div>
-</main>
+  <footer>
+    <p>Made by Brian Latchman & Julian de Rushe, 2021</p>
+  </footer>
+</div>
 
 <style>
   img {
@@ -30,13 +28,12 @@
     display: grid;
 
     grid-template-areas:
-      "header content side"
-      "nav content side"
-      "footer footer footer";
+      "header content"
+      "nav content"
+      "footer footer";
 
-    grid-template-columns: 220px 1fr 220px;
+    grid-template-columns: 220px 1fr;
     grid-template-rows: auto 1fr auto;
-    /* grid-gap: 10px; */
     height: 100vh;
   }
 
@@ -59,10 +56,6 @@
     overflow: visible;
   }
 
-  aside {
-    grid-area: side;
-  }
-
   footer {
     font-size: 14px;
     padding: 2px;
@@ -71,29 +64,23 @@
     grid-area: footer;
     text-align: center;
   }
+
   @media (max-width: 768px) {
     .container {
       grid-template-areas:
         "header"
         "nav"
         "content"
-        "side"
         "footer";
 
       grid-template-columns: 1fr;
       grid-template-rows:
         auto /* Header */
-        /* minmax(75px, auto) Nav */
-        0
+        min-content
         1fr /* Content */
-        /* minmax(75px, auto) Sidebar */
-        0
         auto; /* Footer */
-    }
-
-    nav,
-    aside {
-      margin: 0;
+      height: 100vh;
+      width: 100vw;
     }
   }
 </style>
