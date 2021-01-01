@@ -60,11 +60,13 @@
             $courses[$currentCourse].assessments = [...$courses[$currentCourse].assessments.slice(0, i), ...$courses[$currentCourse].assessments.slice(i + 1)];
           }} />
       {/each}
-      <button
-        class="add"
-        on:click={() => {
-          $courses[$currentCourse].assessments = [...$courses[$currentCourse].assessments, { name: '', grades: [{ mark: 0, total: 100 }], weight: 0 }];
-        }}>Add Assessment</button>
+      <div class="add-wrapper">
+        <button
+          class="add"
+          on:click={() => {
+            $courses[$currentCourse].assessments = [...$courses[$currentCourse].assessments, { name: '', grades: [{ mark: 0, total: 100 }], weight: 0 }];
+          }}>Add Assessment</button>
+      </div>
     </div>
   </div>
 {/if}
@@ -151,6 +153,12 @@
     cursor: pointer;
   }
 
+  .add-wrapper {
+    padding: 0 15px;
+    width: 550px;
+    max-width: calc(100% - 40px);
+  }
+
   .title {
     grid-area: title;
     display: flex;
@@ -158,17 +166,6 @@
     gap: 20px;
     margin-top: 20px;
     align-items: center;
-  }
-
-  .spacer {
-    flex: 1;
-  }
-
-  .vbox {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
   }
 
   input {

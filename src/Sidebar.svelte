@@ -1,5 +1,10 @@
 <script lang="ts">
   import { currentCourse, courses } from "./stores";
+  import { fly } from "svelte/transition";
+
+  export let mobile = false;
+  let open = false;
+
   let gpa = 0;
   $: {
     gpa = 0;
@@ -32,32 +37,58 @@
   }
 </script>
 
-<div>
-  <p class="gpa">GPA: {gpa || gpa === 0 ? gpa : ''}</p>
-  <p class="title">Courses:</p>
-  {#each $courses as course, i}
+<div class:mobile={open && mobile}>
+  {#if mobile}
     <button
-      class="course"
-      class:selected={$currentCourse === i}
       on:click={() => {
-        $currentCourse = i;
-      }}>
-      <p class="name">{course.name}</p>
-      <p class="mark">{course.mark ? `${course.mark}%` : ''}</p>
-    </button>
-  {/each}
-  <button
-    class="add-course"
-    type="button"
-    on:click={() => {
-      $courses = [...$courses, { name: 'Course Name', assessments: [], mark: 0 }];
-    }}>Add Course</button>
+        open = !open;
+      }}>=</button>
+  {/if}
+  {#if open || !mobile}
+    <div transition:fly={{ x: 400, opacity: 1 }}>
+      <p class="gpa">GPA: {gpa || gpa === 0 ? gpa : ''}</p>
+      <p class="title">Courses:</p>
+      {#each $courses as course, i}
+        <button
+          class="course"
+          class:selected={$currentCourse === i}
+          on:click={() => {
+            $currentCourse = i;
+          }}>
+          <p class="name">{course.name}</p>
+          <p class="mark">{course.mark ? `${course.mark}%` : ''}</p>
+        </button>
+      {/each}
+      <button
+        class="add-course"
+        type="button"
+        on:click={() => {
+          $courses = [...$courses, { name: 'Course Name', assessments: [], mark: 0 }];
+        }}>Add Course</button>
+    </div>
+  {/if}
 </div>
 
 <style>
   div {
     display: flex;
     flex-direction: column;
+  }
+
+  .closed {
+    height: 0;
+  }
+
+  .mobile {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    border-left: 1px solid #aaa;
+    background: #fff;
+    overflow-y: auto;
+    width: 100%;
+    z-index: 100;
   }
 
   button {

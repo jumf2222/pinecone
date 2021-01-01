@@ -1,12 +1,14 @@
 <script lang="ts">
   import Calculator from "./Calculator.svelte";
   import Sidebar from "./Sidebar.svelte";
+  let screenWidth = 0;
+  $: mobile = screenWidth < 786;
 </script>
 
-<div class="container">
+<div class="container" bind:clientWidth={screenWidth}>
   <header><img src="logo.svg" alt="Pinecone Logo" /></header>
   <nav>
-    <Sidebar />
+    <Sidebar {mobile} />
   </nav>
 
   <aside />
