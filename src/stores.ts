@@ -3,11 +3,9 @@ import type { Course } from "./types";
 
 let data = localStorage.getItem("courses");
 let profs = data ? JSON.parse(data) : [];
-console.log("Loaded", data);
 
 data = localStorage.getItem("currentCourse");
 let curProf = data ? JSON.parse(data) : 0;
-console.log("Loaded", data);
 
 export const courses = writable<Course[]>(profs);
 export const currentCourse = writable<number>(curProf);
