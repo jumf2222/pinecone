@@ -4,8 +4,8 @@
   import Tooltip from "./Tooltip.svelte";
   import { fade, fly, slide } from "svelte/transition";
 
+  let gradesDivOffsetHeight = 0;
   let gradesDivHeight = 0;
-  let gradesDiv;
   let addButton;
 
   $: if ($courses.length > 0) {
@@ -53,9 +53,9 @@
     <div
       class="grades"
       transition:fade={{ duration: 200 }}
-      class:scrollbar={!(gradesDiv && gradesDiv.scrollHeight > gradesDivHeight)}
-      bind:clientHeight={gradesDivHeight}
-      bind:this={gradesDiv}>
+      class:scrollbar={gradesDivOffsetHeight <= gradesDivHeight}
+      bind:clientWidth={gradesDivHeight}
+      bind:offsetWidth={gradesDivOffsetHeight}>
       {#each $courses[$currentCourse].assessments as assessment, i (assessment.id)}
         <AssessmentCard
           bind:assessment

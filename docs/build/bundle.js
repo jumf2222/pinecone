@@ -1900,9 +1900,9 @@ var app = (function () {
 
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[14] = list[i];
-    	child_ctx[15] = list;
-    	child_ctx[16] = i;
+    	child_ctx[13] = list[i];
+    	child_ctx[14] = list;
+    	child_ctx[15] = i;
     	return child_ctx;
     }
 
@@ -1938,18 +1938,18 @@ var app = (function () {
     			button = element("button");
     			button.textContent = "Add Course";
     			attr_dev(i, "class", "material-icons md-120 svelte-4s8qjl");
-    			add_location(i, file$2, 78, 26, 3057);
+    			add_location(i, file$2, 78, 26, 3075);
     			attr_dev(div0, "class", "circle svelte-4s8qjl");
-    			add_location(div0, file$2, 78, 6, 3037);
+    			add_location(div0, file$2, 78, 6, 3055);
     			attr_dev(h2, "class", "svelte-4s8qjl");
-    			add_location(h2, file$2, 79, 6, 3115);
+    			add_location(h2, file$2, 79, 6, 3133);
     			attr_dev(p, "class", "empty-state svelte-4s8qjl");
-    			add_location(p, file$2, 80, 6, 3146);
+    			add_location(p, file$2, 80, 6, 3164);
     			attr_dev(button, "class", "message svelte-4s8qjl");
     			attr_dev(button, "type", "button");
-    			add_location(button, file$2, 81, 6, 3226);
+    			add_location(button, file$2, 81, 6, 3244);
     			attr_dev(div1, "class", "empty svelte-4s8qjl");
-    			add_location(div1, file$2, 77, 4, 2974);
+    			add_location(div1, file$2, 77, 4, 2992);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -1964,7 +1964,7 @@ var app = (function () {
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", /*click_handler_3*/ ctx[13], false, false, false);
+    				dispose = listen_dev(button, "click", /*click_handler_3*/ ctx[12], false, false, false);
     				mounted = true;
     			}
     		},
@@ -2047,7 +2047,7 @@ var app = (function () {
 
     	let each_value = /*$courses*/ ctx[0][/*$currentCourse*/ ctx[1]].assessments;
     	validate_each_argument(each_value);
-    	const get_key = ctx => /*assessment*/ ctx[14].id;
+    	const get_key = ctx => /*assessment*/ ctx[13].id;
     	validate_each_keys(ctx, each_value, get_each_context$1, get_key);
 
     	for (let i = 0; i < each_value.length; i += 1) {
@@ -2078,19 +2078,19 @@ var app = (function () {
     			button = element("button");
     			button.textContent = "Add Assessment";
     			attr_dev(input, "class", "course svelte-4s8qjl");
-    			add_location(input, file$2, 25, 6, 863);
+    			add_location(input, file$2, 25, 6, 879);
     			attr_dev(div0, "class", "title svelte-4s8qjl");
-    			add_location(div0, file$2, 24, 4, 800);
+    			add_location(div0, file$2, 24, 4, 816);
     			attr_dev(p, "class", "grade svelte-4s8qjl");
-    			add_location(p, file$2, 44, 4, 1614);
+    			add_location(p, file$2, 44, 4, 1630);
     			attr_dev(button, "class", "add svelte-4s8qjl");
-    			add_location(button, file$2, 62, 8, 2405);
+    			add_location(button, file$2, 62, 8, 2423);
     			attr_dev(div1, "class", "add-wrapper svelte-4s8qjl");
-    			add_location(div1, file$2, 61, 6, 2370);
+    			add_location(div1, file$2, 61, 6, 2388);
     			attr_dev(div2, "class", "grades svelte-4s8qjl");
     			add_render_callback(() => /*div2_elementresize_handler*/ ctx[11].call(div2));
-    			toggle_class(div2, "scrollbar", !(/*gradesDiv*/ ctx[3] && /*gradesDiv*/ ctx[3].scrollHeight > /*gradesDivHeight*/ ctx[2]));
-    			add_location(div2, file$2, 48, 4, 1779);
+    			toggle_class(div2, "scrollbar", /*gradesDivOffsetHeight*/ ctx[2] <= /*gradesDivHeight*/ ctx[3]);
+    			add_location(div2, file$2, 48, 4, 1795);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -2114,7 +2114,6 @@ var app = (function () {
     			append_dev(div1, button);
     			/*button_binding*/ ctx[9](button);
     			div2_resize_listener = add_resize_listener(div2, /*div2_elementresize_handler*/ ctx[11].bind(div2));
-    			/*div2_binding*/ ctx[12](div2);
     			current = true;
 
     			if (!mounted) {
@@ -2133,7 +2132,7 @@ var app = (function () {
 
     			const tooltip_changes = {};
 
-    			if (dirty & /*$$scope, $courses, $currentCourse*/ 131075) {
+    			if (dirty & /*$$scope, $courses, $currentCourse*/ 65539) {
     				tooltip_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2152,8 +2151,8 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (dirty & /*gradesDiv, gradesDivHeight*/ 12) {
-    				toggle_class(div2, "scrollbar", !(/*gradesDiv*/ ctx[3] && /*gradesDiv*/ ctx[3].scrollHeight > /*gradesDivHeight*/ ctx[2]));
+    			if (dirty & /*gradesDivOffsetHeight, gradesDivHeight*/ 12) {
+    				toggle_class(div2, "scrollbar", /*gradesDivOffsetHeight*/ ctx[2] <= /*gradesDivHeight*/ ctx[3]);
     			}
     		},
     		i: function intro(local) {
@@ -2212,7 +2211,6 @@ var app = (function () {
 
     			/*button_binding*/ ctx[9](null);
     			div2_resize_listener();
-    			/*div2_binding*/ ctx[12](null);
     			if (detaching && div2_transition) div2_transition.end();
     			mounted = false;
     			run_all(dispose);
@@ -2239,7 +2237,7 @@ var app = (function () {
     			p = element("p");
     			p.textContent = "Delete Course";
     			attr_dev(p, "slot", "tip");
-    			add_location(p, file$2, 41, 8, 1547);
+    			add_location(p, file$2, 41, 8, 1563);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -2275,9 +2273,9 @@ var app = (function () {
     			i.textContent = "delete";
     			t1 = space();
     			attr_dev(i, "class", "material-icons svelte-4s8qjl");
-    			add_location(i, file$2, 39, 10, 1482);
+    			add_location(i, file$2, 39, 10, 1498);
     			attr_dev(button, "class", "action svelte-4s8qjl");
-    			add_location(button, file$2, 33, 8, 1177);
+    			add_location(button, file$2, 33, 8, 1193);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -2317,17 +2315,17 @@ var app = (function () {
     	let current;
 
     	function assessmentcard_assessment_binding(value) {
-    		/*assessmentcard_assessment_binding*/ ctx[7].call(null, value, /*assessment*/ ctx[14], /*each_value*/ ctx[15], /*i*/ ctx[16]);
+    		/*assessmentcard_assessment_binding*/ ctx[7].call(null, value, /*assessment*/ ctx[13], /*each_value*/ ctx[14], /*i*/ ctx[15]);
     	}
 
     	function click_handler_1() {
-    		return /*click_handler_1*/ ctx[8](/*i*/ ctx[16]);
+    		return /*click_handler_1*/ ctx[8](/*i*/ ctx[15]);
     	}
 
     	let assessmentcard_props = {};
 
-    	if (/*assessment*/ ctx[14] !== void 0) {
-    		assessmentcard_props.assessment = /*assessment*/ ctx[14];
+    	if (/*assessment*/ ctx[13] !== void 0) {
+    		assessmentcard_props.assessment = /*assessment*/ ctx[13];
     	}
 
     	assessmentcard = new AssessmentCard({
@@ -2357,7 +2355,7 @@ var app = (function () {
 
     			if (!updating_assessment && dirty & /*$courses, $currentCourse*/ 3) {
     				updating_assessment = true;
-    				assessmentcard_changes.assessment = /*assessment*/ ctx[14];
+    				assessmentcard_changes.assessment = /*assessment*/ ctx[13];
     				add_flush_callback(() => updating_assessment = false);
     			}
 
@@ -2410,7 +2408,7 @@ var app = (function () {
     			div = element("div");
     			if_block.c();
     			attr_dev(div, "class", "wrapper svelte-4s8qjl");
-    			add_location(div, file$2, 22, 0, 744);
+    			add_location(div, file$2, 22, 0, 760);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2482,8 +2480,8 @@ var app = (function () {
     	component_subscribe($$self, currentCourse, $$value => $$invalidate(1, $currentCourse = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Calculator", slots, []);
+    	let gradesDivOffsetHeight = 0;
     	let gradesDivHeight = 0;
-    	let gradesDiv;
     	let addButton;
     	const writable_props = [];
 
@@ -2554,15 +2552,10 @@ var app = (function () {
     	};
 
     	function div2_elementresize_handler() {
-    		gradesDivHeight = this.clientHeight;
-    		$$invalidate(2, gradesDivHeight);
-    	}
-
-    	function div2_binding($$value) {
-    		binding_callbacks[$$value ? "unshift" : "push"](() => {
-    			gradesDiv = $$value;
-    			$$invalidate(3, gradesDiv);
-    		});
+    		gradesDivHeight = this.clientWidth;
+    		gradesDivOffsetHeight = this.offsetWidth;
+    		$$invalidate(3, gradesDivHeight);
+    		$$invalidate(2, gradesDivOffsetHeight);
     	}
 
     	const click_handler_3 = () => {
@@ -2589,16 +2582,16 @@ var app = (function () {
     		fade,
     		fly,
     		slide,
+    		gradesDivOffsetHeight,
     		gradesDivHeight,
-    		gradesDiv,
     		addButton,
     		$courses,
     		$currentCourse
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("gradesDivHeight" in $$props) $$invalidate(2, gradesDivHeight = $$props.gradesDivHeight);
-    		if ("gradesDiv" in $$props) $$invalidate(3, gradesDiv = $$props.gradesDiv);
+    		if ("gradesDivOffsetHeight" in $$props) $$invalidate(2, gradesDivOffsetHeight = $$props.gradesDivOffsetHeight);
+    		if ("gradesDivHeight" in $$props) $$invalidate(3, gradesDivHeight = $$props.gradesDivHeight);
     		if ("addButton" in $$props) $$invalidate(4, addButton = $$props.addButton);
     	};
 
@@ -2625,8 +2618,8 @@ var app = (function () {
     	return [
     		$courses,
     		$currentCourse,
+    		gradesDivOffsetHeight,
     		gradesDivHeight,
-    		gradesDiv,
     		addButton,
     		input_input_handler,
     		click_handler,
@@ -2635,7 +2628,6 @@ var app = (function () {
     		button_binding,
     		click_handler_2,
     		div2_elementresize_handler,
-    		div2_binding,
     		click_handler_3
     	];
     }
@@ -2837,11 +2829,11 @@ var app = (function () {
     			t1 = space();
     			p1 = element("p");
     			t2 = text(t2_value);
-    			attr_dev(p0, "class", "name svelte-9wl9sl");
+    			attr_dev(p0, "class", "name svelte-szmvxn");
     			add_location(p0, file$4, 61, 8, 1725);
     			attr_dev(p1, "class", "mark");
     			add_location(p1, file$4, 62, 8, 1768);
-    			attr_dev(button, "class", "course svelte-9wl9sl");
+    			attr_dev(button, "class", "course svelte-szmvxn");
     			toggle_class(button, "selected", /*$currentCourse*/ ctx[5] === /*i*/ ctx[11]);
     			add_location(button, file$4, 53, 6, 1495);
     			this.first = button;
@@ -2961,16 +2953,16 @@ var app = (function () {
     			t6 = space();
     			button = element("button");
     			button.textContent = "Add Course";
-    			attr_dev(p0, "class", "title svelte-9wl9sl");
+    			attr_dev(p0, "class", "title svelte-szmvxn");
     			add_location(p0, file$4, 49, 2, 1312);
-    			attr_dev(p1, "class", "gpa svelte-9wl9sl");
+    			attr_dev(p1, "class", "gpa svelte-szmvxn");
     			add_location(p1, file$4, 50, 2, 1363);
-    			attr_dev(button, "class", "add-course svelte-9wl9sl");
+    			attr_dev(button, "class", "add-course svelte-szmvxn");
     			attr_dev(button, "type", "button");
     			add_location(button, file$4, 65, 4, 1862);
-    			attr_dev(div0, "class", "scroll svelte-9wl9sl");
+    			attr_dev(div0, "class", "scroll svelte-szmvxn");
     			add_location(div0, file$4, 51, 2, 1420);
-    			attr_dev(div1, "class", "wrapper svelte-9wl9sl");
+    			attr_dev(div1, "class", "wrapper svelte-szmvxn");
     			set_style(div1, "width", (/*open*/ ctx[0] || !/*mobile*/ ctx[1] ? 100 : 0) + "%");
     			toggle_class(div1, "mobile", /*mobile*/ ctx[1]);
     			add_location(div1, file$4, 48, 0, 1230);
