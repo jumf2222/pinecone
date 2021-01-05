@@ -94,28 +94,13 @@
     height: 100%;
   }
 
-  button {
-    padding: 12px 20px;
-    color: var(--course-font-color);
-    background: var(--nav-button-color);
-    border: 1px solid var(--nav-button-border-color);
-    border-radius: 5px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 5px 10px;
-  }
-
-  button:hover {
-    color: var(--course-hover-font-color);
-    background: var(--nav-hover-button-color);
-    border: 1px solid var(--nav-hover-button-border-color);
-    cursor: pointer;
-  }
-
   .add-course {
     margin-top: 10px;
     justify-content: center;
+  }
+
+  .add-course:focus {
+    border: 1px solid var(--secondary-text);
   }
 
   .course {
@@ -130,6 +115,7 @@
 
   .course:focus {
     outline: none;
+    border: 1px solid var(--course-hover-button-border-color);
   }
 
   .selected,
@@ -156,5 +142,23 @@
   .gpa {
     padding: 10px 24px;
     padding-top: 0px;
+  }
+  button {
+    padding: 12px 20px;
+    color: var(--course-font-color);
+    background: var(--nav-button-color);
+    border: 1px solid var(--nav-button-border-color);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 5px 10px;
+  }
+
+  button:hover {
+    color: var(--course-hover-font-color);
+    background: var(--nav-hover-button-color);
+    border: 1px solid var(--nav-hover-button-border-color);
+    cursor: pointer;
   }
 </style>

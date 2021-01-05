@@ -16,7 +16,7 @@
 <style>
   button {
     background: none;
-    color: white;
+    color: var(--logo-color);
     border: 1px solid transparent;
     display: grid;
     place-content: center;

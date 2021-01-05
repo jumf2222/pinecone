@@ -3,43 +3,34 @@
   padding: 0px;
 }
 
-html,
-body {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  color: var(--font-color);
-  background-color: var(--background-color);
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
-    sans-serif, Apple Color Emoji, Segoe UI Emoji;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
-}
-
 @media (prefers-color-scheme: light) {
   html,
   body {
     --font-color: #313f4e;
     --background-color: #edf2f7;
-    --card-border-color: #dfe6ee;
+    --card-color: #dfe6ee;
+    --card-border-color:#E7EDF3;
+    --input-back: #D2DCE9;
     --input-border-color: #adbfd5;
+    --secondary-text: #496480;
 
-    --button-color: #fafbfc;
-    --hover-button-color: #f3f4f6;
-    --button-border-color: #1b1f2326;
-    --hover-button-border-color: #d3d5d6;
+    --button-font-color: #313f4e;
+    --button-color: transparent;
+    --hover-button-color: #E7EDF3;
+    --button-border-color:#60A6FB;
+    --hover-button-border-color: #318cfc;
 
     --course-font-color: #496480;
     --course-hover-font-color: #313f4e;
     --course-button-color: #dfe6ee;
-    --course-hover-button-color: #dfe6ee;
+    --course-hover-button-color: #E7EDF3;
     --course-button-border-color: #d2dce9;
     --course-hover-button-border-color: #318cfc;
 
     --nav-font-color: #313f4e;
     --nav-background-color: #edf2f7;
     --nav-button-color: #ffffff;
-    --nav-hover-button-color: #ffffff;
+    --nav-hover-button-color:#FBFCFD;
     --nav-button-border-color: #dfe6ee;
     --nav-hover-button-border-color: #d2dce9;
 
@@ -53,34 +44,51 @@ body {
   html,
   body {
     --font-color: #ffffff;
-    --background-color: #22252a;
-    --card-border-color: #2d3035;
-    --box-shadow: #2d3035;
+    --background-color:#121212;
+    --card-color: #232323;
+    --card-border-color:#272727;
+    --input-back: #1E1E1E;
+    --input-border-color: #232323;
+    --secondary-text: #B4B9BD;
 
-    --input-border-color: #21262d;
-    --button-color: #21262d;
-    --hover-button-color: #30363d;
-    --button-border-color: #30363d;
-    --hover-button-border-color: #8b949e;
+    --button-font-color: #ffffff;
+    --button-color: #F17B72;
+    --hover-button-color: #F06E64;
+    --button-border-color: #333333;
+    --hover-button-border-color: #363636;
 
-    --course-font-color: #c9d1d9;
+    --course-font-color: #666666;
     --course-hover-font-color: #f0f6fc;
-    --course-button-color: #0d1117;
+    --course-button-color: #1E1E1E;
+    --course-hover-button-color: #232323;
     --course-button-border-color: #21262d;
-    --course-hover-button-border-color: #f9826c;
+    --course-hover-button-border-color:  #F17B72;
 
     --nav-font-color: #f0f6fc;
-    --nav-background-color: #2e343b;
+    --nav-background-color:#121212;
 
-    --nav-button-color: #21262d;
-    --nav-hover-button-color: #30363d;
+    --nav-button-color: #2C2C2C;
+    --nav-hover-button-color:#2E2E2E;
     --nav-button-border-color: #30363d;
     --nav-hover-button-border-color: #8b949e;
 
-    --logo-color: #007acc;
-    --footer-back: #007acc;
-    --footer-color: #ffffff;
+    --logo-color:#f0f6fc;
+    --footer-back:#121212;
+    --footer-color:#f0f6fc;
   }
+}
+
+html,
+body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  color: var(--font-color);
+  background-color: var(--background-color);
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 label {
@@ -108,6 +116,11 @@ button {
   transition: all 0.2s ease-out;
 }
 
+button:focus,
+input:focus {
+  outline: none;
+}
+
 body.noscroll {
   overflow-y: hidden;
 }
@@ -130,4 +143,17 @@ body.noscroll {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: var(--card-border-color);
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: var(--secondary-text);
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: var(--secondary-text);
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: var(--secondary-text);
 }

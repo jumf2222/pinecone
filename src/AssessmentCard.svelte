@@ -63,6 +63,11 @@
 </form>
 
 <style>
+  button:focus,
+  input:focus {
+    border-radius: 3px;
+    border: 1px solid var(--secondary-text);
+  }
   .grades {
     display: flex;
     flex-direction: column;
@@ -79,12 +84,66 @@
   .label {
     margin-top: 15px;
     margin-bottom: 5px;
+    color: var(--secondary-text);
+  }
+
+  .name {
+    /* margin-top: 10px; */
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid var(--course-font-color);
+    border-radius: 0;
+    padding: 10px 0px;
+    font-size: 24px;
+    color: var(--font-color);
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -ms-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+  }
+
+  .name:focus {
+    outline: none;
+    border: none;
+    border-bottom: 1px solid var(--font-color);
+  }
+
+  .slash {
+    color: var(--secondary-text);
+    line-height: 40px;
+  }
+
+  .delete {
+    color: var(--nav-font-color);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 3px;
+  }
+
+  .delete:hover {
+    color: var(--font-color);
+    background: var(--nav-button-color);
+    cursor: pointer;
+  }
+
+  .add {
+    border-radius: 3px;
+    margin-top: 10px;
+    width: 100%;
+    height: 50px;
+    background: var(--nav-button-color);
+    border: 1px solid var(--nav-button-border-color);
+  }
+  .add:hover {
+    background: var(--nav-hover-button-color);
+    border: 1px solid var(--nav-hover-button-border-color);
   }
 
   input {
     display: block;
     flex: 1;
-    background: transparent;
+    background: var(--input-back);
     border: 1px solid var(--input-border-color);
     color: var(--font-color);
     border-radius: 3px;
@@ -92,13 +151,14 @@
     font-size: 16px;
     min-width: 0;
     max-width: 100%;
+    padding: 12px;
   }
 
   form {
-    background-color: var(--card-border-color);
-    /* border: 1px solid var(--card-border-color); */
+    background-color: var(--card-color);
+    border: 1px solid var(--card-border-color);
     border-radius: 6px;
-    padding: 15px;
+    padding: 12px 18px;
     width: 550px;
     max-width: calc(100% - 40px);
   }
@@ -115,58 +175,10 @@
     vertical-align: middle;
   }
 
-  .name {
-    margin-top: 10px;
-    background-color: transparent;
-    border: none;
-    border-bottom: 1px solid var(--card-border-color);
-    border-radius: 0;
-    padding: 8px 0px;
-    font-size: 20px;
-    color: var(--font-color);
-    -webkit-transition: all 0.2s ease-out;
-    -moz-transition: all 0.2s ease-out;
-    -ms-transition: all 0.2s ease-out;
-    -o-transition: all 0.2s ease-out;
-    transition: all 0.2s ease-out;
-  }
-
-  .name:focus {
-    outline: none;
-    border-bottom: 1px solid var(--font-color);
-  }
-
-  .slash {
-    line-height: 40px;
-  }
-
   button:hover {
     background: var(--hover-button-color);
     border: 1px solid var(--hover-button-border-color);
     cursor: pointer;
-  }
-
-  .delete {
-    border: none;
-    background: transparent;
-  }
-
-  .delete:hover {
-    color: var(--font-color);
-    border: 1px solid var(--hover-button-border-color);
-    border-radius: 3px;
-    cursor: pointer;
-  }
-
-  .add {
-    border-radius: 3px;
-    margin-top: 10px;
-    width: 100%;
-    height: 50px;
-    background: transparent;
-  }
-  .add:hover {
-    background: transparent;
   }
 
   input[type="number"]::-webkit-inner-spin-button,

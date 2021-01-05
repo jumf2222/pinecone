@@ -51,6 +51,10 @@
     height: 100vh;
   }
 
+  .spacer {
+    flex: 1;
+  }
+
   header {
     grid-area: header;
     background: var(--nav-background-color);
@@ -72,15 +76,11 @@
 
   footer {
     font-size: 14px;
-    padding: 2px;
+    padding: 4px;
     color: var(--footer-color);
     background-color: var(--footer-back);
     grid-area: footer;
     text-align: center;
-  }
-
-  .spacer {
-    flex: 1;
   }
 
   @media (max-width: 768px) {
@@ -108,6 +108,10 @@
       right: 0;
       z-index: 100;
       padding: 8px 16px;
+    }
+
+    footer {
+      padding: 32px;
     }
   }
 </style>

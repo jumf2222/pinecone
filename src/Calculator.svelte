@@ -95,13 +95,10 @@
 
 <style>
   .empty-state {
-    margin: 16px 0;
+    padding: 0 12px;
+    margin: 12px 0 24px 0;
     font-size: 18px;
-  }
-  h2 {
-    margin: 24px 0 0 0;
-    font-weight: 400;
-    font-size: 28px;
+    text-align: center;
   }
 
   .message {
@@ -116,13 +113,13 @@
   }
   .circle {
     text-align: center;
-    background: #dfe6ee;
+    background: var(--card-color);
     border-radius: 50%;
     height: 200px;
     width: 200px;
   }
   .material-icons.md-120 {
-    color: var(--font-color);
+    color: var(--secondary-text);
     padding-top: 40px;
     font-size: 120px;
   }
@@ -163,7 +160,7 @@
 
   .course {
     background-color: transparent;
-    border-bottom: 1px solid var(--card-border-color);
+    border-bottom: 1px solid var(--course-font-color);
     padding: 8px 0px;
     font-size: 28px;
     color: var(--font-color);
@@ -175,42 +172,38 @@
     transition: all 0.2s ease-out;
   }
 
-  .course:focus {
-    outline: none;
-    border-bottom: 1px solid var(--font-color);
-  }
-
-  i {
-    vertical-align: middle;
-  }
-
   .action {
     text-align: center;
     height: 50px;
     width: 50px;
-    border: none;
+    color: var(--nav-font-color);
     background: transparent;
+    border: 1px solid transparent;
     border-radius: 3px;
   }
 
-  button {
+  .action:hover {
     color: var(--font-color);
-    border: 1px solid var(--button-border-color);
-    border-radius: 3px;
-    background: var(--button-color);
+    background: var(--nav-button-color);
+    cursor: pointer;
   }
 
-  button:hover {
-    background: var(--hover-button-color);
-    border: 1px solid var(--hover-button-border-color);
+  .course:focus {
+    outline: none;
+    border-bottom: 1px solid var(--font-color);
   }
 
   .add {
     padding: 14px;
     width: 100%;
     display: inline-block;
-    margin-bottom: 10px;
+    margin: 10px 0;
     cursor: pointer;
+  }
+
+  .add:focus {
+    border-radius: 3px;
+    border: 1px solid var(--secondary-text);
   }
 
   .empty {
@@ -236,6 +229,26 @@
     gap: 20px;
     margin-top: 20px;
     align-items: center;
+  }
+  h2 {
+    margin: 24px 0 0 0;
+    font-weight: 400;
+    font-size: 28px;
+  }
+  i {
+    vertical-align: middle;
+  }
+
+  button {
+    color: var(--button-font-color);
+    border: 1px solid var(--button-border-color);
+    border-radius: 3px;
+    background: var(--button-color);
+  }
+
+  button:hover {
+    background: var(--hover-button-color);
+    border: 1px solid var(--hover-button-border-color);
   }
 
   input {

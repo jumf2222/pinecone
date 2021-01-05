@@ -36,7 +36,7 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 150ms, visibility 150ms;
-    background: var(--hover-button-color);
+    background: var(--nav-hover-button-color);
     border-radius: 4px;
     padding: 10px 12px;
     white-space: nowrap;
@@ -56,7 +56,8 @@
     /* margin-top: -2.5px; */
     border-width: 5px;
     border-style: solid;
-    border-color: transparent transparent transparent var(--hover-button-color);
+    border-color: transparent transparent transparent
+      var(--nav-hover-button-color);
   }
 
   .right {
@@ -73,7 +74,8 @@
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: transparent var(--hover-button-color) transparent transparent;
+    border-color: transparent var(--nav-hover-button-color) transparent
+      transparent;
   }
 
   .top {
@@ -90,7 +92,8 @@
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: var(--hover-button-color) transparent transparent transparent;
+    border-color: var(--nav-hover-button-color) transparent transparent
+      transparent;
   }
 
   .bottom {
@@ -107,6 +110,7 @@
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: transparent transparent var(--hover-button-color) transparent;
+    border-color: transparent transparent var(--nav-hover-button-color)
+      transparent;
   }
 </style>
