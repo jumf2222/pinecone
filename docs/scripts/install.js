@@ -16,7 +16,7 @@ window.addEventListener("beforeinstallprompt", saveBeforeInstallPromptEvent);
 function saveBeforeInstallPromptEvent(evt) {
   // Add code to save event & show the install button.
   deferredInstallPrompt = evt;
-  installButton.removeAttribute("hidden");
+  if (installButton) installButton.removeAttribute("hidden");
 }
 
 /**
@@ -28,7 +28,7 @@ function installPWA(evt) {
   // Add code show install prompt & hide the install button.
   deferredInstallPrompt.prompt();
   // Hide the install button, it can't be called twice.
-  evt.srcElement.setAttribute("hidden", true);
+  if (evt.srcElement) evt.srcElement.setAttribute("hidden", true);
   // Log user response to prompt.
   deferredInstallPrompt.userChoice.then((choice) => {
     if (choice.outcome === "accepted") {
