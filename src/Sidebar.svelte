@@ -1,9 +1,12 @@
 <script lang="ts">
   import { currentCourse, courses } from "./stores";
-  import { fly } from "svelte/transition";
+  import { slide } from "svelte/transition";
 
   export let mobile = false;
-  let open = false;
+  export let open = false;
+  let addButton;
+
+  $: document.body.classList.toggle("noscroll", open);
 
   let gpa = 0;
   $: {
@@ -37,58 +40,58 @@
   }
 </script>
 
-<div class:mobile={open && mobile}>
-  {#if mobile}
-    <button
-      on:click={() => {
-        open = !open;
-      }}>=</button>
-  {/if}
-  {#if open || !mobile}
-    <div transition:fly={{ x: 400, opacity: 1 }}>
-      <p class="gpa">GPA: {gpa || gpa === 0 ? gpa : ''}</p>
-      <p class="title">Courses:</p>
-      {#each $courses as course, i}
-        <button
-          class="course"
-          class:selected={$currentCourse === i}
-          on:click={() => {
-            $currentCourse = i;
-          }}>
-          <p class="name">{course.name}</p>
-          <p class="mark">{course.mark ? `${course.mark}%` : ''}</p>
-        </button>
-      {/each}
+<div class="wrapper" class:mobile style="width: {open || !mobile ? 100 : 0}%">
+  <p class="title">Courses: {$courses.length}</p>
+  <p class="gpa">GPA: {gpa || gpa === 0 ? gpa : ''}</p>
+  <div class="scroll">
+    {#each $courses as course, i (course.id)}
       <button
-        class="add-course"
-        type="button"
+        transition:slide={{ duration: 200 }}
+        class="course"
+        class:selected={$currentCourse === i}
         on:click={() => {
-          $courses = [...$courses, { name: 'Course Name', assessments: [], mark: 0 }];
-        }}>Add Course</button>
-    </div>
-  {/if}
+          $currentCourse = i;
+          open = false;
+        }}>
+        <p class="name">{course.name}</p>
+        <p class="mark">{course.mark ? `${course.mark}%` : ''}</p>
+      </button>
+    {/each}
+    <button
+      class="add-course"
+      type="button"
+      bind:this={addButton}
+      on:click={() => {
+        $courses = [...$courses, { name: 'Course Name', assessments: [], mark: 0, id: Date.now().toString() }];
+        setTimeout(() => {
+          addButton.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 300);
+      }}>Add Course</button>
+  </div>
 </div>
 
 <style>
-  div {
+  .wrapper {
     display: flex;
     flex-direction: column;
   }
 
-  .closed {
-    height: 0;
-  }
-
   .mobile {
     position: fixed;
-    top: 0;
+    top: var(--header-height);
     right: 0;
-    height: 100%;
-    border-left: 1px solid #aaa;
-    background: #fff;
-    overflow-y: auto;
-    width: 100%;
+    bottom: 0;
+    width: 0;
     z-index: 100;
+    background: var(--nav-background-color);
+    transition: all 200ms;
+  }
+
+  .scroll {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
 
   button {
@@ -132,7 +135,7 @@
   .selected,
   .selected:hover {
     color: var(--course-hover-font-color);
-    background: var(--course-button-color);
+    background: var(--course-hover-button-color);
     border: 1px solid var(--course-hover-button-border-color);
   }
 
@@ -146,12 +149,12 @@
   }
 
   .title {
-    padding: 10px 24px;
-    padding-top: 0px;
+    margin-top: 10px;
+    padding: 0px 24px;
   }
 
   .gpa {
-    margin-top: 10px;
-    padding: 0px 24px;
+    padding: 10px 24px;
+    padding-top: 0px;
   }
 </style>

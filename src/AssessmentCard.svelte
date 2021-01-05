@@ -1,11 +1,16 @@
 <script lang="ts">
   import type { Assessment } from "./types";
   import Tooltip from "./Tooltip.svelte";
+  import { slide } from "svelte/transition";
 
   export let assessment: Assessment;
+  let addButton;
 </script>
 
-<form class="content" on:submit|preventDefault={() => {}}>
+<form
+  class="content"
+  on:submit|preventDefault={() => {}}
+  transition:slide={{ duration: 200 }}>
   <div class="hbox">
     <input
       class="name"
@@ -30,8 +35,8 @@
   </div>
   <p class="label">Grades:</p>
   <div class="grades">
-    {#each assessment.grades as grade, i}
-      <div class="hbox">
+    {#each assessment.grades as grade, i (grade.id)}
+      <div class="hbox" transition:slide={{ duration: 200 }}>
         <input type="number" bind:value={grade.mark} step="any" />
         <p class="slash">/</p>
         <input type="number" bind:value={grade.total} min="1" step="any" />
@@ -47,8 +52,12 @@
     {/each}
     <button
       class="add"
+      bind:this={addButton}
       on:click={() => {
-        assessment.grades = [...assessment.grades, { mark: 0, total: 100 }];
+        assessment.grades = [...assessment.grades, { mark: 0, total: 100, id: Date.now().toString() }];
+        setTimeout(() => {
+          addButton.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 300);
       }}>Add Grade</button>
   </div>
 </form>
@@ -86,7 +95,8 @@
   }
 
   form {
-    border: 1px solid var(--card-border-color);
+    background-color: var(--card-border-color);
+    /* border: 1px solid var(--card-border-color); */
     border-radius: 6px;
     padding: 15px;
     width: 550px;
@@ -114,6 +124,11 @@
     padding: 8px 0px;
     font-size: 20px;
     color: var(--font-color);
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -ms-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
   }
 
   .name:focus {

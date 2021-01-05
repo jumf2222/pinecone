@@ -2,9 +2,11 @@
   import AssessmentCard from "./AssessmentCard.svelte";
   import { currentCourse, courses } from "./stores";
   import Tooltip from "./Tooltip.svelte";
+  import { fade, fly, slide } from "svelte/transition";
 
   let gradesDivHeight = 0;
   let gradesDiv;
+  let addButton;
 
   $: if ($courses.length > 0) {
     let avg = 0;
@@ -22,13 +24,9 @@
   }
 </script>
 
-{#if $courses.length > 0}
-  <div class="wrapper">
-    <p class="grade">
-      GRADE:
-      {$courses[$currentCourse].mark ? `${$courses[$currentCourse].mark}%` : ''}
-    </p>
-    <div class="title">
+<div class="wrapper">
+  {#if $courses.length > 0}
+    <div class="title" transition:fade={{ duration: 200 }}>
       <input bind:value={$courses[$currentCourse].name} class="course" />
       <!-- <Tooltip left>
         <button class="action" on:click={() => {}}>
@@ -43,17 +41,22 @@
             $courses = [...$courses.slice(0, $currentCourse), ...$courses.slice($currentCourse + 1)];
             if ($currentCourse >= $courses.length && $courses.length > 0) $currentCourse = $courses.length - 1;
           }}>
-          <i class="material-icons">clear</i>
+          <i class="material-icons">delete</i>
         </button>
         <p slot="tip">Delete Course</p>
       </Tooltip>
     </div>
+    <p class="grade" transition:fade={{ duration: 200 }}>
+      GRADE:
+      {$courses[$currentCourse].mark ? `${$courses[$currentCourse].mark}%` : ''}
+    </p>
     <div
       class="grades"
+      transition:fade={{ duration: 200 }}
       class:scrollbar={!(gradesDiv && gradesDiv.scrollHeight > gradesDivHeight)}
       bind:clientHeight={gradesDivHeight}
       bind:this={gradesDiv}>
-      {#each $courses[$currentCourse].assessments as assessment, i}
+      {#each $courses[$currentCourse].assessments as assessment, i (assessment.id)}
         <AssessmentCard
           bind:assessment
           on:click={() => {
@@ -63,15 +66,66 @@
       <div class="add-wrapper">
         <button
           class="add"
+          bind:this={addButton}
           on:click={() => {
-            $courses[$currentCourse].assessments = [...$courses[$currentCourse].assessments, { name: '', grades: [{ mark: 0, total: 100 }], weight: 0 }];
+            $courses[$currentCourse].assessments = [...$courses[$currentCourse].assessments, { name: '', grades: [{ mark: 0, total: 100, id: Date.now().toString() }], weight: 0, id: Date.now().toString() }];
+            setTimeout(() => {
+              addButton.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+              });
+            }, 300);
           }}>Add Assessment</button>
       </div>
     </div>
-  </div>
-{/if}
+  {:else}
+    <div class="empty" transition:fade={{ duration: 200 }}>
+      <div class="circle"><i class="material-icons md-120">widgets</i></div>
+      <h2>No Courses Yet</h2>
+      <p class="empty-state">Fortunately, it is very easy to add new ones.</p>
+      <button
+        class="message"
+        type="button"
+        on:click={() => {
+          $courses = [...$courses, { name: 'Course Name', assessments: [], mark: 0, id: Date.now().toString() }];
+        }}>Add Course</button>
+    </div>
+  {/if}
+</div>
 
 <style>
+  .empty-state {
+    margin: 16px 0;
+    font-size: 18px;
+  }
+  h2 {
+    margin: 24px 0 0 0;
+    font-weight: 400;
+    font-size: 28px;
+  }
+
+  .message {
+    /* width: 550px; */
+    /* max-width: calc(100% - 40px); */
+    width: 250px;
+    height: 50px;
+    cursor: pointer;
+    padding: 8px 15px;
+    /* font-size: 28px; */
+    color: var(--font-color);
+  }
+  .circle {
+    text-align: center;
+    background: #dfe6ee;
+    border-radius: 50%;
+    height: 200px;
+    width: 200px;
+  }
+  .material-icons.md-120 {
+    color: var(--font-color);
+    padding-top: 40px;
+    font-size: 120px;
+  }
   .wrapper {
     display: grid;
     grid-template-areas:
@@ -85,6 +139,7 @@
     gap: 20px;
     height: 100%;
     overflow: hidden;
+    position: relative;
   }
 
   .grades {
@@ -113,6 +168,11 @@
     font-size: 28px;
     color: var(--font-color);
     flex: 1;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -ms-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
   }
 
   .course:focus {
@@ -153,6 +213,16 @@
     cursor: pointer;
   }
 
+  .empty {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    place-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
   .add-wrapper {
     padding: 0 15px;
     width: 550px;
@@ -171,5 +241,14 @@
   input {
     min-width: 0;
     max-width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .wrapper {
+      column-gap: 12px;
+    }
+    .scrollbar {
+      padding-right: 0;
+    }
   }
 </style>
