@@ -5,10 +5,10 @@ const CACHE_NAME = "static-cache-v2";
 
 // Add list of files to cache here.
 const FILES_TO_CACHE = [
-  "/index.html",
+  "index.html",
   "global.css",
-  "/build/bundle.css",
-  "/build/bundle.js",
+  "build/bundle.css",
+  "build/bundle.js",
   "https://fonts.googleapis.com/icon?family=Material+Icons",
 ];
 
