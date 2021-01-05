@@ -7,7 +7,7 @@
     <base href="https://jumf2222.github.io/Pinecone/" target="_blank" />
     <title>Pinecone</title>
 
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#2F3BA2" />
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -16,29 +16,29 @@
       content="black-translucent"
     />
     <meta name="apple-mobile-web-app-title" content="Pinecone" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <link
       rel="icon"
       type="image/png"
       sizes="512x512"
-      href="/android-chrome-512x512.png"
+      href="android-chrome-512x512.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="192x192"
-      href="/android-chrome-192x192.png"
+      href="android-chrome-192x192.png"
     />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="stylesheet" href="/global.css" />
-    <link rel="stylesheet" href="/build/bundle.css" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="build/bundle.css" />
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
 
-    <script defer src="/build/bundle.js"></script>
+    <script defer src="build/bundle.js"></script>
   </head>
 
   <body>
@@ -46,11 +46,11 @@
       <div>Oops! Javascript required here! Allow it and try again!</div>
     </noscript>
 
-    <script src="/scripts/install.js"></script>
+    <script src="scripts/install.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
-          navigator.serviceWorker.register("/service-worker.js").then((reg) => {
+          navigator.serviceWorker.register("service-worker.js").then((reg) => {
             console.log("Service worker registered.", reg);
           });
         });
