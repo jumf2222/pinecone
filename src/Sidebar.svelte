@@ -74,6 +74,7 @@
   .wrapper {
     display: flex;
     flex-direction: column;
+    height: 100%;
   }
 
   .mobile {
