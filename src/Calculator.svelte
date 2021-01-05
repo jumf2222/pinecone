@@ -39,8 +39,13 @@
         <button
           class="action"
           on:click={() => {
-            $courses = [...$courses.slice(0, $currentCourse), ...$courses.slice($currentCourse + 1)];
-            if ($currentCourse >= $courses.length && $courses.length > 0) $currentCourse = $courses.length - 1;
+            let temp = $currentCourse;
+            $currentCourse = -1;
+            $courses = [...$courses.slice(0, temp), ...$courses.slice(temp + 1)];
+            if (temp >= $courses.length && $courses.length > 0) temp = $courses.length - 1;
+            setTimeout(() => {
+              $currentCourse = temp;
+            }, 300);
           }}>
           <i class="material-icons">delete</i>
         </button>
