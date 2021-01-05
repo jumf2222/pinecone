@@ -5,7 +5,7 @@
   import Logo from "./logo.svg";
 
   let screenWidth = 0;
-  $: mobile = screenWidth < 768;
+  $: mobile = screenWidth <= 768;
   let open = false;
   let headerHeight = 0;
 </script>

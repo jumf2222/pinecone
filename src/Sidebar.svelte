@@ -50,7 +50,10 @@
         class="course"
         class:selected={$currentCourse === i}
         on:click={() => {
-          $currentCourse = i;
+          $currentCourse = -1;
+          setTimeout(() => {
+            $currentCourse = i;
+          }, 300);
           open = false;
         }}>
         <p class="name">{course.name}</p>
@@ -161,5 +164,11 @@
     background: var(--nav-hover-button-color);
     border: 1px solid var(--nav-hover-button-border-color);
     cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    .wrapper {
+      height: auto;
+    }
   }
 </style>

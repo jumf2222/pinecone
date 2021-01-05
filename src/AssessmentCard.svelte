@@ -16,6 +16,7 @@
       class="name"
       bind:value={assessment.name}
       placeholder="Assessment Name..." />
+    <div class="hgap" />
     <Tooltip left>
       <button class="delete" on:click>
         <i class="material-icons">clear</i>
@@ -31,15 +32,18 @@
       min="0"
       max="100"
       step="any" />
-    <div style="width:40px" />
+    <div style="width:50px" />
   </div>
   <p class="label">Grades:</p>
   <div class="grades">
     {#each assessment.grades as grade, i (grade.id)}
-      <div class="hbox" transition:slide={{ duration: 200 }}>
+      <div class="hbox" in:slide={{ duration: 200 }}>
         <input type="number" bind:value={grade.mark} step="any" />
+        <div class="hgap" />
         <p class="slash">/</p>
+        <div class="hgap" />
         <input type="number" bind:value={grade.total} min="1" step="any" />
+        <div class="hgap" />
         <Tooltip left>
           <button
             class="delete"
@@ -49,6 +53,7 @@
           <p slot="tip">Delete Grade</p>
         </Tooltip>
       </div>
+      <div class="vgap" />
     {/each}
     <button
       class="add"
@@ -68,16 +73,25 @@
     border-radius: 3px;
     border: 1px solid var(--secondary-text);
   }
+
+  .hgap {
+    min-width: 10px;
+    max-width: 10px;
+  }
+
+  .vgap {
+    min-height: 10px;
+    max-height: 10px;
+  }
+
   .grades {
     display: flex;
     flex-direction: column;
-    gap: 10px;
   }
 
   .hbox {
     display: flex;
     flex-direction: row;
-    gap: 10px;
     align-items: center;
   }
 
@@ -88,7 +102,7 @@
   }
 
   .name {
-    /* margin-top: 10px; */
+    /* margin-right: 10px; */
     background-color: transparent;
     border: none;
     border-bottom: 1px solid var(--course-font-color);

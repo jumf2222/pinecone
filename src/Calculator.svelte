@@ -8,7 +8,7 @@
   let gradesDivHeight = 0;
   let addButton;
 
-  $: if ($courses.length > 0) {
+  $: if ($courses.length > 0 && $currentCourse >= 0) {
     let avg = 0;
     for (const assessment of $courses[$currentCourse].assessments) {
       for (const grade of assessment.grades) {
@@ -25,9 +25,10 @@
 </script>
 
 <div class="wrapper">
-  {#if $courses.length > 0}
+  {#if $courses.length > 0 && $currentCourse >= 0}
     <div class="title" transition:fade={{ duration: 200 }}>
       <input bind:value={$courses[$currentCourse].name} class="course" />
+      <div class="hgap" />
       <!-- <Tooltip left>
         <button class="action" on:click={() => {}}>
           <i class="material-icons">insights</i>
@@ -62,6 +63,7 @@
           on:click={() => {
             $courses[$currentCourse].assessments = [...$courses[$currentCourse].assessments.slice(0, i), ...$courses[$currentCourse].assessments.slice(i + 1)];
           }} />
+        <div class="vgap" />
       {/each}
       <div class="add-wrapper">
         <button
@@ -74,11 +76,11 @@
                 behavior: 'smooth',
                 block: 'nearest',
               });
-            }, 300);
+            }, 200);
           }}>Add Assessment</button>
       </div>
     </div>
-  {:else}
+  {:else if $currentCourse >= 0}
     <div class="empty" transition:fade={{ duration: 200 }}>
       <div class="circle"><i class="material-icons md-120">widgets</i></div>
       <h2>No Courses Yet</h2>
@@ -101,6 +103,16 @@
     text-align: center;
   }
 
+  .hgap {
+    min-width: 10px;
+    max-width: 10px;
+  }
+
+  .vgap {
+    min-height: 10px;
+    max-height: 10px;
+  }
+
   .message {
     /* width: 550px; */
     /* max-width: calc(100% - 40px); */
@@ -111,6 +123,7 @@
     /* font-size: 28px; */
     color: var(--font-color);
   }
+
   .circle {
     text-align: center;
     background: var(--card-color);
@@ -118,11 +131,13 @@
     height: 200px;
     width: 200px;
   }
+
   .material-icons.md-120 {
     color: var(--secondary-text);
     padding-top: 40px;
     font-size: 120px;
   }
+
   .wrapper {
     display: grid;
     grid-template-areas:
@@ -143,11 +158,11 @@
     grid-area: grades;
     display: flex;
     flex-direction: column;
-    gap: 10px;
     overflow-y: auto;
     overflow-x: hidden;
     align-items: center;
     height: 100%;
+    padding-right: 8px;
   }
 
   .grade {
@@ -155,7 +170,7 @@
   }
 
   .scrollbar {
-    padding-right: 8px;
+    padding-right: 16px;
   }
 
   .course {
@@ -218,7 +233,7 @@
 
   .add-wrapper {
     padding: 0 15px;
-    width: 550px;
+    width: 604px;
     max-width: calc(100% - 40px);
   }
 
@@ -226,15 +241,16 @@
     grid-area: title;
     display: flex;
     flex-direction: row;
-    gap: 20px;
     margin-top: 20px;
     align-items: center;
   }
+
   h2 {
     margin: 24px 0 0 0;
     font-weight: 400;
     font-size: 28px;
   }
+
   i {
     vertical-align: middle;
   }
@@ -260,7 +276,9 @@
     .wrapper {
       column-gap: 12px;
     }
-    .scrollbar {
+    .scrollbar,
+    .grades,
+    .title {
       padding-right: 0;
     }
   }
