@@ -1,3 +1,5 @@
-# Pinecone
+# [Pinecone](https://pinecone.tools/) - Course Grades Calculator
 
-A Simple Grade Calculator
+A progressive web application where students can calculate their academic standing. Created by Brian Latchman and Julian de Rushe.
+
+Visit the project at [https://pinecone.tools/](https://pinecone.tools/)
