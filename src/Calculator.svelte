@@ -2,7 +2,6 @@
   import AssessmentCard from "./AssessmentCard.svelte";
   import { currentCourse, courses } from "./stores";
   import Tooltip from "./Tooltip.svelte";
-  import { fade, fly, slide } from "svelte/transition";
 
   let gradesDivOffsetHeight = 0;
   let gradesDivHeight = 0;
@@ -26,7 +25,7 @@
 
 <div class="wrapper">
   {#if $courses.length > 0 && $currentCourse >= 0}
-    <div class="title" transition:fade={{ duration: 200 }}>
+    <div class="title">
       <input bind:value={$courses[$currentCourse].name} class="course" />
       <div class="hgap" />
       <!-- <Tooltip left>
@@ -41,33 +40,42 @@
           on:click={() => {
             let temp = $currentCourse;
             $currentCourse = -1;
-            $courses = [...$courses.slice(0, temp), ...$courses.slice(temp + 1)];
-            if (temp >= $courses.length && $courses.length > 0) temp = $courses.length - 1;
+            $courses = [
+              ...$courses.slice(0, temp),
+              ...$courses.slice(temp + 1),
+            ];
+            if (temp >= $courses.length && $courses.length > 0)
+              temp = $courses.length - 1;
             setTimeout(() => {
               $currentCourse = temp;
             }, 300);
-          }}>
+          }}
+        >
           <i class="material-icons">delete</i>
         </button>
         <p slot="tip">Delete Course</p>
       </Tooltip>
     </div>
-    <p class="grade" transition:fade={{ duration: 200 }}>
+    <p class="grade">
       GRADE:
-      {$courses[$currentCourse].mark ? `${$courses[$currentCourse].mark}%` : ''}
+      {$courses[$currentCourse].mark ? `${$courses[$currentCourse].mark}%` : ""}
     </p>
     <div
       class="grades"
-      transition:fade={{ duration: 200 }}
       class:scrollbar={gradesDivOffsetHeight <= gradesDivHeight}
       bind:clientWidth={gradesDivHeight}
-      bind:offsetWidth={gradesDivOffsetHeight}>
+      bind:offsetWidth={gradesDivOffsetHeight}
+    >
       {#each $courses[$currentCourse].assessments as assessment, i (assessment.id)}
         <AssessmentCard
           bind:assessment
           on:click={() => {
-            $courses[$currentCourse].assessments = [...$courses[$currentCourse].assessments.slice(0, i), ...$courses[$currentCourse].assessments.slice(i + 1)];
-          }} />
+            $courses[$currentCourse].assessments = [
+              ...$courses[$currentCourse].assessments.slice(0, i),
+              ...$courses[$currentCourse].assessments.slice(i + 1),
+            ];
+          }}
+        />
         <div class="vgap" />
       {/each}
       <div class="add-wrapper">
@@ -75,18 +83,27 @@
           class="add"
           bind:this={addButton}
           on:click={() => {
-            $courses[$currentCourse].assessments = [...$courses[$currentCourse].assessments, { name: '', grades: [{ mark: 0, total: 100, id: Date.now().toString() }], weight: 0, id: Date.now().toString() }];
+            $courses[$currentCourse].assessments = [
+              ...$courses[$currentCourse].assessments,
+              {
+                name: "",
+                grades: [{ mark: 0, total: 100, id: Date.now().toString() }],
+                weight: 0,
+                id: Date.now().toString(),
+              },
+            ];
             setTimeout(() => {
               addButton.scrollIntoView({
-                behavior: 'smooth',
-                block: 'nearest',
+                behavior: "smooth",
+                block: "nearest",
               });
             }, 200);
-          }}>Add Assessment</button>
+          }}>Add Assessment</button
+        >
       </div>
     </div>
   {:else if $currentCourse >= 0}
-    <div class="empty" transition:fade={{ duration: 200 }}>
+    <div class="empty">
       <div class="circle"><i class="material-icons md-120">widgets</i></div>
       <h2>No Courses Yet</h2>
       <p class="empty-state">Fortunately, it is very easy to add new ones.</p>
@@ -94,8 +111,17 @@
         class="message"
         type="button"
         on:click={() => {
-          $courses = [...$courses, { name: 'Course Name', assessments: [], mark: 0, id: Date.now().toString() }];
-        }}>Add Course</button>
+          $courses = [
+            ...$courses,
+            {
+              name: "Course Name",
+              assessments: [],
+              mark: 0,
+              id: Date.now().toString(),
+            },
+          ];
+        }}>Add Course</button
+      >
     </div>
   {/if}
 </div>

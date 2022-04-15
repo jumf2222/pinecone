@@ -1,21 +1,18 @@
 <script lang="ts">
   import type { Assessment } from "./types";
   import Tooltip from "./Tooltip.svelte";
-  import { slide } from "svelte/transition";
 
   export let assessment: Assessment;
   let addButton;
 </script>
 
-<form
-  class="content"
-  on:submit|preventDefault={() => {}}
-  transition:slide={{ duration: 200 }}>
+<form class="content" on:submit|preventDefault={() => {}}>
   <div class="hbox">
     <input
       class="name"
       bind:value={assessment.name}
-      placeholder="Assessment Name..." />
+      placeholder="Assessment Name..."
+    />
     <div class="hgap" />
     <Tooltip left>
       <button class="delete" on:click>
@@ -31,13 +28,14 @@
       bind:value={assessment.weight}
       min="0"
       max="100"
-      step="any" />
+      step="any"
+    />
     <div style="width:50px" />
   </div>
   <p class="label">Grades:</p>
   <div class="grades">
     {#each assessment.grades as grade, i (grade.id)}
-      <div class="hbox" in:slide={{ duration: 200 }}>
+      <div class="hbox">
         <input type="number" bind:value={grade.mark} step="any" />
         <div class="hgap" />
         <p class="slash">/</p>
@@ -48,8 +46,12 @@
           <button
             class="delete"
             on:click={() => {
-              assessment.grades = [...assessment.grades.slice(0, i), ...assessment.grades.slice(i + 1)];
-            }}><i class="material-icons">clear</i></button>
+              assessment.grades = [
+                ...assessment.grades.slice(0, i),
+                ...assessment.grades.slice(i + 1),
+              ];
+            }}><i class="material-icons">clear</i></button
+          >
           <p slot="tip">Delete Grade</p>
         </Tooltip>
       </div>
@@ -59,11 +61,15 @@
       class="add"
       bind:this={addButton}
       on:click={() => {
-        assessment.grades = [...assessment.grades, { mark: 0, total: 100, id: Date.now().toString() }];
+        assessment.grades = [
+          ...assessment.grades,
+          { mark: 0, total: 100, id: Date.now().toString() },
+        ];
         setTimeout(() => {
-          addButton.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          addButton.scrollIntoView({ behavior: "smooth", block: "nearest" });
         }, 300);
-      }}>Add Grade</button>
+      }}>Add Grade</button
+    >
   </div>
 </form>
 
